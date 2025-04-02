@@ -16,9 +16,6 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:rotation")
 properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath("CameraAnchor:rotation")
-properties/4/spawn = true
-properties/4/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hoavk"]
 properties/0/path = NodePath(".:direction")
@@ -60,8 +57,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.721248, 3.18152)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.721248, -3.35697)
 light_color = Color(0.79092, 0.664754, 0.193621, 1)
 light_energy = 32.0
-spot_range = 200.0
-spot_angle = 21.52
+spot_range = 100.0
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36582, 0)

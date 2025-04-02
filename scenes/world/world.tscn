@@ -1,49 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://cfrrnquyn45yn"]
+[gd_scene load_steps=3 format=3 uid="uid://efwjm4hfeqf2"]
 
-[ext_resource type="Script" uid="uid://b1vg5j06cj4nk" path="res://scenes/world/world.gd" id="1_dphjl"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sl2e5"]
-
-[sub_resource type="Sky" id="Sky_1fp7r"]
-sky_material = SubResource("ProceduralSkyMaterial_sl2e5")
-
-[sub_resource type="Environment" id="Environment_6m72w"]
-background_mode = 2
-background_color = Color(0.548963, 0.548963, 0.548963, 1)
-sky = SubResource("Sky_1fp7r")
-ambient_light_source = 2
-ambient_light_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4rhad"]
-albedo_color = Color(0.448677, 0.456141, 0.657299, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_dphjl"]
-material = SubResource("StandardMaterial3D_4rhad")
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_4rhad"]
-data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+[ext_resource type="Script" uid="uid://b3y1iglb6wiyx" path="res://scenes/world/world.gd" id="1_dphjl"]
+[ext_resource type="PackedScene" uid="uid://hkt1i0u5e80b" path="res://scenes/world/spooky/spooky.tscn" id="2_sl2e5"]
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_dphjl")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_6m72w")
+[node name="Spooky" parent="." instance=ExtResource("2_sl2e5")]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+[node name="Players" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -273.099, 5.36168, 207.438)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("PlaneMesh_dphjl")
-skeleton = NodePath("../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_4rhad")
-
-[node name="CharacterManager" type="Node3D" parent="."]
-
-[node name="Characters" type="Node3D" parent="CharacterManager"]
-unique_name_in_owner = true
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="CharacterManager"]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cw8w6clmxedi6")
-spawn_path = NodePath("../Characters")
+spawn_path = NodePath("../Players")
+spawn_limit = 4

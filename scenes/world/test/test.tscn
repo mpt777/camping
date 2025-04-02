@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://53msyntguoh5"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_uovxo"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xrpoh"]
+size = Vector2(20, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n7inn"]
+albedo_color = Color(0.164706, 0.478431, 1, 1)
+
+[node name="Test" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35697, 3.4425)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_uovxo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_xrpoh")
+surface_material_override/0 = SubResource("StandardMaterial3D_n7inn")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4214, 0)
+light_energy = 10.0
+omni_range = 20.2379

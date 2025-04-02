@@ -1,17 +1,50 @@
 extends Node3D
 class_name World
 
-const PLAYER = preload("res://scenes/player/player.tscn")
-@onready var n_characters := %Characters
+const SPAWN_RANDOM := 5.0
 
 func _ready():
+	# We only need to spawn players on the server.
 	if not multiplayer.is_server():
 		return
-	#Lobby.player_connected.connect(spawn_player)
+
+	multiplayer.peer_connected.connect(add_player)
+	multiplayer.peer_disconnected.connect(del_player)
+
+	# Spawn already connected players
+	for id in multiplayer.get_peers():
+		add_player(id)
+
+	# Spawn the local player unless this is a dedicated server export.
+	if not OS.has_feature("dedicated_server"):
+		add_player(1)
+
+func _exit_tree():
+	if not multiplayer.is_server():
+		return
+	multiplayer.peer_connected.disconnect(add_player)
+	multiplayer.peer_disconnected.disconnect(del_player)
 	
-	for player in Game.players:
-		spawn_player(player)
-		
-func spawn_player(player_data: PlayerData) -> void:
-	var player = PLAYER.instantiate().constructor(player_data)
-	n_characters.add_child(player, true)
+
+func add_player(id: int):
+	var character = preload("res://scenes/player/player.tscn").instantiate()
+	# Set player id.
+	character.player = id
+	if id in Game.players:
+		character.constructor(Game.players[id])
+	# Randomize character position.
+	var pos := Vector2.from_angle(randf() * 2 * PI)
+	character.position = Vector3(pos.x * SPAWN_RANDOM * randf(), 0, pos.y * SPAWN_RANDOM * randf())
+	character.name = str(id)
+	$Players.add_child(character, true)
+
+
+func del_player(id: int):
+	if not $Players.has_node(str(id)):
+		return
+	Game.players.erase(id)
+	$Players.get_node(str(id)).queue_free()
+	
+func _process(delta: float) -> void:
+	return
+	print(Game.players)

@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name Player
 
-const SPEED = 5.0
+const SPEED = 15
 const JUMP_VELOCITY = 4.5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -27,13 +27,9 @@ func _ready():
 	Game.SyncPlayers.connect(sync_player)
 	# Set the camera as current if we are this player.
 	if player == multiplayer.get_unique_id():
-		$Camera3D.current = true
+		$CameraAnchor/Camera3D.current = true
 	self.sync_player()
 	self.render()
-	
-	# Only process on server.
-	# EDIT: Left the client simulate player movement too to compesate network latency.
-	# set_physics_process(multiplayer.is_server())
 
 func sync_player():
 	if self.player in Game.players:
@@ -44,6 +40,13 @@ func render():
 	if self.player_data:
 		n_label.text = self.player_data.name
 
+
+func _rotate_camera(sens_mod: float = 1.0) -> void:
+	#camera_anchor.rotation.y -= look_dir.x * 1 * sens_mod
+	if input.mouse_captured && input.look_dir != Vector2():
+		$CameraAnchor.rotation.x = clamp($CameraAnchor.rotation.x - input.look_dir.y * 1 * 1, -1.5, 1.5)
+		rotation.y -= input.look_dir.x * 1 * sens_mod
+	
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -64,5 +67,6 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
+		
+	_rotate_camera()
 	move_and_slide()
