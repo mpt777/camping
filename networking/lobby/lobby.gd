@@ -37,8 +37,9 @@ func join_game(address = ""):
 		return error
 	multiplayer.multiplayer_peer = peer
 	player_data.network_id = multiplayer.get_unique_id()
+	await SceneManager.switch_scene("world")
 	Game.add_player(player_data)
-	SceneManager.switch_scene("world")
+	
 
 
 func create_game():

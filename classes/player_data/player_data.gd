@@ -1,7 +1,6 @@
 extends Resource
 class_name PlayerData
 
-var network_id : int
 var name : String
 
 var characters = 'abcdefghijklmnopqrstuvwxyz'
@@ -14,7 +13,6 @@ func generate_word(chars, length):
 	return word
 	
 func constructor(m_name: String = "") -> PlayerData:
-	self.network_id = -1
 	self.name = m_name
 	if not self.name:
 		self.name = generate_word(characters, 10)
@@ -22,11 +20,14 @@ func constructor(m_name: String = "") -> PlayerData:
 
 func serialize() -> Dictionary:
 	return {
-		'network_id': self.network_id,
 		'name': self.name,
 	}
 	
+func serialize_update(data: Dictionary) -> PlayerData:
+	self.network_id = data["network_id"]
+	self.name = data["name"]
+	return self
+	
 static func deserialize(data: Dictionary) -> PlayerData:
 	var playerData : PlayerData = PlayerData.new().constructor(data["name"])
-	playerData.network_id = data["network_id"]
 	return playerData

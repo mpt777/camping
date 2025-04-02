@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxg6457ejfa66"]
+[gd_scene load_steps=3 format=3 uid="uid://dxg6457ejfa66"]
 
 [ext_resource type="Script" uid="uid://dnfnpj6ec8w8h" path="res://ui/peer_controls/peer_controls.gd" id="1_5q460"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5q460"]
+properties/0/path = NodePath(".:player_data_serialized")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="PeerControls" type="Panel"]
 custom_minimum_size = Vector2(50, 50)
@@ -22,3 +27,6 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 text = "test"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_5q460")

@@ -1,28 +1,49 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyoxfqdij5i6i"]
+[gd_scene load_steps=8 format=3 uid="uid://cfrrnquyn45yn"]
 
-[ext_resource type="Script" uid="uid://bdfgnmiv4yrep" path="res://scenes/world/world.gd" id="1_dphjl"]
+[ext_resource type="Script" uid="uid://b1vg5j06cj4nk" path="res://scenes/world/world.gd" id="1_dphjl"]
 
-[node name="World" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sl2e5"]
+
+[sub_resource type="Sky" id="Sky_1fp7r"]
+sky_material = SubResource("ProceduralSkyMaterial_sl2e5")
+
+[sub_resource type="Environment" id="Environment_6m72w"]
+background_mode = 2
+background_color = Color(0.548963, 0.548963, 0.548963, 1)
+sky = SubResource("Sky_1fp7r")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4rhad"]
+albedo_color = Color(0.448677, 0.456141, 0.657299, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dphjl"]
+material = SubResource("StandardMaterial3D_4rhad")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_4rhad"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[node name="World" type="Node3D"]
 script = ExtResource("1_dphjl")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_right = 100
-theme_override_constants/margin_bottom = 100
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6m72w")
 
-[node name="Container" type="VBoxContainer" parent="MarginContainer"]
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_dphjl")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_4rhad")
+
+[node name="CharacterManager" type="Node3D" parent="."]
+
+[node name="Characters" type="Node3D" parent="CharacterManager"]
 unique_name_in_owner = true
-layout_mode = 2
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="CharacterManager"]
+_spawnable_scenes = PackedStringArray("uid://cw8w6clmxedi6")
+spawn_path = NodePath("../Characters")
