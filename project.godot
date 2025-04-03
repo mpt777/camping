@@ -57,3 +57,18 @@ exit={
 [layer_names]
 
 3d_physics/layer_1="World"
+
+[shader_globals]
+
+wind_direction={
+"type": "vec3",
+"value": Vector3(1, 0, 1)
+}
+player_position={
+"type": "vec3",
+"value": Vector3(1, 0, 1)
+}
+wind_intensity={
+"type": "float",
+"value": 0.0
+}

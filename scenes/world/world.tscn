@@ -1,15 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://efwjm4hfeqf2"]
 
 [ext_resource type="Script" uid="uid://b3y1iglb6wiyx" path="res://scenes/world/world.gd" id="1_dphjl"]
-[ext_resource type="PackedScene" uid="uid://hkt1i0u5e80b" path="res://scenes/world/spooky/spooky.tscn" id="2_sl2e5"]
+[ext_resource type="PackedScene" uid="uid://dq6nk182a46tr" path="res://scenes/world/island/island.tscn" id="2_sl2e5"]
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_dphjl")
 
-[node name="Spooky" parent="." instance=ExtResource("2_sl2e5")]
+[node name="Island" parent="." instance=ExtResource("2_sl2e5")]
 
 [node name="Players" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -273.099, 5.36168, 207.438)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.07574, 0)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cw8w6clmxedi6")
