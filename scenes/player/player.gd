@@ -12,6 +12,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	set(id):
 		player = id
 		# Give authority over the player input to the appropriate peer.
+		#$PlayerInput.set_multiplayer_authority(id)
 		$PlayerInput.set_multiplayer_authority(id)
 
 # Player synchronized input.
@@ -21,6 +22,7 @@ var player_data : PlayerData
 
 func constructor(m_player_data : PlayerData) -> Player:
 	self.player_data = m_player_data
+	print(m_player_data)
 	return self
 
 func _ready():
@@ -30,6 +32,14 @@ func _ready():
 		$CameraAnchor/Camera3D.current = true
 	self.sync_player()
 	self.render()
+	self.position.y += randf() * 1
+	self.position.x += randf() * 10
+	self.position.z += randf() * 10
+	
+func _enter_tree() -> void:
+	$".".set_multiplayer_authority(name.to_int())
+	$ServerSynchronizer.set_multiplayer_authority(name.to_int())
+	self.player = name.to_int()
 
 func sync_player():
 	if self.player in Game.players:
@@ -40,7 +50,6 @@ func render():
 	if self.player_data:
 		n_label.text = self.player_data.name
 
-
 func _rotate_camera(sens_mod: float = 1.0) -> void:
 	#camera_anchor.rotation.y -= look_dir.x * 1 * sens_mod
 	if input.mouse_captured && input.look_dir != Vector2():
@@ -49,6 +58,8 @@ func _rotate_camera(sens_mod: float = 1.0) -> void:
 	
 func _physics_process(delta):
 	# Add the gravity.
+	if !is_multiplayer_authority():
+		return
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
@@ -67,6 +78,6 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-		
+	
 	_rotate_camera()
 	move_and_slide()

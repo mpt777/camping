@@ -2,15 +2,15 @@ extends Node
 
 const PORT = 4433
 
-var player_data : PlayerData
 func _ready():
 	# Start paused
 	get_tree().paused = true
 	# You can save bandwith by disabling server relay and peer notifications.
-	multiplayer.server_relay = false
+	#multiplayer.server_relay = false ## fuck this
 
 	# Automatically start the server in headless mode.
 	if DisplayServer.get_name() == "headless":
+		Game.is_headless = true
 		print("Automatically starting dedicated server")
 		_on_host_pressed.call_deferred()
 
@@ -45,8 +45,8 @@ func start_game():
 	$UI.hide()
 	get_tree().paused = false
 	
-	var player_data := PlayerData.new().constructor()
-	Game.players[multiplayer.get_unique_id()] = player_data
+	if !Game.is_headless:
+		Game.players[multiplayer.get_unique_id()] = PlayerData.new().constructor()
 	# Only change level on the server.
 	# Clients will instantiate the level via the spawner.
 	if multiplayer.is_server():

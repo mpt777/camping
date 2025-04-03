@@ -16,7 +16,8 @@ func _ready():
 		add_player(id)
 
 	# Spawn the local player unless this is a dedicated server export.
-	if not OS.has_feature("dedicated_server"):
+	#if not OS.has_feature("dedicated_server"):
+	if !Game.is_headless:
 		add_player(1)
 
 func _exit_tree():
@@ -36,7 +37,9 @@ func add_player(id: int):
 	var pos := Vector2.from_angle(randf() * 2 * PI)
 	character.position = Vector3(pos.x * SPAWN_RANDOM * randf(), 0, pos.y * SPAWN_RANDOM * randf())
 	character.name = str(id)
+	character.set_multiplayer_authority(id)
 	$Players.add_child(character, true)
+	
 
 
 func del_player(id: int):
