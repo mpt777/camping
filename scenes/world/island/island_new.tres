@@ -4,6 +4,8 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_0jnwp"]
 noise_type = 2
+fractal_octaves = 4
+domain_warp_type = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wb2e1"]
 noise = SubResource("FastNoiseLite_0jnwp")
@@ -37,13 +39,13 @@ shader_parameter/fresnel_radius = 2.0
 shader_parameter/fresnel_color = Color(0, 0.57, 0.72, 1)
 shader_parameter/roughness = 0.15
 shader_parameter/specular = 0.25
-shader_parameter/depth_distance = 7.2
+shader_parameter/depth_distance = 25.0
 shader_parameter/beers_law = 4.5
-shader_parameter/displacement_strength = 0.3
-shader_parameter/displacement_scroll_speed = 0.067
-shader_parameter/displacement_scroll_offset = Vector2(-0.2, 0.3)
-shader_parameter/displacement_scale_offset = 0.5
-shader_parameter/displacement_scale = Vector2(0.04, 0.04)
+shader_parameter/displacement_strength = 1.2
+shader_parameter/displacement_scroll_speed = 0.01
+shader_parameter/displacement_scroll_offset = Vector2(11.985, 9.155)
+shader_parameter/displacement_scale_offset = 32.1
+shader_parameter/displacement_scale = Vector2(50, 50)
 shader_parameter/displacement_texture = SubResource("NoiseTexture2D_wb2e1")
 shader_parameter/edge_thickness = 0.737
 shader_parameter/edge_speed = 0.35
@@ -65,6 +67,6 @@ shader_parameter/refraction_strength = 0.12
 shader_parameter/normal_map_strength = 0.1
 shader_parameter/scroll_speed = 0.04
 shader_parameter/scroll_offset = Vector2(0.1, -0.3)
-shader_parameter/scale_offset = -0.21
+shader_parameter/scale_offset = 0.5
 shader_parameter/normal_map_scale = Vector2(0.1, 0.1)
 shader_parameter/normal_map = SubResource("NoiseTexture2D_0f7sy")

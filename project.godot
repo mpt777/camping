@@ -62,13 +62,13 @@ exit={
 
 wind_direction={
 "type": "vec3",
-"value": Vector3(1, 0, 1)
+"value": Vector3(1, 0, 0)
 }
 player_position={
 "type": "vec3",
-"value": Vector3(1, 0, 1)
+"value": Vector3(1, 0, 0)
 }
 wind_intensity={
 "type": "float",
-"value": 0.0
+"value": 1.0
 }
