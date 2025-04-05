@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cw8w6clmxedi6"]
+[gd_scene load_steps=8 format=3 uid="uid://cw8w6clmxedi6"]
 
 [ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
-[ext_resource type="Script" uid="uid://7id1xk2jkr6m" path="res://scenes/player/player_input.gd" id="2_ju3m6"]
 [ext_resource type="PackedScene" uid="uid://ddniml3qphela" path="res://scenes/camera/camera_anchor.tscn" id="3_gmlin"]
+[ext_resource type="PackedScene" uid="uid://jv60xuolhlcg" path="res://ui/message_container/message_container.tscn" id="3_lvxji"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fb1vy"]
 properties/0/path = NodePath(".:player")
@@ -24,20 +24,6 @@ properties/5/path = NodePath("Mesh:rotation")
 properties/5/spawn = true
 properties/5/replication_mode = 1
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hoavk"]
-properties/0/path = NodePath(".:direction")
-properties/0/spawn = false
-properties/0/replication_mode = 0
-properties/1/path = NodePath(".:look_dir")
-properties/1/spawn = false
-properties/1/replication_mode = 0
-properties/2/path = NodePath("..:rotation")
-properties/2/spawn = false
-properties/2/replication_mode = 0
-properties/3/path = NodePath("../CameraAnchor:rotation")
-properties/3/spawn = false
-properties/3/replication_mode = 0
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_37qaq"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jab13"]
@@ -47,17 +33,10 @@ size = Vector3(0.2, 0.2, 0.2)
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
-collision_mask = 3
 script = ExtResource("1_hwwnj")
 
 [node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_fb1vy")
-
-[node name="PlayerInput" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("body")]
-root_path = NodePath(".")
-replication_config = SubResource("SceneReplicationConfig_hoavk")
-script = ExtResource("2_ju3m6")
-body = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 visible = false
@@ -82,3 +61,25 @@ billboard = 1
 render_priority = 1
 outline_render_priority = 0
 text = "Test"
+
+[node name="UI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" parent="UI/Control" instance=ExtResource("3_lvxji")]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_right = 0.0
+offset_top = -32.0
+offset_right = 28.0
+grow_horizontal = 1
+grow_vertical = 0

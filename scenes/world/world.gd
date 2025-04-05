@@ -48,6 +48,6 @@ func del_player(id: int):
 	Game.players.erase(id)
 	$Players.get_node(str(id)).queue_free()
 	
-func _process(delta: float) -> void:
-	return
-	print(Game.players)
+#func _process(_delta: float) -> void:
+	#return
+	#print(Game.players)

@@ -18,12 +18,9 @@ config/icon="res://icon.svg"
 [autoload]
 
 Game="*res://classes/game/game.gd"
+Signals="*res://classes/signals/signals.gd"
 SceneManager="*res://classes/scene_manager/scene_manager.gd"
 Utils="*res://scripts/utils.gd"
-
-[debug]
-
-settings/stdout/print_fps=true
 
 [input]
 
