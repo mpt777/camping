@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsce3horhffn3"]
+
+[ext_resource type="PackedScene" uid="uid://danrhd6yvhfmw" path="res://Assets/Blender/Decorations/Rock/Rock.tscn" id="1_vofea"]
+[ext_resource type="Material" uid="uid://bggb3glaiuovk" path="res://Assets/Blender/Decorations/Rock/Materials/VolcanoRock.tres" id="2_4jikx"]
+
+[node name="Rock" instance=ExtResource("1_vofea")]
+
+[node name="Cube" parent="." index="0"]
+material_override = ExtResource("2_4jikx")

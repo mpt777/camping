@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca4q7a6ang8yv"]
+
+[ext_resource type="Script" uid="uid://b4we47sg1r0br" path="res://scenes/world/island/ocean.gd" id="1_pde3v"]
+
+[node name="Ocean" type="Node3D"]
+script = ExtResource("1_pde3v")
+metadata/_custom_type_script = "uid://b4we47sg1r0br"

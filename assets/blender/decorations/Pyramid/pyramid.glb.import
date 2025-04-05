@@ -1,0 +1,56 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://cy4dijnh6eec0"
+path="res://.godot/imported/pyramid.glb-799ad98b8fbdfd9dd119312052cd0d40.scn"
+
+[deps]
+
+source_file="res://assets/blender/decorations/Pyramid/pyramid.glb"
+dest_files=["res://.godot/imported/pyramid.glb-799ad98b8fbdfd9dd119312052cd0d40.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+_subresources={
+"materials": {
+"Accent": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Pyramid/Materials/Accent.tres"
+},
+"Obelisk": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Pyramid/Materials/Obelisk.tres"
+},
+"Pyramid": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Pyramid/Materials/Pyramid.tres"
+},
+"PyramidAccent": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Pyramid/Materials/PyramidAccent.tres"
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

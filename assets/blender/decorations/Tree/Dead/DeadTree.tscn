@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgx24g54ymh4d"]
+
+[ext_resource type="PackedScene" uid="uid://d4en4hnsqlkco" path="res://Assets/Blender/Tree/Dead/DeadTree.glb" id="1_u36ej"]
+[ext_resource type="Material" uid="uid://bynwg3weponqi" path="res://Assets/Blender/Tree/Dead/DeadTree.tres" id="2_y775x"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ufhqg"]
+radius = 0.3
+
+[node name="DeadTree" instance=ExtResource("1_u36ej")]
+
+[node name="Plane" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_y775x")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+collision_layer = 9
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+shape = SubResource("CylinderShape3D_ufhqg")

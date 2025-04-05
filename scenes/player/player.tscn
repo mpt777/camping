@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cw8w6clmxedi6"]
+[gd_scene load_steps=9 format=3 uid="uid://cw8w6clmxedi6"]
 
 [ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
 [ext_resource type="Script" uid="uid://7id1xk2jkr6m" path="res://scenes/player/player_input.gd" id="2_ju3m6"]
+[ext_resource type="PackedScene" uid="uid://ddniml3qphela" path="res://scenes/camera/camera_anchor.tscn" id="3_gmlin"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fb1vy"]
 properties/0/path = NodePath(".:player")
@@ -19,6 +20,9 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath("CameraAnchor:rotation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath("Mesh:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hoavk"]
 properties/0/path = NodePath(".:direction")
@@ -38,37 +42,43 @@ properties/3/replication_mode = 0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jab13"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_gmlin"]
+size = Vector3(0.2, 0.2, 0.2)
+
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_hwwnj")
 
 [node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_fb1vy")
 
-[node name="PlayerInput" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("camera_anchor", "body")]
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("body")]
 root_path = NodePath(".")
 replication_config = SubResource("SceneReplicationConfig_hoavk")
 script = ExtResource("2_ju3m6")
-camera_anchor = NodePath("../CameraAnchor")
 body = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape3D_37qaq")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Mesh" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
 mesh = SubResource("CapsuleMesh_jab13")
+skeleton = NodePath("../..")
 
-[node name="CameraAnchor" type="Node3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.432679, -0.583803)
+mesh = SubResource("BoxMesh_gmlin")
 
-[node name="Camera3D" type="Camera3D" parent="CameraAnchor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.721248, 3.18152)
-
-[node name="SpotLight3D" type="SpotLight3D" parent="CameraAnchor/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.721248, -3.35697)
-light_color = Color(0.79092, 0.664754, 0.193621, 1)
-light_energy = 32.0
-spot_range = 200.0
-spot_angle = 21.52
+[node name="CameraAnchor" parent="." instance=ExtResource("3_gmlin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.523062, 0)
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36582, 0)
+billboard = 1
+render_priority = 1
+outline_render_priority = 0
 text = "Test"

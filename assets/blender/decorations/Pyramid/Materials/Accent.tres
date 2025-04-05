@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://df3vfg3lovrn2"]
+
+[resource]
+resource_name = "Accent"
+cull_mode = 2
+albedo_color = Color(0.39555, 0.280202, 0.0281709, 1)
+roughness = 0.5

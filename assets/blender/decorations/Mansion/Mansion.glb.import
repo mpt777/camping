@@ -1,0 +1,76 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://b6p0i05wf8ojb"
+path="res://.godot/imported/Mansion.glb-0992ae54a07cc6415d86277cfac7a9a0.scn"
+
+[deps]
+
+source_file="res://assets/blender/decorations/Mansion/Mansion.glb"
+dest_files=["res://.godot/imported/Mansion.glb-0992ae54a07cc6415d86277cfac7a9a0.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+_subresources={
+"materials": {
+"Accent": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/Accent.tres"
+},
+"Accent.001": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/Accent.001.tres"
+},
+"Deck": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/Deck.tres"
+},
+"Door": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/Door.tres"
+},
+"Glass": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/Glass.tres"
+},
+"Glass.001": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/Glass.001.tres"
+},
+"House": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/House.tres"
+},
+"Post": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/Post.tres"
+},
+"Roof": {
+"use_external/enabled": true,
+"use_external/path": "res://Assets/Blender/Decorations/Mansion/Materials/Roof.tres"
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

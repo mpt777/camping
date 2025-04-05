@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://clggvymah5xh0"]
+
+[ext_resource type="PackedScene" uid="uid://ji2cohlvp6eb" path="res://Assets/Blender/Decorations/Bench/Bench.glb" id="1_0fdpg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y06d5"]
+size = Vector3(1.8, 1.4, 1)
+
+[node name="Bench" instance=ExtResource("1_0fdpg")]
+
+[node name="Cube" parent="." index="0"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="Cube_001" parent="." index="1"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="Cube_002" parent="." index="2"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="Cube_003" parent="." index="3"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="Cube_004" parent="." index="4"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="Cube_005" parent="." index="5"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="Cube_006" parent="." index="6"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="7"]
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.9407e-08, 0.7, 0)
+shape = SubResource("BoxShape3D_y06d5")

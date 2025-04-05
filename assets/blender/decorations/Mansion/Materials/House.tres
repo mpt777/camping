@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b80hid5xfcm0n"]
+
+[resource]
+resource_name = "House"
+cull_mode = 2
+albedo_color = Color(0.488884, 0.488884, 0.488884, 1)
+metallic_specular = 0.0

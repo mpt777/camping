@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0bwtxur4gqo6"]
+
+[ext_resource type="PackedScene" uid="uid://cnarxpmnwnk4f" path="res://Assets/Blender/Decorations/Gravestone/large_gravestone.glb" id="1_e313m"]
+[ext_resource type="Material" uid="uid://bl82gcc8y6ivy" path="res://Assets/Blender/Wall/Stone/Materials/RockAccent.tres" id="2_00dy5"]
+[ext_resource type="Material" uid="uid://ct8s2mtngvrfp" path="res://Assets/Blender/Wall/Stone/Materials/Rock.tres" id="3_1plt2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wrm62"]
+size = Vector3(0.6, 1.5, 1)
+
+[node name="large_gravestone" instance=ExtResource("1_e313m")]
+
+[node name="Plane" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_00dy5")
+surface_material_override/1 = ExtResource("3_1plt2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.844405, 0)
+shape = SubResource("BoxShape3D_wrm62")

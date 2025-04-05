@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bf5h64h0jnxgf"]
+
+[ext_resource type="Material" uid="uid://cr8yf6r3utjih" path="res://assets/my_water.tres" id="1_vte7w"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0f7sy"]
+size = Vector2(500, 500)
+
+[node name="water2" type="MeshInstance3D"]
+material_override = ExtResource("1_vte7w")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_0f7sy")
+skeleton = NodePath("")

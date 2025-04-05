@@ -1,9 +1,13 @@
 extends CharacterBody3D
 class_name Player
 
-const SPEED = 15
+const SPEED = 7
 const JUMP_VELOCITY = 4.5
 
+@export var ACCELERATION := 0.8
+@export var FRICTION := 0.5
+@export var rotation_speed := 10
+		
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -18,6 +22,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 # Player synchronized input.
 @onready var input = $PlayerInput
 @onready var n_label = $Label3D
+@onready var n_mesh = $Mesh
+
 var player_data : PlayerData
 
 func constructor(m_player_data : PlayerData) -> Player:
@@ -29,7 +35,7 @@ func _ready():
 	Game.SyncPlayers.connect(sync_player)
 	# Set the camera as current if we are this player.
 	if player == multiplayer.get_unique_id():
-		$CameraAnchor/Camera3D.current = true
+		$CameraAnchor.n_camera.current = true
 	self.sync_player()
 	self.render()
 	self.position.y += randf() * 1
@@ -49,12 +55,6 @@ func sync_player():
 func render():
 	if self.player_data:
 		n_label.text = self.player_data.name
-
-func _rotate_camera(sens_mod: float = 1.0) -> void:
-	#camera_anchor.rotation.y -= look_dir.x * 1 * sens_mod
-	if input.mouse_captured && input.look_dir != Vector2():
-		$CameraAnchor.rotation.x = clamp($CameraAnchor.rotation.x - input.look_dir.y * 1 * 1, -1.5, 1.5)
-		rotation.y -= input.look_dir.x * 1 * sens_mod
 	
 func _physics_process(delta):
 	# Add the gravity.
@@ -69,15 +69,30 @@ func _physics_process(delta):
 
 	# Reset jump state.
 	input.jumping = false
-
-	# Handle movement.
-	var direction = (transform.basis * Vector3(input.direction.x, 0, input.direction.y)).normalized()
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
-	_rotate_camera()
+	var local_direction : Vector3 = Vector3(input.direction.x, 0, input.direction.y)
+	local_direction = local_direction.rotated(Vector3.UP, $CameraAnchor.n_camera.global_rotation.y)
+	
+	# Handle movement.
+	var direction = (transform.basis * local_direction).normalized()
+	var local_velocity := velocity
+	if direction.length() > 0:
+		local_velocity = velocity.lerp(direction * SPEED, ACCELERATION)
+	else:
+		local_velocity = velocity.lerp(Vector3.ZERO, FRICTION)
+	velocity.x = local_velocity.x
+	velocity.z = local_velocity.z
+	
+	
+	
+	var pos := global_position
+	if pos == global_position:
+		pos = velocity.normalized() * 10000
+	#if pos != Vector3.ZERO && abs(pos.x) > 0.99 && pos != global_position:
+	if pos != Vector3.ZERO && pos != global_position:
+		var new_transform = n_mesh.transform.looking_at(pos, Vector3.UP)
+		n_mesh.transform = n_mesh.transform.interpolate_with(new_transform, rotation_speed * delta) 
+	n_mesh.rotation.x = 0
+	n_mesh.rotation.z = 0
+
 	move_and_slide()

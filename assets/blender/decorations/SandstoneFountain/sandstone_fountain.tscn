@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://ds5ll5xunev1g"]
+
+[ext_resource type="PackedScene" uid="uid://mxo1652ny511" path="res://Assets/Blender/Decorations/SandstoneFountain/sandstone_fountain.glb" id="1_4h5qn"]
+[ext_resource type="Shader" uid="uid://camq521miu237" path="res://Assets/Shaders/Water/toon_water.gdshader" id="2_6qgu3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6aagw"]
+size = Vector3(10, 1, 1.2)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nwosx"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r7w3t"]
+noise = SubResource("FastNoiseLite_nwosx")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xnul0"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ccs8w"]
+noise = SubResource("FastNoiseLite_xnul0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8pb54"]
+render_priority = 0
+shader = ExtResource("2_6qgu3")
+shader_parameter/surfaceNoise = SubResource("NoiseTexture2D_ccs8w")
+shader_parameter/distortNoise = SubResource("NoiseTexture2D_r7w3t")
+shader_parameter/beer_factor = 9.82
+shader_parameter/foam_distance = 58.0
+shader_parameter/foam_max_distance = 0.855
+shader_parameter/foam_min_distance = 22.1
+shader_parameter/foam_color = Color(1, 1, 1, 1)
+shader_parameter/surface_noise_tiling = Vector2(1, 4)
+shader_parameter/surface_noise_scroll = Vector3(0.03, 0.1, 0)
+shader_parameter/surface_noise_cutoff = 0.846
+shader_parameter/surface_distortion_amount = 0.45
+shader_parameter/_DepthGradientShallow = Color(0.0930315, 0.566026, 0.704408, 0.725)
+shader_parameter/_DepthGradientDeep = Color(0.086, 0.407, 1, 0.749)
+shader_parameter/_DepthMaxDistance = 1.0
+shader_parameter/_DepthFactor = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_qf4xl"]
+material = SubResource("ShaderMaterial_8pb54")
+size = Vector3(9.5, 0.5, 1.2)
+
+[node name="sandstone_fountain" instance=ExtResource("1_4h5qn")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_6aagw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_qf4xl")

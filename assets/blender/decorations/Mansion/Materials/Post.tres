@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ino0e5b5aiad"]
+
+[resource]
+resource_name = "Post"
+cull_mode = 2
+albedo_color = Color(0.577773, 0.577773, 0.577773, 1)
+metallic_specular = 0.0
+roughness = 0.0

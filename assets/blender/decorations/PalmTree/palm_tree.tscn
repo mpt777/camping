@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1xq3cg2aa6ua"]
+
+[ext_resource type="PackedScene" uid="uid://3qgyjddkf11q" path="res://Assets/Blender/Decorations/PalmTree/PalmTree.glb" id="1_1svu8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wrawo"]
+size = Vector3(1, 5, 1)
+
+[node name="PalmTree" instance=ExtResource("1_1svu8")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="4"]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.64832, 0)
+shape = SubResource("BoxShape3D_wrawo")

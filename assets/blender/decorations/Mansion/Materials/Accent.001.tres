@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://428o2emt6cwp"]
+
+[resource]
+resource_name = "Accent.001"
+cull_mode = 2
+albedo_color = Color(0.450507, 0.457772, 0.439349, 1)
+metallic_specular = 0.0
+roughness = 0.5

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1a7ir3gvflc8"]
+
+[ext_resource type="PackedScene" uid="uid://sfv15gqa4mue" path="res://Assets/Blender/Decorations/Obelisk/obelisk.glb" id="1_6tmq7"]
+[ext_resource type="Material" uid="uid://eqxsrh2ayfgv" path="res://Assets/Blender/Decorations/SandstoneFountain/Materials/SandStone.tres" id="2_w406h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jrfb6"]
+size = Vector3(2, 10.9219, 2)
+
+[node name="obelisk" instance=ExtResource("1_6tmq7")]
+
+[node name="Cube" parent="." index="0"]
+material_override = ExtResource("2_w406h")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00291133, 5.41034, 0.00207186)
+shape = SubResource("BoxShape3D_jrfb6")

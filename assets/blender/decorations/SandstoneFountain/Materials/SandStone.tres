@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://eqxsrh2ayfgv"]
+
+[resource]
+resource_name = "SandStone"
+cull_mode = 2
+albedo_color = Color(0.746661, 0.642241, 0.328979, 1)
+roughness = 0.5

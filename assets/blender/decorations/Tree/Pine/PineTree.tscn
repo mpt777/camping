@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhjs1k6x7px5l"]
+
+[ext_resource type="PackedScene" uid="uid://stoblovi5skl" path="res://Assets/Blender/Tree/Pine/PineTree.glb" id="1_6no0l"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0lo0f"]
+height = 6.0
+radius = 1.5
+
+[node name="PineTree" instance=ExtResource("1_6no0l")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="5"]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("CylinderShape3D_0lo0f")

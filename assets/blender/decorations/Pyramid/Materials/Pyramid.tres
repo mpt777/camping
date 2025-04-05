@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cuf306oikdtmr"]
+
+[resource]
+resource_name = "Pyramid"
+cull_mode = 2
+albedo_color = Color(0.745098, 0.643137, 0.329412, 1)

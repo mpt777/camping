@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dvk2o4u8ko4aa"]
+
+[resource]
+resource_name = "Trunk"
+cull_mode = 2
+albedo_color = Color(0.475546, 0.334712, 0.0379161, 1)
+roughness = 0.5

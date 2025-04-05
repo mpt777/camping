@@ -12,6 +12,7 @@ var mouse_captured := true
 
 func _ready():
 	# Only process for the local player
+	#self.set_mouse_capture(true)
 	set_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 	#set_process(PROCESS_MODE_DISABLED)
 
@@ -20,16 +21,16 @@ func _ready():
 func jump():
 	jumping = true
 	
-func _unhandled_input(event: InputEvent) -> void:
-	if !is_multiplayer_authority():
-		return
-	
-	if event is InputEventMouseMotion:
-		look_dir = event.relative * 0.001
-		#_rotate_camera()
-	
-	if Input.is_action_just_pressed("exit"):
-		self.set_mouse_capture(!self.mouse_captured)
+#func _unhandled_input(event: InputEvent) -> void:
+	#if !is_multiplayer_authority():
+		#return
+	#
+	#if event is InputEventMouseMotion:
+		#look_dir = event.relative * 0.001
+		##_rotate_camera()
+	#
+	#if Input.is_action_just_pressed("exit"):
+		#self.set_mouse_capture(!self.mouse_captured)
 
 func _process(delta):
 	if !is_multiplayer_authority():
@@ -42,12 +43,12 @@ func _process(delta):
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()
 	
-func set_mouse_capture(b : bool):
-	self.mouse_captured = b 
-	self.set_mouse_mode()
-	
-func set_mouse_mode():
-	if self.mouse_captured:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+#func set_mouse_capture(b : bool):
+	#self.mouse_captured = b 
+	#self.set_mouse_mode()
+	#
+#func set_mouse_mode():
+	#if self.mouse_captured:
+		#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#else:
+		#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

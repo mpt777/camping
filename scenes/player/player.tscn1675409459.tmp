@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=3 uid="uid://cw8w6clmxedi6"]
+
+[ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
+[ext_resource type="Script" uid="uid://7id1xk2jkr6m" path="res://scenes/player/player_input.gd" id="2_ju3m6"]
+[ext_resource type="Script" uid="uid://d35btwfr485jg" path="res://scenes/player/camera_anchor.gd" id="3_gmlin"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fb1vy"]
+properties/0/path = NodePath(".:player")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("CameraAnchor:rotation")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hoavk"]
+properties/0/path = NodePath(".:direction")
+properties/0/spawn = false
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:look_dir")
+properties/1/spawn = false
+properties/1/replication_mode = 0
+properties/2/path = NodePath("..:rotation")
+properties/2/spawn = false
+properties/2/replication_mode = 0
+properties/3/path = NodePath("../CameraAnchor:rotation")
+properties/3/spawn = false
+properties/3/replication_mode = 0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_37qaq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jab13"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dovo2"]
+radius = 1.0
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_hwwnj")
+
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fb1vy")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("camera_anchor", "body")]
+root_path = NodePath(".")
+replication_config = SubResource("SceneReplicationConfig_hoavk")
+script = ExtResource("2_ju3m6")
+camera_anchor = NodePath("../CameraAnchor")
+body = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
+shape = SubResource("CapsuleShape3D_37qaq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_jab13")
+
+[node name="CameraAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.523062, 0)
+script = ExtResource("3_gmlin")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraAnchor"]
+shape = SubResource("SphereShape3D_dovo2")
+spring_length = 4.0
+
+[node name="Camera" type="Camera3D" parent="CameraAnchor/SpringArm3D"]
+unique_name_in_owner = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="CameraAnchor/SpringArm3D/Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.721248, -3.35697)
+visible = false
+light_color = Color(0.79092, 0.664754, 0.193621, 1)
+light_energy = 32.0
+spot_range = 200.0
+spot_angle = 21.52
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36582, 0)
+render_priority = 1
+outline_render_priority = 0
+text = "Test"

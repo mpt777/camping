@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://d3g2ctx2ifat6"]
+
+[ext_resource type="PackedScene" uid="uid://dkp4ndf8sj76e" path="res://Assets/Blender/Decorations/Fountain/fountain.blend" id="1_tsc3c"]
+[ext_resource type="Material" uid="uid://did8620rh1fn1" path="res://Assets/Shaders/Water/toon_water_shader.tres" id="2_jlf2l"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_24vcs"]
+radius = 4.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rbpwa"]
+top_radius = 4.0
+bottom_radius = 0.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8bob7"]
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.5
+scale_min = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_55qbs"]
+albedo_color = Color(0.819608, 0.882353, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_n8dic"]
+material = SubResource("StandardMaterial3D_55qbs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8ix77"]
+direction = Vector3(0, 0, 0)
+
+[node name="fountain" instance=ExtResource("1_tsc3c")]
+
+[node name="Cylinder" parent="." index="0"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CylinderShape3D_24vcs")
+
+[node name="Water2" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(0.999985, 0, -0.00553267, 0, 1, 0, 0.00553267, 0, 0.999985, 0, -0.216911, 0.0772014)
+material_override = ExtResource("2_jlf2l")
+mesh = SubResource("CylinderMesh_rbpwa")
+
+[node name="Water3" type="MeshInstance3D" parent="." index="3"]
+transform = Transform3D(0.354995, 0, -0.0019641, 0, 0.355, 0, 0.0019641, 0, 0.354995, -0.00888968, 0.99509, 0.0726555)
+material_override = ExtResource("2_jlf2l")
+mesh = SubResource("CylinderMesh_rbpwa")
+
+[node name="Spray" type="GPUParticles3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.03821, 0)
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_8bob7")
+draw_pass_1 = SubResource("SphereMesh_n8dic")
+
+[node name="Shaft" type="GPUParticles3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0453389, 3.04358, 0.0610623)
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_8ix77")
+draw_pass_1 = SubResource("SphereMesh_n8dic")

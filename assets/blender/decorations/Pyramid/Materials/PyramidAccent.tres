@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://3fjxs7xkuhc1"]
+
+[resource]
+resource_name = "PyramidAccent"
+cull_mode = 2
+albedo_color = Color(0.619834, 0.529721, 0.249613, 1)
+roughness = 0.5

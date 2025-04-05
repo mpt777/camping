@@ -14,7 +14,9 @@ func _on_player_connected(id):
 		#for player_id in Game.players.keys():
 			#_register_player.rpc_id(id, {"player": Game.players[player_id].serialize(), "id": player_id})
 	#else:
-	_register_player.rpc_id(id, {"player": Game.players[multiplayer.get_unique_id()].serialize(), "id": multiplayer.get_unique_id()})
+	var uid = multiplayer.get_unique_id() 
+	if uid in Game.players:
+		_register_player.rpc_id(id, {"player": Game.players[uid].serialize(), "id": uid})
 		
 	
 

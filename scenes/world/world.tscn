@@ -9,7 +9,7 @@ script = ExtResource("1_dphjl")
 [node name="Island" parent="." instance=ExtResource("2_sl2e5")]
 
 [node name="Players" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.07574, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.0699, 0)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cw8w6clmxedi6")

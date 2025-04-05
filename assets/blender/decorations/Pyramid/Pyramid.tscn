@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cckd5ucvfhkfc"]
+
+[ext_resource type="PackedScene" uid="uid://cy4dijnh6eec0" path="res://Assets/Blender/Decorations/Pyramid/pyramid.glb" id="1_3vi88"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lihoe"]
+size = Vector3(9, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gfgos"]
+size = Vector3(20, 1.6, 19.6)
+
+[node name="pyramid" instance=ExtResource("1_3vi88")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="4"]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -10.4592)
+shape = SubResource("BoxShape3D_lihoe")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-06, 0.8, -0.359918)
+shape = SubResource("BoxShape3D_gfgos")

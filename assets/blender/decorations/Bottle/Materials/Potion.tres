@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bwxr6ajo8xoxe"]
+
+[resource]
+resource_name = "Potion"
+cull_mode = 2
+albedo_color = Color(0.042, 0.7336, 0.84, 1)
+roughness = 0.5

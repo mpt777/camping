@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1tr7ykseo3ou"]
+
+[ext_resource type="PackedScene" uid="uid://dw28y6jmshrel" path="res://Assets/Blender/Decorations/Lantern/Lantern.glb" id="1_v1r00"]
+
+[node name="Lantern" instance=ExtResource("1_v1r00")]
+
+[node name="Base" parent="." index="0"]
+cast_shadow = 0
+
+[node name="Bars" parent="." index="1"]
+layers = 2
+cast_shadow = 0
+
+[node name="Top" parent="." index="2"]
+cast_shadow = 0
+
+[node name="Center" parent="." index="3"]
+layers = 2
+cast_shadow = 0

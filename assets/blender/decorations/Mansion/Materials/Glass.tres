@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dmvfj8dw7tnan"]
+
+[resource]
+resource_name = "Glass"
+cull_mode = 2
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.84, 0.728, 0, 1)

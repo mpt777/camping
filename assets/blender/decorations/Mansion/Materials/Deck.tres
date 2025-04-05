@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d2btfkmlox8sf"]
+
+[resource]
+resource_name = "Deck"
+cull_mode = 2
+albedo_color = Color(0.34129, 0.337404, 0.342217, 1)
+metallic_specular = 0.0

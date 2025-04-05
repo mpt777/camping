@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyc67y6w4g74a"]
+
+[ext_resource type="PackedScene" uid="uid://gpxhomkx1p2w" path="res://Assets/Blender/Decorations/Portal/Portal.glb" id="1_y0rpx"]
+
+[node name="Portal" instance=ExtResource("1_y0rpx")]
