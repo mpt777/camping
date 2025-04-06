@@ -10,6 +10,8 @@ const MG_FISHING = preload("res://scenes/minigames/fishing/mg_fishing.tscn")
 var out_bobber : Bobber= null
 
 var target_length = 0
+var is_held = false
+var is_held_old = false
 
 enum states {
 	IDLE,
@@ -30,34 +32,44 @@ func _process(delta: float) -> void:
 		return
 	if !self.active:
 		return
-	self.target(delta)
+	
+	self.advance_state(delta)
+	self.is_held_old = self.is_held
 	
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
 	if !self.active:
 		return
-	if self.state == states.TARGET:
-		if event.is_action_released("left_mouse"):
-			self.advance_state()
+	if event.is_action_released("left_mouse"):
+		self.is_held = false
 	if event.is_action_pressed("left_mouse"):
-		self.advance_state()
+		self.is_held = true
+		
+func advance_state(delta : float) -> void:
+	if self.is_held:
+		self.target(delta)
+		self.reel(delta)
+			#
+	if self.is_held == self.is_held_old:
+		return
+		
+	if self.is_held:
+		if self.state == states.IDLE:
+			self.state = states.TARGET
+			return
+			
+		#if self.state == states.CAST:
+			#self.state = states.IDLE
+			#self.end()
+			#return
+			
+	if not self.is_held:
+		if self.state == states.TARGET:
+			self.state = states.CAST
+			self.cast()
+		
 
-		
-func advance_state():
-	if self.state == states.IDLE:
-		self.state = states.TARGET
-		return
-		
-	if self.state == states.TARGET:
-		self.state = states.CAST
-		self.cast()
-		return
-		
-	if self.state == states.CAST:
-		self.state = states.IDLE
-		self.reel()
-		return
 		
 func target(delta) -> void:
 	if self.state == states.TARGET:
@@ -82,17 +94,25 @@ func cast() -> void:
 	display_bobber.visible = false
 	display_bobber.position = Vector3.ZERO
 	
-	
 	out_bobber.EnteredWater.connect(bobber_entered_water)
 	
-func reel() -> void:
+func reel(delta) -> void:
+	if self.state != states.CAST:
+		return
+	out_bobber.apply_central_force(out_bobber.global_position.direction_to(global_position) * 10)
+	if (out_bobber.global_position.distance_squared_to(global_position) < 5):
+		self.state = states.IDLE
+		self.end()
+
+	
+func end() -> void:
 	out_bobber.queue_free()
 	self.state = states.IDLE
 	display_bobber.visible = true
 	self.n_timer.stop()
 	
 func bobber_entered_water():
-	self.n_timer.start(3)
+	self.n_timer.start(15)
 
 func _on_timer_timeout() -> void:
 	print("Bite!")
@@ -100,5 +120,5 @@ func _on_timer_timeout() -> void:
 	var mg = MG_FISHING.instantiate()
 	self.player.enter_minigame(mg)
 	mg.Exited.connect(func():
-		self.reel()
+		self.end()
 	)
