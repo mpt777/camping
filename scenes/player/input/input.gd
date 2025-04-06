@@ -14,12 +14,22 @@ const JUMP_VELOCITY = 4.5
 @export var jumping := false
 @export var direction := Vector2()
 
+var active = true
+
 
 func jump():
 	jumping = true
 	
+func _input(event: InputEvent) -> void:
+	if !is_multiplayer_authority():
+		return
+	if !active:
+		return
+			
 func _process(delta):
 	if !is_multiplayer_authority():
+		return
+	if !active:
 		return
 	if body.ui_locked:
 		direction = Vector2.ZERO
@@ -31,6 +41,8 @@ func _process(delta):
 func _physics_process(delta):
 	# Add the gravity.
 	if !is_multiplayer_authority():
+		return
+	if !active:
 		return
 	if not body.is_on_floor():
 		body.velocity.y -= gravity * delta
@@ -64,3 +76,4 @@ func _physics_process(delta):
 	body.n_mesh.rotation.z = 0
 
 	body.move_and_slide()
+	

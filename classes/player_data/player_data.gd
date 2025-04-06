@@ -2,6 +2,8 @@ extends Resource
 class_name PlayerData
 
 var name : String
+var money : int = 0
+var exp : int = 0
 
 var characters = 'abcdefghijklmnopqrstuvwxyz'
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cw8w6clmxedi6"]
+[gd_scene load_steps=11 format=3 uid="uid://cw8w6clmxedi6"]
 
 [ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
 [ext_resource type="PackedScene" uid="uid://bg32mxc4ijrjy" path="res://scenes/player/input/input.tscn" id="2_lvxji"]
 [ext_resource type="PackedScene" uid="uid://ddniml3qphela" path="res://scenes/camera/camera_anchor.tscn" id="3_gmlin"]
 [ext_resource type="PackedScene" uid="uid://jv60xuolhlcg" path="res://ui/message_container/message_container.tscn" id="3_lvxji"]
-[ext_resource type="PackedScene" uid="uid://b8n48n38pjppc" path="res://scenes/items/fishing_pole/fishing_pole.tscn" id="3_p47bc"]
+[ext_resource type="PackedScene" uid="uid://mnalqq5vddyq" path="res://scenes/player/hotbar/hotbar.tscn" id="3_p47bc"]
+[ext_resource type="PackedScene" uid="uid://b8n48n38pjppc" path="res://scenes/items/fishing_pole/fishing_pole.tscn" id="4_75vfm"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fb1vy"]
 properties/0/path = NodePath(".:player")
@@ -47,9 +48,9 @@ replication_config = SubResource("SceneReplicationConfig_fb1vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_37qaq")
 
-[node name="Items" type="Node3D" parent="."]
+[node name="Hotbar" parent="." instance=ExtResource("3_p47bc")]
 
-[node name="FishingPole" parent="Items" instance=ExtResource("3_p47bc")]
+[node name="FishingPole" parent="Hotbar" instance=ExtResource("4_75vfm")]
 transform = Transform3D(1, 0, 0, 0, 0.866026, -0.5, 0, 0.5, 0.866026, 0.564008, 1, 0)
 
 [node name="Mesh" type="Node3D" parent="."]
@@ -65,7 +66,7 @@ mesh = SubResource("BoxMesh_gmlin")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="Mesh/MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 0.866026, -0.5, 0, 0.5, 0.866026, 0.564008, 0, 0)
-remote_path = NodePath("../../../Items/FishingPole")
+remote_path = NodePath("../../../Hotbar/FishingPole")
 
 [node name="CameraAnchor" parent="." instance=ExtResource("3_gmlin")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52306, 0)
@@ -98,3 +99,12 @@ offset_top = -32.0
 offset_right = 28.0
 grow_horizontal = 1
 grow_vertical = 0
+
+[node name="Label" type="Label" parent="UI/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0

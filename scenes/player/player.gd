@@ -18,8 +18,11 @@ const FISHING_POLE = preload("res://scenes/items/fishing_pole/fishing_pole.tscn"
 @onready var n_mesh = $Mesh
 @onready var ui: CanvasLayer = $UI
 @onready var n_camera_anchor : CameraAnchor = $CameraAnchor
-@onready var n_fishing_pole : FishingPole = $Items/FishingPole
+@onready var n_fishing_pole : FishingPole = $Hotbar/FishingPole
+@onready var n_input : PlayerInput = $Input
+@onready var n_hotbar : Hotbar = $Hotbar
 
+@onready var n_money := $UI/Control/Label
 
 var player_data : PlayerData
 var ui_locked = false
@@ -54,6 +57,26 @@ func sync_player():
 func render():
 	if self.player_data:
 		n_label.text = self.player_data.name
+		self.add_money(0)
 	
 func set_ui_lock(lock: bool) -> void:
 	self.ui_locked = lock
+	
+#func use_item() -> void:
+	#self.n_hotbar.active_item().use()
+	
+func add_money(money: int):
+	self.player_data.money += money
+	self.n_money.text = "$ " + str(self.player_data.money)
+# Minigame
+	
+func enter_minigame(mg : Minigame) -> void:
+	self.n_input.active = false
+	self.ui.visible = false
+	mg.constructor(self)
+	add_child(mg, true)
+	mg.Exited.connect(exit_minigame)
+	
+func exit_minigame() -> void:
+	self.ui.visible = true
+	self.n_input.active = true

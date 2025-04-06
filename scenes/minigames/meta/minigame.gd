@@ -3,12 +3,15 @@ class_name Minigame
 
 var player : Player
 
+signal Entered
+signal Exited
+
 func constructor(m_player: Player) -> Minigame:
 	self.player = m_player
 	return self
 
 func enter() -> void:
-	pass
+	self.Entered.emit()
 	
 func exit() -> void:
-	pass
+	self.Exited.emit()
