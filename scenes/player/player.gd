@@ -18,6 +18,8 @@ const FISHING_POLE = preload("res://scenes/items/fishing_pole/fishing_pole.tscn"
 @onready var n_mesh = $Mesh
 @onready var ui: CanvasLayer = $UI
 @onready var n_camera_anchor : CameraAnchor = $CameraAnchor
+@onready var n_fishing_pole : FishingPole = $Items/FishingPole
+
 
 var player_data : PlayerData
 var ui_locked = false
@@ -27,30 +29,21 @@ func constructor(m_player_data : PlayerData) -> Player:
 	return self
 
 func constructor_node() -> Player:
-	
 	self.position = Utils.parents(self).filter(func(x): return x is World)[0].n_player_spawn.global_position
 	
 	self.player = name.to_int()
-	
 	Game.SyncPlayers.connect(sync_player)
 	Signals.UILock.connect(set_ui_lock)
+	
 	if player == multiplayer.get_unique_id():
 		$CameraAnchor.n_camera.current = true
 		self.ui.visible = true
 		
 	self.sync_player()
-	self.render()
+	self.n_fishing_pole.constructor(self)
 	
 	return self
 	
-
-	
-	#self.position.y += randf() * 1
-	#self.position.x += randf() * 10
-	#self.position.z += randf() * 10
-	
-	#$Items.add_child(FISHING_POLE.instantiate())
-
 
 func sync_player():
 	if self.player in Game.players:

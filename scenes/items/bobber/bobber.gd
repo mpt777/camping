@@ -10,12 +10,12 @@ class_name Bobber
 
 @onready var probes = $ProbeContainer.get_children()
 var water = null
-
 var submerged := false
+
+signal EnteredWater
 
 func set_uuid():
 	return
-	#self.name = Uuid.v4()
 
 func _physics_process(delta):
 	submerged = false
@@ -24,7 +24,6 @@ func _physics_process(delta):
 	
 	for p in probes:
 		var depth = (water.get_height(p.global_position) - p.global_position.y)
-		#self.global_position.y = water.get_height(p.global_position)
 		if depth > 0:
 			submerged = true
 			apply_force(Vector3.UP * float_force * gravity * depth, p.global_position - global_position)
@@ -38,3 +37,4 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
 func _on_area_3d_area_entered(area: Area3D) -> void:
 	if area is Water:
 		self.water = area
+		self.EnteredWater.emit()
