@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8n48n38pjppc"]
+
+[ext_resource type="Script" uid="uid://c4dlrexmrayjn" path="res://scenes/items/fishing_pole/fishing_pole.gd" id="1_xhvsk"]
+[ext_resource type="PackedScene" uid="uid://ca4ddr77u1a03" path="res://scenes/items/bobber/bobber.tscn" id="2_5dmys"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xhvsk"]
+size = Vector3(0.1, 2, 0.1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5dmys"]
+properties/0/path = NodePath("BobberAnchor/Bobber:visible")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="FishingPole" type="Node3D"]
+script = ExtResource("1_xhvsk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1)
+mesh = SubResource("BoxMesh_xhvsk")
+
+[node name="BobberAnchor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.6)
+
+[node name="Bobber" parent="BobberAnchor" instance=ExtResource("2_5dmys")]
+sleeping = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_5dmys")

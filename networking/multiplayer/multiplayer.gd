@@ -1,6 +1,6 @@
 extends Node
 
-const PORT = 4433
+const PORT = 8120
 
 func _ready():
 	# Start paused

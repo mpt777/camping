@@ -1,13 +1,21 @@
 extends Node3D
 class_name World
 
-const SPAWN_RANDOM := 5.0
+const PLAYER = preload("res://scenes/player/player.tscn")
+const PLAYER_GROUPER = preload("res://scenes/player/player_grouper/player_grouper.tscn")
+#const PLAYER_GLOBAL = preload("res://scenes/player/player_global/player_global.tscn")
+
+@onready var n_player_spawn = $Players/PlayerSpawn
+
+@onready var n_players = $Players/Players
+
 
 func _ready():
 	# We only need to spawn players on the server.
+	#Signals.PlayerLoaded.connect(_add_player_via_rpc)
 	if not multiplayer.is_server():
 		return
-
+	
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(del_player)
 
@@ -25,29 +33,31 @@ func _exit_tree():
 		return
 	multiplayer.peer_connected.disconnect(add_player)
 	multiplayer.peer_disconnected.disconnect(del_player)
-	
+
 
 func add_player(id: int):
-	var character = preload("res://scenes/player/player.tscn").instantiate()
-	# Set player id.
-	character.player = id
+	var player_grouper = PLAYER_GROUPER.instantiate()
 	if id in Game.players:
-		character.constructor(Game.players[id])
-	# Randomize character position.
-	var pos := Vector2.from_angle(randf() * 2 * PI)
-	character.position = Vector3(pos.x * SPAWN_RANDOM * randf(), 0, pos.y * SPAWN_RANDOM * randf())
-	character.name = str(id)
-	character.set_multiplayer_authority(id)
-	$Players.add_child(character, true)
+		player_grouper.constructor(Game.players[id])
 	
-
+	player_grouper.name = str(id)
+	player_grouper.set_multiplayer_authority(id)
+	n_players.add_child(player_grouper, true)
 
 func del_player(id: int):
-	if not $Players.has_node(str(id)):
-		return
-	Game.players.erase(id)
-	$Players.get_node(str(id)).queue_free()
-	
-#func _process(_delta: float) -> void:
-	#return
-	#print(Game.players)
+	if id in Game.players:
+		Game.players.erase(id)
+		
+	if n_players.has_node(str(id)):
+		n_players.get_node(str(id)).queue_free()
+		
+	#if n_player_globals.has_node(str(id)):
+		#n_player_globals.get_node(str(id)).queue_free()
+		
+		
+#func _add_player_via_rpc(id : int, player_data : PlayerData) -> void:
+	#var character_global = PLAYER_GLOBAL.instantiate()
+	#
+	#character_global.name = str(id)
+	#character_global.set_multiplayer_authority(id)
+	#n_player_globals.add_child(character_global, true)

@@ -1,11 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://dq6nk182a46tr"]
+[gd_scene load_steps=13 format=3 uid="uid://dq6nk182a46tr"]
 
-[ext_resource type="Material" uid="uid://cr8yf6r3utjih" path="res://assets/my_water.tres" id="1_sdkwd"]
 [ext_resource type="PackedScene" uid="uid://cqhkqck3rg7qy" path="res://assets/blender/levels/island/island.tscn" id="3_c44sj"]
 [ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/world/island/sky.gdshader" id="3_wb2e1"]
 [ext_resource type="PackedScene" uid="uid://d1xq3cg2aa6ua" path="res://assets/blender/decorations/PalmTree/palm_tree.tscn" id="4_a2155"]
 [ext_resource type="PackedScene" uid="uid://bw34gqoxhebja" path="res://assets/blender/decorations/Tree/Tree.tscn" id="5_0f7sy"]
 [ext_resource type="PackedScene" uid="uid://danrhd6yvhfmw" path="res://assets/blender/decorations/Rock/Rock.tscn" id="6_0f7sy"]
+[ext_resource type="PackedScene" uid="uid://bikwxeiuux2nc" path="res://scenes/decorations/water.tscn" id="6_ynh53"]
 [ext_resource type="PackedScene" uid="uid://ca4q7a6ang8yv" path="res://scenes/ocean/ocean.tscn" id="7_ynh53"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_wb2e1"]
@@ -59,14 +59,6 @@ sky_material = SubResource("ShaderMaterial_c44sj")
 [sub_resource type="Environment" id="Environment_wb2e1"]
 background_mode = 2
 sky = SubResource("Sky_a2155")
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_wb2e1"]
-size = Vector2(500, 500)
-subdivide_width = 200
-subdivide_depth = 200
-
-[sub_resource type="BoxMesh" id="BoxMesh_c44sj"]
-size = Vector3(500, 1, 500)
 
 [node name="Island" type="Node3D"]
 
@@ -181,15 +173,7 @@ transform = Transform3D(0.457905, 0, 0.889001, 0, 1.92, 0, -0.889001, 0, 0.45790
 
 [node name="Water" type="Node3D" parent="."]
 
-[node name="water" type="MeshInstance3D" parent="Water"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.114, 0)
-material_override = ExtResource("1_sdkwd")
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_wb2e1")
-skeleton = NodePath("")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Water/water"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.24494, 0)
-mesh = SubResource("BoxMesh_c44sj")
+[node name="Water" parent="Water" instance=ExtResource("6_ynh53")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Ocean" parent="Water" instance=ExtResource("7_ynh53")]

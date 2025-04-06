@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cw8w6clmxedi6"]
+[gd_scene load_steps=10 format=3 uid="uid://cw8w6clmxedi6"]
 
 [ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
+[ext_resource type="PackedScene" uid="uid://bg32mxc4ijrjy" path="res://scenes/player/input/input.tscn" id="2_lvxji"]
 [ext_resource type="PackedScene" uid="uid://ddniml3qphela" path="res://scenes/camera/camera_anchor.tscn" id="3_gmlin"]
 [ext_resource type="PackedScene" uid="uid://jv60xuolhlcg" path="res://ui/message_container/message_container.tscn" id="3_lvxji"]
+[ext_resource type="PackedScene" uid="uid://b8n48n38pjppc" path="res://scenes/items/fishing_pole/fishing_pole.tscn" id="3_p47bc"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fb1vy"]
 properties/0/path = NodePath(".:player")
@@ -35,14 +37,23 @@ size = Vector3(0.2, 0.2, 0.2)
 collision_layer = 2
 script = ExtResource("1_hwwnj")
 
+[node name="Input" parent="." node_paths=PackedStringArray("body") instance=ExtResource("2_lvxji")]
+body = NodePath("..")
+
 [node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_fb1vy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_37qaq")
 
+[node name="Items" type="Node3D" parent="."]
+
+[node name="FishingPole" parent="Items" instance=ExtResource("3_p47bc")]
+transform = Transform3D(1, 0, 0, 0, 0.866026, -0.5, 0, 0.5, 0.866026, 0.564008, 1, 0)
+
 [node name="Mesh" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
 mesh = SubResource("CapsuleMesh_jab13")
@@ -52,11 +63,15 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.432679, -0.583803)
 mesh = SubResource("BoxMesh_gmlin")
 
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Mesh/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 0.866026, -0.5, 0, 0.5, 0.866026, 0.564008, 0, 0)
+remote_path = NodePath("../../../Items/FishingPole")
+
 [node name="CameraAnchor" parent="." instance=ExtResource("3_gmlin")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.523062, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52306, 0)
 
 [node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36582, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36582, 0)
 billboard = 1
 render_priority = 1
 outline_render_priority = 0

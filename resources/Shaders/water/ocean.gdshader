@@ -26,7 +26,9 @@ uniform float displacement_scroll_speed : hint_range(0.0, 1.0, 0.001) = 0.1;
 uniform vec2 displacement_scroll_offset = vec2 (-0.2, 0.3);
 uniform float displacement_scale_offset = 0.5;
 uniform vec2 displacement_scale = vec2(0.04);
+//uniform float displacement_scale = 10;
 uniform sampler2D displacement_texture : hint_default_black, repeat_enable;
+uniform float displacement_time = 0.0;
 #endif
 
 group_uniforms edge;
@@ -78,6 +80,7 @@ uniform sampler2D screen_texture: hint_screen_texture, filter_linear_mipmap, rep
 uniform sampler2D depth_texture: hint_depth_texture, filter_linear_mipmap, repeat_disable;
 
 varying vec3 global_position;
+
 
 #ifdef CAUSTICS
 // Permutation polynomial hash credit Stefan Gustavson
@@ -195,10 +198,12 @@ void vertex() {
 	global_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	#ifdef DISPLACEMENT
-	float time = TIME * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
+	//float height = texture(displacement_texture, global_position.xz / displacement_scale.x + displacement_time * displacement_scroll_speed).r;
+	//VERTEX.y += height * displacement_strength;
+	float time = displacement_time * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
 	float displace1 = texture(displacement_texture, fma(global_position.xz, displacement_scale, time * -wind_direction.xz)).r;
 	float displace2 = texture(displacement_texture, fma(global_position.xz, displacement_scale * displacement_scale_offset, time * (-wind_direction.xz + displacement_scroll_offset))).r;
-	float displacement_mixed = mix(displace1, displace2, 0.4);
+	float displacement_mixed = mix(displace1, displace1, 0.4);
 	float offset = fma(displacement_mixed, 2.0, -1.0) * displacement_strength;
 	VERTEX.y += offset;
 	global_position.y += offset;

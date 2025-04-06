@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bikwxeiuux2nc"]
+
+[ext_resource type="Script" uid="uid://f4eennwe3qf" path="res://scenes/decorations/water.gd" id="1_18vec"]
+[ext_resource type="Material" uid="uid://cr8yf6r3utjih" path="res://assets/my_water.tres" id="1_btc1y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ynh53"]
+size = Vector3(500, 20, 500)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wb2e1"]
+size = Vector2(500, 500)
+subdivide_width = 200
+subdivide_depth = 200
+
+[sub_resource type="BoxMesh" id="BoxMesh_c44sj"]
+size = Vector3(500, 1, 500)
+
+[node name="Water" type="Area3D"]
+script = ExtResource("1_18vec")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.886, 0)
+shape = SubResource("BoxShape3D_ynh53")
+debug_color = Color(0, 0, 0, 1)
+
+[node name="water" type="MeshInstance3D" parent="."]
+material_override = ExtResource("1_btc1y")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_wb2e1")
+
+[node name="LightBlocker" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.13094, 0)
+mesh = SubResource("BoxMesh_c44sj")
+skeleton = NodePath("../water")

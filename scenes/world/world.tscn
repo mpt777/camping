@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://efwjm4hfeqf2"]
+[gd_scene load_steps=4 format=3 uid="uid://efwjm4hfeqf2"]
 
 [ext_resource type="Script" uid="uid://b3y1iglb6wiyx" path="res://scenes/world/world.gd" id="1_dphjl"]
 [ext_resource type="PackedScene" uid="uid://dq6nk182a46tr" path="res://scenes/world/island/island.tscn" id="2_sl2e5"]
+[ext_resource type="Script" uid="uid://cgikxkba3ewwc" path="res://scenes/world/player_spawner.gd" id="3_1fp7r"]
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_dphjl")
@@ -9,9 +10,13 @@ script = ExtResource("1_dphjl")
 [node name="Island" parent="." instance=ExtResource("2_sl2e5")]
 
 [node name="Players" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.0699, 0)
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cw8w6clmxedi6")
+[node name="Players" type="Node3D" parent="Players"]
+
+[node name="PlayerSpawn" type="Marker3D" parent="Players"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.8225, 6.97509, -11.8218)
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
+_spawnable_scenes = PackedStringArray("uid://cux010vskivqr")
 spawn_path = NodePath("../Players")
-spawn_limit = 4
+script = ExtResource("3_1fp7r")

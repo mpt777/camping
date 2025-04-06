@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://ca4ddr77u1a03"]
+
+[ext_resource type="Script" uid="uid://dbs5ynbydpdnr" path="res://scenes/items/bobber/bobber.gd" id="1_63my7"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xhvsk"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_xhvsk"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_63my7"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Bobber" type="RigidBody3D"]
+collision_layer = 9
+freeze = true
+script = ExtResource("1_63my7")
+float_force = 5.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_xhvsk")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_xhvsk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_xhvsk")
+
+[node name="ProbeContainer" type="Node3D" parent="."]
+
+[node name="Marker3D" type="Marker3D" parent="ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00630683, 0)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_63my7")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

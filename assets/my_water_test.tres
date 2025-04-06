@@ -1,10 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=10 format=3 uid="uid://cr8yf6r3utjih"]
+[gd_resource type="ShaderMaterial" load_steps=10 format=3 uid="uid://c17s751rrdx8h"]
 
-[ext_resource type="Shader" uid="uid://btcf800k2w7wt" path="res://resources/Shaders/water/ocean.gdshader" id="1_xwlr2"]
+[ext_resource type="Shader" uid="uid://btcf800k2w7wt" path="res://resources/Shaders/water/ocean.gdshader" id="1_qkof4"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_eyp26"]
 noise_type = 2
-frequency = 0.0164
+frequency = 0.0001
 fractal_octaves = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_grv7g"]
@@ -45,7 +45,7 @@ noise = SubResource("FastNoiseLite_1qqoi")
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_xwlr2")
+shader = ExtResource("1_qkof4")
 shader_parameter/absorption_color = Color(1, 0.870588, 0, 1)
 shader_parameter/fresnel_radius = 2.0
 shader_parameter/fresnel_color = Color(3.1285e-07, 0.253409, 0.327427, 1)
@@ -53,8 +53,8 @@ shader_parameter/roughness = 0.15
 shader_parameter/specular = 0.25
 shader_parameter/depth_distance = 1.7
 shader_parameter/beers_law = 4.5
-shader_parameter/displacement_strength = 0.3
-shader_parameter/displacement_scroll_speed = 0.03
+shader_parameter/displacement_strength = 3.0
+shader_parameter/displacement_scroll_speed = 0.1
 shader_parameter/displacement_scroll_offset = Vector2(-0.2, 0.3)
 shader_parameter/displacement_scale_offset = 0.5
 shader_parameter/displacement_scale = Vector2(0.04, 0.04)

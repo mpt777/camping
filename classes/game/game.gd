@@ -21,9 +21,9 @@ func _register_player(new_player_info: Dictionary):
 func register_player(player_data : PlayerData, id: int) -> void:
 	Game.players[id] = player_data
 	Game.SyncPlayers.emit()
+	#Signals.PlayerAdded.emit(id, player_data)
 	
 	if multiplayer.is_server():
-		print("Is server")
 		var message : String = player_data.name + " has joined"
 		Signals.AddMessage.emit(Message.new().constructor(message, [0], id))
 
