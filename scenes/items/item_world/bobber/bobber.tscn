@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ca4ddr77u1a03"]
 
-[ext_resource type="Script" uid="uid://dbs5ynbydpdnr" path="res://scenes/items/bobber/bobber.gd" id="1_63my7"]
+[ext_resource type="Script" uid="uid://dbs5ynbydpdnr" path="res://scenes/items/item_world/bobber/bobber.gd" id="1_63my7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xhvsk"]
 

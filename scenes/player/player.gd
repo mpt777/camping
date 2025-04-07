@@ -3,7 +3,7 @@ class_name Player
 		
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 
-const FISHING_POLE = preload("res://scenes/items/fishing_pole/fishing_pole.tscn")
+const FISHING_POLE = preload("res://scenes/items/item_world/fishing_pole/fishing_pole.tscn")
 
 # Set by the authority, synchronized on spawn.
 @export var player := 1 :

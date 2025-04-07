@@ -18,7 +18,7 @@ size = Vector3(500, 1, 500)
 script = ExtResource("1_18vec")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.886, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 shape = SubResource("BoxShape3D_ynh53")
 debug_color = Color(0, 0, 0, 1)
 

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=2 format=3 uid="uid://cs4bxu1ygk0l7"]
+
+[ext_resource type="Script" uid="uid://p5nb05htxgk7" path="res://scenes/items/fish/fish_data.gd" id="1_x2u1v"]
+
+[resource]
+script = ExtResource("1_x2u1v")
+difficulty = 10
+rarity = 10
+water = Array[int]([0])
+title = "Golden Trout"
+description = "A Californian Native"
+price = 30
+metadata/_custom_type_script = "uid://p5nb05htxgk7"

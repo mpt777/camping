@@ -1,7 +1,7 @@
 extends Item
 class_name FishingPole
 
-const BOBBER = preload("res://scenes/items/bobber/bobber.tscn")
+const BOBBER = preload("res://scenes/items/item_world/bobber/bobber.tscn")
 const MG_FISHING = preload("res://scenes/minigames/fishing/mg_fishing.tscn")
 
 @onready var bobber_anchor := $BobberAnchor

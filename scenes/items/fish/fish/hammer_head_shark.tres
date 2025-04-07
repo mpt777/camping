@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="FishData" load_steps=2 format=3 uid="uid://dvgxewj6xtjn1"]
+
+[ext_resource type="Script" uid="uid://p5nb05htxgk7" path="res://scenes/items/fish/fish_data.gd" id="1_p01vs"]
+
+[resource]
+script = ExtResource("1_p01vs")
+difficulty = 10
+rarity = 1
+water = Array[int]([1])
+title = "Hammerhead Shark"
+description = "The counterpart to the Nail Fish"
+price = 0
+metadata/_custom_type_script = "uid://p5nb05htxgk7"
