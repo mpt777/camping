@@ -17,6 +17,7 @@ data = PackedVector3Array(2.4079, -1, 5.8357, 0.8002, 1, 5.8357, 2.4079, 1, 5.83
 [node name="island" instance=ExtResource("1_yencv")]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." index="2"]
+collision_layer = 17
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
 shape = SubResource("ConcavePolygonShape3D_rtsil")

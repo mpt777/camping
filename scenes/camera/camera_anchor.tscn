@@ -9,6 +9,7 @@ radius = 1.0
 script = ExtResource("1_ynye0")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="."]
+collision_mask = 16
 shape = SubResource("SphereShape3D_dovo2")
 spring_length = 4.0
 

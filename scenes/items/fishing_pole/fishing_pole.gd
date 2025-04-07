@@ -112,7 +112,7 @@ func end() -> void:
 	self.n_timer.stop()
 	
 func bobber_entered_water():
-	self.n_timer.start(15)
+	self.n_timer.start(1)
 
 func _on_timer_timeout() -> void:
 	print("Bite!")

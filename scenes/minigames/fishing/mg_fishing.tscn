@@ -6,7 +6,9 @@
 [node name="Minigame" instance=ExtResource("1_6d22s")]
 script = ExtResource("2_jrnlk")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="0"]
+[node name="BadTimerStart" type="Timer" parent="." index="0"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" index="0"]
 anchors_preset = 15
@@ -30,12 +32,16 @@ rotation = -1.28282
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-value = 16.49
 show_percentage = false
 
 [node name="BarBad" type="ProgressBar" parent="CanvasLayer/MarginContainer/Control/Control" index="1"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-value = 9.42
 show_percentage = false
+
+[node name="Mashers" type="Control" parent="CanvasLayer/MarginContainer/Control/Control" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="timeout" from="BadTimerStart" to="." method="_on_bad_timer_start_timeout"]

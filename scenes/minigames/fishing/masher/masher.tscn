@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvl62dsoiniwi"]
+
+[ext_resource type="Script" uid="uid://6y51wvp7su0a" path="res://scenes/minigames/fishing/masher/masher.gd" id="1_lrr3p"]
+
+[node name="Masher" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_lrr3p")
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+rotation = 1.5708
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -41.0
+offset_top = -23.0
+offset_right = 41.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Control/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100"
+
+[node name="Panel" type="Panel" parent="Control/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
