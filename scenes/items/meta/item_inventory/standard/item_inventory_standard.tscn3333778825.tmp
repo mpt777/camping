@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://digrrya1mwghv"]
+
+[ext_resource type="PackedScene" uid="uid://cf423hh28vocy" path="res://scenes/items/meta/item_inventory/item_inventory.tscn" id="1_5aqfa"]
+[ext_resource type="Script" uid="uid://dqvnx6odtr0mh" path="res://scenes/items/meta/item_inventory/standard/item_inventory_standard.gd" id="2_2iqbt"]
+[ext_resource type="PackedScene" uid="uid://d1bl3mb3lukrv" path="res://scenes/items/meta/item_inventory/popover/popover.tscn" id="3_2iqbt"]
+[ext_resource type="Resource" uid="uid://cs4bxu1ygk0l7" path="res://scenes/items/fish/fish/golden_trout.tres" id="3_7hym6"]
+
+[node name="ItemInventory" instance=ExtResource("1_5aqfa")]
+custom_minimum_size = Vector2(200, 200)
+script = ExtResource("2_2iqbt")
+item_data = ExtResource("3_7hym6")
+
+[node name="PopupPanel" parent="." index="0" instance=ExtResource("3_2iqbt")]
+visible = false
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

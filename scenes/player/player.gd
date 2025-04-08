@@ -22,6 +22,8 @@ const FISHING_POLE = preload("res://scenes/items/item_world/fishing_pole/fishing
 @onready var n_input : PlayerInput = $Input
 @onready var n_hotbar : Hotbar = $Hotbar
 
+@onready var n_ui : UserInterface = $UI/Control/UI
+
 @onready var n_money := $UI/Control/Label
 
 var player_data : PlayerData
@@ -61,13 +63,16 @@ func render():
 	
 func set_ui_lock(lock: bool) -> void:
 	self.ui_locked = lock
+	self.n_fishing_pole.active = !lock
 	
-#func use_item() -> void:
-	#self.n_hotbar.active_item().use()
 	
-func add_money(money: int):
+func add_money(money: int) -> void:
 	self.player_data.money += money
 	self.n_money.text = "$ " + str(self.player_data.money)
+	
+func add_item_to_inventory(item_data : ItemData) -> void:
+	self.n_ui.n_inventory.add_item(item_data)
+	
 # Minigame
 	
 func enter_minigame(mg : Minigame) -> void:

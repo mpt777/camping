@@ -25,6 +25,10 @@ func _input(event: InputEvent) -> void:
 		return
 	if !active:
 		return
+	
+	if event.is_action_pressed("exit"):
+		body.n_ui.visible = !body.n_ui.visible
+		body.set_ui_lock(body.n_ui.visible)
 			
 func _process(delta):
 	if !is_multiplayer_authority():

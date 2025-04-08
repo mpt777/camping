@@ -1,6 +1,7 @@
 extends Minigame
 class_name MGFishing
 
+
 const MASHER = preload("res://scenes/minigames/fishing/masher/masher.tscn")
 
 @onready var n_good : ProgressBar = %BarGood
@@ -45,7 +46,8 @@ func _process(delta: float) -> void:
 			self.exit()
 		
 	if self.n_good.value >= MAX_VALUE:
-		self.player.add_money(10)
+		var fish_data = Game.FISH.new().constructor(Game.FISH_TYPE)
+		self.player.add_item_to_inventory(fish_data)
 		self.exit()
 		
 func get_current_masher():

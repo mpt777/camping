@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5obyt7oj4or6"]
+
+[ext_resource type="Script" uid="uid://bh4k5nipk75lb" path="res://ui/ui/ui.gd" id="1_p20at"]
+[ext_resource type="PackedScene" uid="uid://n58k4b50jtav" path="res://ui/inventory/inventory.tscn" id="1_q6g4y"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_p20at")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Inventory" parent="TabContainer/PanelContainer" instance=ExtResource("1_q6g4y")]
+layout_mode = 2

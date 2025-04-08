@@ -115,6 +115,8 @@ func bobber_entered_water():
 	self.n_timer.start(1)
 
 func _on_timer_timeout() -> void:
+	if self.state != states.CAST:
+		return
 	print("Bite!")
 	self.state = states.MINIGAME
 	var mg = MG_FISHING.instantiate()

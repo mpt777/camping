@@ -84,6 +84,10 @@ right_mouse={
 3d_physics/layer_4="water"
 3d_physics/layer_5="Camera"
 
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+
 [shader_globals]
 
 wind_direction={

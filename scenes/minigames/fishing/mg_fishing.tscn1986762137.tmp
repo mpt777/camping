@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://c34y6v78dlhp"]
+
+[ext_resource type="PackedScene" uid="uid://bemhi76tlc7b1" path="res://scenes/minigames/meta/minigame.tscn" id="1_6d22s"]
+[ext_resource type="Script" uid="uid://cie4pfolf0b6g" path="res://scenes/minigames/fishing/mg_fishing.gd" id="2_jrnlk"]
+
+[node name="Minigame" instance=ExtResource("1_6d22s")]
+script = ExtResource("2_jrnlk")
+
+[node name="BadTimerStart" type="Timer" parent="." index="0"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CanvasLayer/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="Control" type="PanelContainer" parent="CanvasLayer/MarginContainer/Control" index="0"]
+layout_mode = 0
+offset_left = 86.025
+offset_top = 557.16
+offset_right = 626.025
+offset_bottom = 584.16
+rotation = -1.28282
+
+[node name="BarGood" type="ProgressBar" parent="CanvasLayer/MarginContainer/Control/Control" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+show_percentage = false
+
+[node name="BarBad" type="ProgressBar" parent="CanvasLayer/MarginContainer/Control/Control" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+show_percentage = false
+
+[node name="Mashers" type="Control" parent="CanvasLayer/MarginContainer/Control/Control" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="timeout" from="BadTimerStart" to="." method="_on_bad_timer_start_timeout"]

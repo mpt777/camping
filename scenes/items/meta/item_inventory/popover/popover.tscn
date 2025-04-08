@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1bl3mb3lukrv"]
+
+[ext_resource type="Script" uid="uid://d3mv2e3bgtaj0" path="res://scenes/items/meta/item_inventory/popover/popover.gd" id="1_1g1xm"]
+
+[node name="PopupPanel" type="PopupPanel"]
+auto_translate_mode = 1
+visible = true
+script = ExtResource("1_1g1xm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 96.0
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Price" type="Label" parent="VBoxContainer"]
+layout_mode = 2

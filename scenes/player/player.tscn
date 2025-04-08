@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cw8w6clmxedi6"]
+[gd_scene load_steps=12 format=3 uid="uid://cw8w6clmxedi6"]
 
 [ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
 [ext_resource type="PackedScene" uid="uid://bg32mxc4ijrjy" path="res://scenes/player/input/input.tscn" id="2_lvxji"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://jv60xuolhlcg" path="res://ui/message_container/message_container.tscn" id="3_lvxji"]
 [ext_resource type="PackedScene" uid="uid://mnalqq5vddyq" path="res://scenes/player/hotbar/hotbar.tscn" id="3_p47bc"]
 [ext_resource type="PackedScene" uid="uid://b8n48n38pjppc" path="res://scenes/items/item_world/fishing_pole/fishing_pole.tscn" id="4_75vfm"]
+[ext_resource type="PackedScene" uid="uid://b5obyt7oj4or6" path="res://ui/ui/ui.tscn" id="8_qek5x"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fb1vy"]
 properties/0/path = NodePath(".:player")
@@ -89,7 +90,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" parent="UI/Control" instance=ExtResource("3_lvxji")]
+[node name="MessageContainer" parent="UI/Control" instance=ExtResource("3_lvxji")]
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 1
 anchors_preset = 2
@@ -108,3 +109,7 @@ anchor_right = 1.0
 offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
+
+[node name="UI" parent="UI/Control" instance=ExtResource("8_qek5x")]
+visible = false
+layout_mode = 1

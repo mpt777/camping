@@ -1,5 +1,9 @@
 extends Node
 
+
+const FISH = preload("res://scenes/items/fish/fish_data.gd")
+const FISH_TYPE = preload("res://scenes/items/fish/fish/golden_trout.tres")
+
 var players : Dictionary[int, PlayerData]
 signal SyncPlayers
 var is_headless = false

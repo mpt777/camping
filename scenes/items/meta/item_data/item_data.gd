@@ -8,8 +8,8 @@ class_name ItemData
 @export var description : String
 @export var price : int
 
-func to_world():
-	pass
+func to_world() -> PackedScene:
+	return self.world_scene
 
-func to_inventory():
-	pass
+func to_inventory() -> PackedScene:
+	return self.inventory_scene

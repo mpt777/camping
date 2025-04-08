@@ -1,13 +1,14 @@
-[gd_resource type="Resource" script_class="FishData" load_steps=2 format=3 uid="uid://cs4bxu1ygk0l7"]
+[gd_resource type="Resource" script_class="FishType" load_steps=3 format=3 uid="uid://cs4bxu1ygk0l7"]
 
-[ext_resource type="Script" uid="uid://p5nb05htxgk7" path="res://scenes/items/fish/fish_data.gd" id="1_x2u1v"]
+[ext_resource type="Texture2D" uid="uid://cfw51oaw0w01b" path="res://assets/sprite/golden_trout.png" id="1_ntk17"]
+[ext_resource type="Script" uid="uid://dg1frh0sk28pg" path="res://scenes/items/fish/fish_type.gd" id="1_x2u1v"]
 
 [resource]
 script = ExtResource("1_x2u1v")
+image = ExtResource("1_ntk17")
+title = "Golden Trout"
+description = "A California Native"
 difficulty = 10
 rarity = 10
 water = Array[int]([0])
-title = "Golden Trout"
-description = "A Californian Native"
-price = 30
 metadata/_custom_type_script = "uid://p5nb05htxgk7"
