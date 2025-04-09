@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkjur5rlck3uc"]
+
+[ext_resource type="PackedScene" uid="uid://diwukswfi4q4r" path="res://scripts/draw3d/draw3d.tscn" id="1_ujhkk"]
+[ext_resource type="Script" uid="uid://4smuad3ejmhi" path="res://scenes/items/item_world/fishing_pole/rope.gd" id="2_3cvdj"]
+
+[node name="Rope" instance=ExtResource("1_ujhkk")]
+script = ExtResource("2_3cvdj")

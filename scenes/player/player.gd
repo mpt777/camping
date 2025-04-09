@@ -26,6 +26,7 @@ const FISHING_POLE = preload("res://scenes/items/item_world/fishing_pole/fishing
 
 @onready var n_money := $UI/Control/Label
 
+var player_grouper : PlayerGrouper
 var player_data : PlayerData
 var ui_locked = false
 
@@ -35,8 +36,9 @@ func constructor(m_player_data : PlayerData) -> Player:
 
 func constructor_node() -> Player:
 	self.position = Utils.parents(self).filter(func(x): return x is World)[0].n_player_spawn.global_position
-	
 	self.player = name.to_int()
+	self.player_grouper = self.get_parent()
+	
 	Game.SyncPlayers.connect(sync_player)
 	Signals.UILock.connect(set_ui_lock)
 	

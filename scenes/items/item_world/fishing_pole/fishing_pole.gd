@@ -7,8 +7,10 @@ const MG_FISHING = preload("res://scenes/minigames/fishing/mg_fishing.tscn")
 @onready var bobber_anchor := $BobberAnchor
 @onready var display_bobber : Bobber = $BobberAnchor/Bobber
 @onready var n_timer : Timer = $Timer
-var out_bobber : Bobber= null
 
+@onready var n_rope : Rope = $Draw3D
+
+var out_bobber : Bobber= null
 var target_length = 0
 var is_held = false
 var is_held_old = false
@@ -27,7 +29,25 @@ func constructor(m_player : Player) -> FishingPole:
 	self.active = true
 	return self
 
+#horrible...
+func find_bobber() -> Bobber:
+	var bobbers = Utils.get_all_children(self.player.player_grouper.player_global).filter(func(x): return x is Bobber)
+	if bobbers:
+		return bobbers[0]
+	return
+
 func _process(delta: float) -> void:
+	if !self.out_bobber:
+		self.out_bobber = self.find_bobber()
+	
+	self.n_rope.reset()
+	if self.out_bobber:
+		self.n_rope.reset()
+		self.n_rope.add_point(self.bobber_anchor.global_position)
+		self.n_rope.add_point(self.out_bobber.global_position)
+		self.n_rope.add_point(self.out_bobber.global_position)
+		self.n_rope.draw_line()
+	
 	if !is_multiplayer_authority():
 		return
 	if !self.active:
@@ -59,17 +79,10 @@ func advance_state(delta : float) -> void:
 			self.state = states.TARGET
 			return
 			
-		#if self.state == states.CAST:
-			#self.state = states.IDLE
-			#self.end()
-			#return
-			
 	if not self.is_held:
 		if self.state == states.TARGET:
 			self.state = states.CAST
 			self.cast()
-		
-
 		
 func target(delta) -> void:
 	if self.state == states.TARGET:
@@ -86,9 +99,6 @@ func cast() -> void:
 	out_bobber.angular_velocity = Vector3.ZERO
 	Signals.AddProjectile.emit(out_bobber)
 	
-	#var force = -global_transform.basis.z.normalized() * 5 + Vector3(0, 5, 0)
-	#out_bobber.apply_central_impulse(force)
-	#out_bobber.position = self.global_position - Vector3(0, 0, self.target_length)
 	out_bobber.position = display_bobber.global_position
 	self.target_length = 0
 	display_bobber.visible = false
@@ -112,7 +122,7 @@ func end() -> void:
 	self.n_timer.stop()
 	
 func bobber_entered_water():
-	self.n_timer.start(1)
+	self.n_timer.start(100)
 
 func _on_timer_timeout() -> void:
 	if self.state != states.CAST:
