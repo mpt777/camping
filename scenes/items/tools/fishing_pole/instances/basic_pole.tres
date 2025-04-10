@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FishingPoleData" load_steps=4 format=3 uid="uid://dhl6lie87jbhg"]
+
+[ext_resource type="Texture2D" uid="uid://cgko307vgoylc" path="res://assets/sprite/fishing_pole.png" id="1_tvft1"]
+[ext_resource type="Script" uid="uid://dy14qmj1b1t3q" path="res://scenes/items/tools/fishing_pole/fishing_pole_data.gd" id="1_vgkad"]
+[ext_resource type="PackedScene" uid="uid://b8n48n38pjppc" path="res://scenes/items/tools/fishing_pole/fishing_pole.tscn" id="2_ykxsr"]
+
+[resource]
+script = ExtResource("1_vgkad")
+world_scene = ExtResource("2_ykxsr")
+image = ExtResource("1_tvft1")
+title = "Basic Pole"
+description = "A gift"
+price = 0
+metadata/_custom_type_script = "uid://dy14qmj1b1t3q"

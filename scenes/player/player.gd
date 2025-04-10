@@ -3,7 +3,7 @@ class_name Player
 		
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 
-const FISHING_POLE = preload("res://scenes/items/item_world/fishing_pole/fishing_pole.tscn")
+#const FISHING_POLE = preload("res://scenes/items/tools/fishing_pole/fishing_pole.tscn")
 
 # Set by the authority, synchronized on spawn.
 @export var player := 1 :
@@ -18,9 +18,11 @@ const FISHING_POLE = preload("res://scenes/items/item_world/fishing_pole/fishing
 @onready var n_mesh = $Mesh
 @onready var ui: CanvasLayer = $UI
 @onready var n_camera_anchor : CameraAnchor = $CameraAnchor
-@onready var n_fishing_pole : FishingPole = $Hotbar/FishingPole
+#@onready var n_fishing_pole : FishingPole = $Hotbar/FishingPole
 @onready var n_input : PlayerInput = $Input
-@onready var n_hotbar : Hotbar = $Hotbar
+
+@onready var n_hotbar : Hotbar3D = $Hotbar
+@onready var n_hotbar_ui : HotbarUI = $UI/Control/Hotbar
 
 @onready var n_ui : UserInterface = $UI/Control/UI
 
@@ -47,8 +49,7 @@ func constructor_node() -> Player:
 		self.ui.visible = true
 		
 	self.sync_player()
-	self.n_fishing_pole.constructor(self)
-	
+	#self.n_fishing_pole.constructor(self)
 	return self
 	
 
@@ -65,7 +66,7 @@ func render():
 	
 func set_ui_lock(lock: bool) -> void:
 	self.ui_locked = lock
-	self.n_fishing_pole.active = !lock
+	#self.n_fishing_pole.active = !lock
 	
 	
 func add_money(money: int) -> void:

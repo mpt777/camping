@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ca4ddr77u1a03"]
 
-[ext_resource type="Script" uid="uid://dbs5ynbydpdnr" path="res://scenes/items/item_world/bobber/bobber.gd" id="1_63my7"]
+[ext_resource type="Script" uid="uid://dbs5ynbydpdnr" path="res://scenes/items/tools/bobber/bobber.gd" id="1_63my7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xhvsk"]
 
@@ -10,9 +10,15 @@
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath(".:top_level")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:freeze")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="Bobber" type="RigidBody3D"]
-collision_layer = 9
+collision_layer = 8
 freeze = true
 script = ExtResource("1_63my7")
 float_force = 5.0

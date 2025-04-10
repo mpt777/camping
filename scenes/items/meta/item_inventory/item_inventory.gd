@@ -1,4 +1,4 @@
-extends Control
+extends AspectRatioContainer
 class_name ItemInventory
 
 @export var item_data : ItemData

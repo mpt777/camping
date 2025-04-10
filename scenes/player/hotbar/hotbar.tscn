@@ -4,3 +4,11 @@
 
 [node name="Hotbar" type="Node3D"]
 script = ExtResource("1_lhymt")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://b8n48n38pjppc")
+spawn_path = NodePath("../Container")
+
+[node name="Container" type="Node3D" parent="."]
+
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

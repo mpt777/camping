@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://b803yn8lksfti"]
+
+[ext_resource type="Script" uid="uid://d0sm2mo5q2h2v" path="res://ui/hotbar/hotbar.gd" id="1_ciko2"]
+[ext_resource type="PackedScene" uid="uid://digrrya1mwghv" path="res://scenes/items/meta/item_inventory/standard/item_inventory_standard.tscn" id="2_qhdb0"]
+
+[node name="Hotbar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+script = ExtResource("1_ciko2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -133.0
+offset_top = -50.0
+offset_right = 133.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="ItemInventory" parent="HBoxContainer" instance=ExtResource("2_qhdb0")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="ItemInventory2" parent="HBoxContainer" instance=ExtResource("2_qhdb0")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="ItemInventory3" parent="HBoxContainer" instance=ExtResource("2_qhdb0")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="ItemInventory4" parent="HBoxContainer" instance=ExtResource("2_qhdb0")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="ItemInventory5" parent="HBoxContainer" instance=ExtResource("2_qhdb0")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2

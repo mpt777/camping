@@ -1,16 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://b8n48n38pjppc"]
 
-[ext_resource type="Script" uid="uid://c4dlrexmrayjn" path="res://scenes/items/item_world/fishing_pole/fishing_pole.gd" id="1_xhvsk"]
-[ext_resource type="PackedScene" uid="uid://ca4ddr77u1a03" path="res://scenes/items/item_world/bobber/bobber.tscn" id="2_5dmys"]
-[ext_resource type="PackedScene" uid="uid://bkjur5rlck3uc" path="res://scenes/items/item_world/fishing_pole/rope.tscn" id="2_gn0oc"]
+[ext_resource type="Script" uid="uid://c4dlrexmrayjn" path="res://scenes/items/tools/fishing_pole/fishing_pole.gd" id="1_xhvsk"]
+[ext_resource type="PackedScene" uid="uid://ca4ddr77u1a03" path="res://scenes/items/tools/bobber/bobber.tscn" id="2_5dmys"]
+[ext_resource type="PackedScene" uid="uid://bkjur5rlck3uc" path="res://scenes/items/tools/fishing_pole/rope.tscn" id="2_gn0oc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_xhvsk"]
 size = Vector3(0.1, 2, 0.1)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5dmys"]
-properties/0/path = NodePath("BobberAnchor/Bobber:visible")
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3gnoo"]
+properties/0/path = NodePath(".:bobber_position")
 properties/0/spawn = true
-properties/0/replication_mode = 2
+properties/0/replication_mode = 1
 
 [node name="FishingPole" type="Node3D"]
 script = ExtResource("1_xhvsk")
@@ -36,6 +36,6 @@ wait_time = 3.0
 one_shot = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_5dmys")
+replication_config = SubResource("SceneReplicationConfig_3gnoo")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

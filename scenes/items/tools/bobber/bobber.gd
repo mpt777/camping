@@ -1,6 +1,7 @@
 extends RigidBody3D
 class_name Bobber
 
+@export var syncable := true
 @export var float_force := 1.0
 @export var water_drag := 0.05
 @export var water_angular_drag := 0.05

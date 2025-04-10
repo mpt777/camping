@@ -1,16 +1,16 @@
 extends Item
 class_name FishingPole
 
-const BOBBER = preload("res://scenes/items/item_world/bobber/bobber.tscn")
+const BOBBER = preload("res://scenes/items/tools/bobber/bobber.tscn")
 const MG_FISHING = preload("res://scenes/minigames/fishing/mg_fishing.tscn")
 
 @onready var bobber_anchor := $BobberAnchor
-@onready var display_bobber : Bobber = $BobberAnchor/Bobber
+@onready var bobber : Bobber = $BobberAnchor/Bobber
 @onready var n_timer : Timer = $Timer
 
 @onready var n_rope : Rope = $Draw3D
+@export var bobber_position : Vector3
 
-var out_bobber : Bobber= null
 var target_length = 0
 var is_held = false
 var is_held_old = false
@@ -29,29 +29,27 @@ func constructor(m_player : Player) -> FishingPole:
 	self.active = true
 	return self
 
-#horrible...
-func find_bobber() -> Bobber:
-	var bobbers = Utils.get_all_children(self.player.player_grouper.player_global).filter(func(x): return x is Bobber)
-	if bobbers:
-		return bobbers[0]
-	return
+func _ready() -> void:
+	self.bobber.EnteredWater.connect(bobber_entered_water)
+
 
 func _process(delta: float) -> void:
-	if !self.out_bobber:
-		self.out_bobber = self.find_bobber()
 	
+	if is_multiplayer_authority():
+		self.bobber_position = self.bobber.global_position
+		
 	self.n_rope.reset()
-	if self.out_bobber:
-		self.n_rope.reset()
-		self.n_rope.add_point(self.bobber_anchor.global_position)
-		self.n_rope.add_point(self.out_bobber.global_position)
-		self.n_rope.add_point(self.out_bobber.global_position)
-		self.n_rope.draw_line()
+	self.n_rope.reset()
+	self.n_rope.add_point(self.bobber_anchor.global_position)
+	self.n_rope.add_point(self.bobber_position)
+	self.n_rope.add_point(self.bobber_position)
+	self.n_rope.draw_line()
 	
 	if !is_multiplayer_authority():
 		return
 	if !self.active:
 		return
+		
 	
 	self.advance_state(delta)
 	self.is_held_old = self.is_held
@@ -87,38 +85,33 @@ func advance_state(delta : float) -> void:
 func target(delta) -> void:
 	if self.state == states.TARGET:
 		self.target_length += (delta * 10)
-		self.display_bobber.position.z -=  (delta * 10)
+		self.bobber.position.z -=  (delta * 10)
 		
 func cast() -> void:
-	out_bobber = BOBBER.instantiate()
-	#out_bobber.set_uuid()
-	out_bobber.set_multiplayer_authority(self.get_multiplayer_authority())
-	out_bobber.position = self.bobber_anchor.global_position
-	out_bobber.freeze = false
-	out_bobber.linear_velocity = Vector3.ZERO
-	out_bobber.angular_velocity = Vector3.ZERO
-	Signals.AddProjectile.emit(out_bobber)
-	
-	out_bobber.position = display_bobber.global_position
+	self.bobber.top_level = true
+	self.bobber.global_position = self.bobber.global_position
+	self.bobber.freeze = false
+	self.bobber.linear_velocity = Vector3.ZERO
+	self.bobber.angular_velocity = Vector3.ZERO
 	self.target_length = 0
-	display_bobber.visible = false
-	display_bobber.position = Vector3.ZERO
 	
-	out_bobber.EnteredWater.connect(bobber_entered_water)
 	
 func reel(delta) -> void:
 	if self.state != states.CAST:
 		return
-	out_bobber.apply_central_force(out_bobber.global_position.direction_to(global_position) * 10)
-	if (out_bobber.global_position.distance_squared_to(global_position) < 5):
+	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * 10)
+	if (self.bobber.global_position.distance_squared_to(global_position) < 5):
 		self.state = states.IDLE
 		self.end()
 
 	
 func end() -> void:
-	out_bobber.queue_free()
+
 	self.state = states.IDLE
-	display_bobber.visible = true
+	self.bobber.freeze = true
+	self.bobber.top_level = false
+	self.bobber.position = Vector3(0,0,0)
+
 	self.n_timer.stop()
 	
 func bobber_entered_water():
