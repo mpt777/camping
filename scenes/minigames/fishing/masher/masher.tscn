@@ -9,7 +9,8 @@ script = ExtResource("1_lrr3p")
 
 [node name="Control" type="Control" parent="."]
 anchors_preset = 0
-rotation = 1.5708
+offset_top = 1.0
+offset_bottom = 1.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 1

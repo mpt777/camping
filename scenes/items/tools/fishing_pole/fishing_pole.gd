@@ -3,6 +3,9 @@ class_name FishingPole
 
 const BOBBER = preload("res://scenes/items/tools/bobber/bobber.tscn")
 const MG_FISHING = preload("res://scenes/minigames/fishing/mg_fishing.tscn")
+const CAST_RATE := 10
+const CATCH_RANGE : Array[int] = [2, 10]
+
 
 @onready var bobber_anchor := $BobberAnchor
 @onready var cast_anchor := $BobberAnchor/CastAnchor
@@ -86,7 +89,7 @@ func advance_state(delta : float) -> void:
 func target(delta) -> void:
 	if self.state == states.TARGET:
 		self.cast_anchor.visible = true
-		self.cast_anchor.position.z -=  (delta * 10)
+		self.cast_anchor.position.z -=  (delta * self.CAST_RATE)
 		self.cast_anchor.global_position.y = self.bobber_anchor.global_position.y
 		
 
@@ -126,7 +129,7 @@ func cast() -> void:
 func reel(delta) -> void:
 	if self.state != states.CAST:
 		return
-	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * 10)
+	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * self.CAST_RATE)
 	if (self.bobber.global_position.distance_squared_to(global_position) < 5):
 		self.state = states.IDLE
 		self.end()
@@ -142,7 +145,8 @@ func end() -> void:
 	self.n_timer.stop()
 	
 func bobber_entered_water():
-	self.n_timer.start(100)
+	var _time = randf_range(self.CATCH_RANGE[0], self.CATCH_RANGE[1])
+	self.n_timer.start()
 
 func _on_timer_timeout() -> void:
 	if self.state != states.CAST:

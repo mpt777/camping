@@ -13,7 +13,7 @@ func constructor(m_clicks, m_percentage) -> Masher:
 	
 func _ready() -> void:
 	self.render()
-	self.anchor_left = self.percentage
+	self.anchor_top = 1-self.percentage
 
 func click(value : int) -> void:
 	
