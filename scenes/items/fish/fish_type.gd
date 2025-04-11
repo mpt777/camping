@@ -6,8 +6,10 @@ class_name FishType
 @export var title : String
 @export var description : String
 
-@export var difficulty : int
-@export var rarity : int
+@export var default_price : int = 1
+@export_range(1, 100) var difficulty_depth : int = 1
+@export_range(1, 100) var difficulty_breadth : int = 1
+@export var rarity : int = 1
 @export var water : Array[Enums.WaterType]
 
 

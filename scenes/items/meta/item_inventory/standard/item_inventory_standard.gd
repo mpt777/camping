@@ -1,8 +1,8 @@
 extends ItemInventory
 class_name ItemInventoryStandard
 
-@onready var n_popup : Popover = $Panel/PopupPanel
-@onready var n_texture : TextureRect = $Panel/TextureRect
+@onready var n_popup : Popover = %PopupPanel
+@onready var n_texture : TextureRect = %TextureRect
 
 func popover_position() -> Vector2:
 	var screen_y := get_viewport_rect().size.y
