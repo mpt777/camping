@@ -5,13 +5,13 @@ const BOBBER = preload("res://scenes/items/tools/bobber/bobber.tscn")
 const MG_FISHING = preload("res://scenes/minigames/fishing/mg_fishing.tscn")
 
 @onready var bobber_anchor := $BobberAnchor
+@onready var cast_anchor := $BobberAnchor/CastAnchor
 @onready var bobber : Bobber = $BobberAnchor/Bobber
 @onready var n_timer : Timer = $Timer
 
 @onready var n_rope : Rope = $Draw3D
 @export var bobber_position : Vector3
 
-var target_length = 0
 var is_held = false
 var is_held_old = false
 
@@ -50,6 +50,7 @@ func _process(delta: float) -> void:
 	if !self.active:
 		return
 		
+	self.cast_anchor.global_rotation.x = 0
 	
 	self.advance_state(delta)
 	self.is_held_old = self.is_held
@@ -84,16 +85,42 @@ func advance_state(delta : float) -> void:
 		
 func target(delta) -> void:
 	if self.state == states.TARGET:
-		self.target_length += (delta * 10)
-		self.bobber.position.z -=  (delta * 10)
+		self.cast_anchor.visible = true
+		self.cast_anchor.position.z -=  (delta * 10)
+		self.cast_anchor.global_position.y = self.bobber_anchor.global_position.y
 		
+
+func calculate_arc_velocity(start: Vector3, end: Vector3, time: float) -> Vector3:
+	var displacement = end - start
+
+	var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")  # Default 9.8
+	var horizontal_displacement = Vector3(displacement.x, 0, displacement.z)
+	var horizontal_distance = horizontal_displacement.length()
+
+	# Horizontal velocity
+	var vxz = horizontal_displacement.normalized() * (horizontal_distance / time)
+
+	# Vertical velocity
+	var vy = (displacement.y + 0.5 * gravity * time * time) / time
+
+	return Vector3(vxz.x, vy, vxz.z)
+	
 func cast() -> void:
+	self.bobber.position = Vector3(0,0,0)
 	self.bobber.top_level = true
 	self.bobber.global_position = self.bobber.global_position
 	self.bobber.freeze = false
-	self.bobber.linear_velocity = Vector3.ZERO
+	# Arc!
+	self.bobber.linear_velocity = calculate_arc_velocity(
+		self.bobber_anchor.global_position, 
+		self.cast_anchor.global_position,
+		1
+	)
 	self.bobber.angular_velocity = Vector3.ZERO
-	self.target_length = 0
+	
+	self.cast_anchor.visible = false
+	self.cast_anchor.position = Vector3.ZERO
+	#end arc
 	
 	
 func reel(delta) -> void:

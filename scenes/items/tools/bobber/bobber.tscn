@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://ca4ddr77u1a03"]
+[gd_scene load_steps=5 format=3 uid="uid://ca4ddr77u1a03"]
 
 [ext_resource type="Script" uid="uid://dbs5ynbydpdnr" path="res://scenes/items/tools/bobber/bobber.gd" id="1_63my7"]
-[ext_resource type="Texture2D" uid="uid://bt80r07c3tl8w" path="res://icon.svg" id="2_74qy8"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xhvsk"]
 
@@ -45,14 +44,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00630683, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_63my7")
-
-[node name="Decal" type="Decal" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.35944, 0)
-size = Vector3(1, 9.28113, 1)
-texture_albedo = ExtResource("2_74qy8")
-emission_energy = 16.0
-upper_fade = 0.000264038
-lower_fade = 0.00047593
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
