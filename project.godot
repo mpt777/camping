@@ -22,6 +22,8 @@ Enums="*res://scripts/enums.gd"
 Signals="*res://classes/signals/signals.gd"
 SceneManager="*res://classes/scene_manager/scene_manager.gd"
 Utils="*res://scripts/utils.gd"
+Serializer="*res://scripts/serializer.gd"
+GlobalUI="*res://ui/global_ui/global_ui.tscn"
 
 [input]
 

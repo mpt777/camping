@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://k21mwowyf534"]
+
+[ext_resource type="Script" uid="uid://d0wu276idlvmm" path="res://scenes/items/fish/world/fish_world.gd" id="1_yen4i"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yen4i"]
+properties/0/path = NodePath(".:s_fish_data")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="FishWorld" type="Node3D"]
+script = ExtResource("1_yen4i")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_yen4i")

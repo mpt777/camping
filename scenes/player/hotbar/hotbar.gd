@@ -11,16 +11,15 @@ func active_item() -> Item:
 	
 func clear():
 	for child in $Container.get_children():
-		child = child as Item
 		child.queue_free()
 		
 func add_item(node : Node) -> void:
 	$Container.add_child(node, true)
 	node.set_multiplayer_authority(self.player.player)
-	node.constructor(self.player)
+	#node.constructor(self.player)
 
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
 	await get_tree().process_frame
 	node.set_multiplayer_authority(self.player.player)
-	node.constructor(self.player)
+	#node.constructor(self.player)

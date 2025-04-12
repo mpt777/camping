@@ -17,11 +17,14 @@ func _ready():
 
 func _on_host_pressed():
 	# Start as server
+	Game.VIGNETTE.instantiate().full_constructor(Vector2(0.5,0.5), false)
 	var peer = ENetMultiplayerPeer.new()
+	
 	peer.create_server(PORT)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer server")
 		return
+	
 	multiplayer.multiplayer_peer = peer
 	start_game()
 
@@ -37,11 +40,13 @@ func _on_connect_pressed():
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer client")
 		return
+		
 	multiplayer.multiplayer_peer = peer
 	start_game()
 
 func start_game():
 	# Hide the UI and unpause to start the game.
+	
 	$UI.hide()
 	get_tree().paused = false
 	

@@ -8,9 +8,9 @@ const MASHER = preload("res://scenes/minigames/fishing/masher/masher.tscn")
 @onready var n_bad : ProgressBar = %BarBad
 @onready var n_mashers : Control = %Mashers
 
-const GOOD_TIME := 3
-const BAD_TIME := 10
-const bad_delay := 2
+const GOOD_TIME := 3.0
+const BAD_TIME := 10.0
+const bad_delay := 2.0
 
 var is_bad_running := false
 var is_held := false
@@ -18,7 +18,7 @@ var current_masher : Masher
 
 var current_fish : FishData
 
-const MAX_VALUE = 100
+const MAX_VALUE := 100.0
 
 func _ready() -> void:
 	$BadTimerStart.start(self.bad_delay)
@@ -26,12 +26,8 @@ func _ready() -> void:
 	self.create_mashers()
 
 func _input(event : InputEvent):
-	
-	if event.is_action_released("left_mouse"):
-		self.is_held = false
 		
 	if event.is_action_pressed("left_mouse"):
-		self.is_held = true
 		self.mash()
 	#if event.is_action_just_pressed("left_mouse"):
 		
@@ -42,8 +38,8 @@ func mash():
 		
 func _process(delta: float) -> void:
 	
-	if Input.is_action_pressed("left_mouse"):
-		self.is_held = true
+	self.is_held = Input.is_action_pressed("left_mouse")
+	
 		
 	self.current_masher = self.get_current_masher()
 	if self.is_held and not self.current_masher:

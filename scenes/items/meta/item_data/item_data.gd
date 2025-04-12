@@ -15,6 +15,9 @@ func get_image() -> Texture2D:
 
 func to_world() -> PackedScene:
 	return self.world_scene
+	
+func to_world_instance():
+	return self.world_scene.instantiate()
 
 func to_inventory() -> PackedScene:
 	if not self.inventory_scene:

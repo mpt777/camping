@@ -3,8 +3,13 @@
 [ext_resource type="Script" uid="uid://dbs5ynbydpdnr" path="res://scenes/items/tools/bobber/bobber.gd" id="1_63my7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xhvsk"]
+radius = 0.25
 
 [sub_resource type="SphereMesh" id="SphereMesh_xhvsk"]
+radius = 0.25
+height = 0.5
+radial_segments = 16
+rings = 16
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_63my7"]
 properties/0/path = NodePath(".:position")

@@ -18,3 +18,16 @@ func get_image() -> Texture2D:
 	
 func to_inventory() -> PackedScene:
 	return load("res://scenes/items/meta/item_inventory/standard/item_inventory_standard.tscn")
+
+
+################################################################
+
+func serialize() -> Dictionary:
+	return {
+		'image': self.image.resource_path,
+	}
+	
+static func deserialize(data: Dictionary) -> FishType:
+	var obj : FishType = FishType.new()
+	obj.image = load(data["image"])
+	return obj

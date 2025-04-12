@@ -6,7 +6,7 @@
 script = ExtResource("1_lhymt")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://b8n48n38pjppc")
+_spawnable_scenes = PackedStringArray("uid://b8n48n38pjppc", "uid://k21mwowyf534")
 spawn_path = NodePath("../Container")
 
 [node name="Container" type="Node3D" parent="."]

@@ -1,9 +1,7 @@
 extends CharacterBody3D
 class_name Player
 		
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-
-#const FISHING_POLE = preload("res://scenes/items/tools/fishing_pole/fishing_pole.tscn")
+var POLE = preload("res://scenes/items/tools/fishing_pole/instances/basic_pole.tres")
 
 # Set by the authority, synchronized on spawn.
 @export var player := 1 :
@@ -24,7 +22,7 @@ class_name Player
 @onready var n_hotbar : Hotbar3D = $Hotbar
 @onready var n_hotbar_ui : HotbarUI = $UI/Control/Hotbar
 
-@onready var n_ui : UserInterface = $UI/Control/UI
+@onready var n_ui : UI = $UI/Control/UI
 
 @onready var n_money := $UI/Control/Label
 
@@ -49,6 +47,10 @@ func constructor_node() -> Player:
 		self.ui.visible = true
 		
 	self.sync_player()
+	
+	self.n_ui.n_inventory.add_item(POLE)
+	self.n_ui.n_inventory.AddToHotbar.connect(add_item_to_hotbar)
+		
 	#self.n_fishing_pole.constructor(self)
 	return self
 	
@@ -75,6 +77,9 @@ func add_money(money: int) -> void:
 	
 func add_item_to_inventory(item_data : ItemData) -> void:
 	self.n_ui.n_inventory.add_item(item_data)
+	
+func add_item_to_hotbar(idx : int, item_data : ItemData) -> void:
+	self.n_hotbar_ui.set_item_data(idx, item_data)
 	
 # Minigame
 	

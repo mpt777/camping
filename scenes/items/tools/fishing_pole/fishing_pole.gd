@@ -24,7 +24,7 @@ enum states {
 	CAST,
 	MINIGAME
 }
-var state = states.IDLE
+@export var state = states.IDLE
 var player : Player
 
 func constructor(m_player : Player) -> FishingPole:
@@ -34,6 +34,8 @@ func constructor(m_player : Player) -> FishingPole:
 
 func _ready() -> void:
 	self.bobber.EnteredWater.connect(bobber_entered_water)
+	self.player = Utils.parents(self).filter(func(x): return x is Player)[0]
+	self.active = true
 
 
 func _process(delta: float) -> void:
@@ -42,11 +44,11 @@ func _process(delta: float) -> void:
 		self.bobber_position = self.bobber.global_position
 		
 	self.n_rope.reset()
-	self.n_rope.reset()
-	self.n_rope.add_point(self.bobber_anchor.global_position)
-	self.n_rope.add_point(self.bobber_position)
-	self.n_rope.add_point(self.bobber_position)
-	self.n_rope.draw_line()
+	if (self.state in [states.CAST, states.MINIGAME]) or (!is_multiplayer_authority()):
+		self.n_rope.add_point(self.bobber_anchor.global_position)
+		self.n_rope.add_point(self.bobber_position)
+		self.n_rope.add_point(self.bobber_position)
+		self.n_rope.draw_line()
 	
 	if !is_multiplayer_authority():
 		return

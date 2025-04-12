@@ -3,6 +3,7 @@ class_name ItemInventoryStandard
 
 @onready var n_popup : Popover = %PopupPanel
 @onready var n_texture : TextureRect = %TextureRect
+var active := false
 
 func popover_position() -> Vector2:
 	var screen_y := get_viewport_rect().size.y
@@ -15,6 +16,10 @@ func _ready():
 	self.render()
 
 func render():
+	self.n_popup.set_heading("")
+	self.n_popup.set_description("")
+	self.n_popup.set_price("")
+	self.n_texture.texture = null
 	if not self.item_data:
 		return 
 	self.n_popup.set_heading(self.item_data.title)
@@ -23,12 +28,14 @@ func render():
 	
 	self.n_texture.texture = self.item_data.get_image()
 	
-func set_item_data(m_item_data : ItemData):
+func set_item_data(m_item_data : ItemData = null):
 	self.item_data = m_item_data
 	self.render()
 	
 func _on_mouse_entered() -> void:
+	self.active = true
 	n_popup.display(true, self.popover_position())
 
 func _on_mouse_exited() -> void:
+	self.active = false
 	n_popup.display(false, self.popover_position())

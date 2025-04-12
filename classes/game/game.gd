@@ -1,6 +1,8 @@
 extends Node
 
 
+const VIGNETTE = preload("res://ui/vignette/vignette.tscn")
+
 const FISH = preload("res://scenes/items/fish/fish_data.gd")
 const FISH_TYPE = preload("res://scenes/items/fish/fish/golden_trout.tres")
 
@@ -47,3 +49,9 @@ func add_message(message : Message) -> void:
 	
 func current_player() -> PlayerData:
 	return self.players.get(multiplayer.get_unique_id())
+	
+	
+	
+######
+func add_vignette():
+	VIGNETTE.instantiate().full_constructor(Vector2(0,0))

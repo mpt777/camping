@@ -36,3 +36,24 @@ func get_image() -> Texture2D:
 	
 func to_inventory() -> PackedScene:
 	return self.fish_type.to_inventory()
+	
+func to_world() -> PackedScene:
+	return load("res://scenes/items/fish/world/fish_world.tscn")
+	
+func to_world_instance():
+	return self.to_world().instantiate().constructor(self)
+	
+	
+	
+################################################################
+
+func serialize() -> Dictionary:
+	return {
+		'fish_type': self.fish_type.serialize(),
+	}
+	
+static func deserialize(data: Dictionary) -> FishData:
+	var obj : FishData = FishData.new().constructor(
+		FishType.deserialize(data["fish_type"]),
+	)
+	return obj
