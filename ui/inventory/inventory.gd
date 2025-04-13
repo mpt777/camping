@@ -1,6 +1,8 @@
 extends Control
 class_name Inventory
 
+const INVENTORY = preload("res://ui/inventory/inventory.tscn")
+
 @onready var n_container : GridContainer = $GridContainer
 
 signal AddToHotbar
@@ -37,3 +39,29 @@ func add_item(item_data : ItemData) -> void:
 	n_container.add_child(item_inventory, true)
 	item_inventory = item_inventory as ItemInventoryStandard
 	item_inventory.custom_minimum_size = Vector2(100,100)
+	
+func clear() -> void:
+	for child in self.n_container.get_children():
+		child.queue_free()
+	
+func serialize() -> Dictionary:
+	var item_data : Array[Dictionary] = []
+	
+	for child in self.n_container.get_children():
+		child = child as ItemInventoryStandard
+		item_data.append(child.item_data.serialize())
+		
+	return {
+		"item_data": item_data
+	}
+	
+func deserialize(data : Dictionary) -> void:
+	if !data.get("item_data", []):
+		return
+	self.clear()
+	for d in data.get("item_data", []):
+		if "content_type" in d:
+			var x = ContentType.get_content_type(d["content_type"])
+			self.add_item(ContentType.get_content_type(d["content_type"]).new().deserialize_instance(d))
+		else:
+			self.add_item(ItemData.new().deserialize_instance(d))

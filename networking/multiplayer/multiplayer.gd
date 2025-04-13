@@ -51,7 +51,13 @@ func start_game():
 	get_tree().paused = false
 	
 	if !Game.is_headless:
-		Game.register_player(PlayerData.new().constructor(%Name.text), multiplayer.get_unique_id())
+		
+		var player_data : PlayerData = PlayerData.new().constructor(%Name.text)
+		var player_data_dict : Dictionary = Serializer.read_json(PlayerData.save_path(%Name.text))
+		if player_data_dict:
+			player_data = PlayerData.deserialize(player_data_dict)
+			
+		Game.register_player(player_data, multiplayer.get_unique_id())
 	# Only change level on the server.
 	# Clients will instantiate the level via the spawner.
 	if multiplayer.is_server():

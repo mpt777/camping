@@ -5,6 +5,8 @@ var name : String
 var money : int = 0
 var exp : int = 0
 
+var inventory : Dictionary = {}
+
 var characters = 'abcdefghijklmnopqrstuvwxyz'
 
 func generate_word(chars, length):
@@ -19,17 +21,25 @@ func constructor(m_name: String = "") -> PlayerData:
 	if not self.name:
 		self.name = generate_word(characters, 10)
 	return self
+	
+	
+####################################################################################################
 
+
+static func save_path(n : String) -> String:
+	return "player_" + n + ".save"
+	
 func serialize() -> Dictionary:
 	return {
 		'name': self.name,
+		'inventory': self.inventory
 	}
 	
 func serialize_update(data: Dictionary) -> PlayerData:
-	self.network_id = data["network_id"]
 	self.name = data["name"]
 	return self
 	
 static func deserialize(data: Dictionary) -> PlayerData:
-	var playerData : PlayerData = PlayerData.new().constructor(data["name"])
-	return playerData
+	var obj : PlayerData = PlayerData.new().constructor(data["name"])
+	obj.inventory = data["inventory"]
+	return obj

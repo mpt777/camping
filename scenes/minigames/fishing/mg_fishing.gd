@@ -34,7 +34,7 @@ func _input(event : InputEvent):
 		
 func mash():
 	if self.current_masher:
-		self.current_masher.click(10)
+		self.current_masher.click(1000)
 		
 func _process(delta: float) -> void:
 	

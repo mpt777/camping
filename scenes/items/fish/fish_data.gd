@@ -49,11 +49,21 @@ func to_world_instance():
 
 func serialize() -> Dictionary:
 	return {
+		"content_type": "FishData",
 		'fish_type': self.fish_type.serialize(),
+		"price": self.price,
+		"quality": self.quality.value,
+		"size": self.size.value,
 	}
 	
-static func deserialize(data: Dictionary) -> FishData:
-	var obj : FishData = FishData.new().constructor(
+func deserialize_instance(data: Dictionary) -> FishData:
+	self.constructor(
 		FishType.deserialize(data["fish_type"]),
 	)
-	return obj
+	self.price = data["price"]
+	self.quality = FishingQuality.new().constructor(data["quality"])
+	self.size = FishingSize.new().constructor(data["size"])
+	return self
+	
+static func deserialize(data: Dictionary) -> FishData:
+	return FishData.new().deserialize_instance(data)

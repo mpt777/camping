@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name Player
 		
-var POLE = preload("res://scenes/items/tools/fishing_pole/instances/basic_pole.tres")
+var POLE = preload("res://scenes/items/tools/fishing_pole/instances/fishing_pole_basic_it.tres")
 
 # Set by the authority, synchronized on spawn.
 @export var player := 1 :
@@ -46,9 +46,9 @@ func constructor_node() -> Player:
 		$CameraAnchor.n_camera.current = true
 		self.ui.visible = true
 		
-	self.sync_player()
-	
 	self.n_ui.n_inventory.add_item(POLE)
+	self.sync_player()
+		
 	self.n_ui.n_inventory.AddToHotbar.connect(add_item_to_hotbar)
 		
 	#self.n_fishing_pole.constructor(self)
@@ -56,11 +56,14 @@ func constructor_node() -> Player:
 	
 
 func sync_player():
-	if self.player in Game.players:
-		self.player_data = Game.players[self.player]
-		self.render()
-		Signals.PlayerLoaded.emit(self.player, self.player_data)
-
+	if not self.player in Game.players:
+		return
+		
+	self.player_data = Game.players[self.player]
+	self.n_ui.n_inventory.deserialize(self.player_data.inventory)
+	self.render()
+	Signals.PlayerLoaded.emit(self.player, self.player_data)
+		
 func render():
 	if self.player_data:
 		n_label.text = self.player_data.name
@@ -77,9 +80,11 @@ func add_money(money: int) -> void:
 	
 func add_item_to_inventory(item_data : ItemData) -> void:
 	self.n_ui.n_inventory.add_item(item_data)
+	self.save()
 	
 func add_item_to_hotbar(idx : int, item_data : ItemData) -> void:
 	self.n_hotbar_ui.set_item_data(idx, item_data)
+	self.save()
 	
 # Minigame
 	
@@ -93,3 +98,11 @@ func enter_minigame(mg : Minigame) -> void:
 func exit_minigame() -> void:
 	self.ui.visible = true
 	self.n_input.active = true
+	
+	
+####################################################################################################
+func save() -> void:
+	if !self.is_multiplayer_authority():
+		return
+	self.player_data.inventory = self.n_ui.n_inventory.serialize()
+	Serializer.write_json(PlayerData.save_path(self.player_data.name), self.player_data.serialize())

@@ -23,3 +23,36 @@ func to_inventory() -> PackedScene:
 	if not self.inventory_scene:
 		return load("res://scenes/items/meta/item_inventory/standard/item_inventory_standard.tscn")
 	return self.inventory_scene
+	
+	
+func serialize() -> Dictionary:
+	var data = {
+		"content_type": "ItemData",
+		"title": self.title,
+		"description": self.description,
+		"price": self.price,
+		"image": self.get_image().resource_path,
+	}
+	if self.to_world():
+		data["world_scene"] = self.to_world().resource_scene_unique_id
+	if self.to_inventory():
+		data["inventory_scene"] = self.to_inventory().resource_scene_unique_id
+	return data
+	
+	
+func deserialize_instance(data: Dictionary) -> ItemData:
+	self.title = data["title"]
+	self.description = data["description"]
+	self.price = data["price"]
+	self.image = load(data["image"])
+	
+	if data.get("world_scene", ""):
+		self.world_scene = load(data.get("world_scene", ""))
+		
+	if data.get("inventory_scene", ""):
+		self.inventory_scene = load(data.get("inventory_scene", ""))
+
+	return self
+	
+static func deserialize(data: Dictionary) -> ItemData:
+	return ItemData.new().deserialize_instance(data)
