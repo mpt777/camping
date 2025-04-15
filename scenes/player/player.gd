@@ -2,6 +2,7 @@ extends CharacterBody3D
 class_name Player
 		
 var POLE = preload("res://scenes/items/tools/fishing_pole/instances/fishing_pole_basic_it.tres")
+var BALLOON = preload("res://ui/dialog/balloon.tscn")
 
 # Set by the authority, synchronized on spawn.
 @export var player := 1 :
@@ -35,6 +36,9 @@ func constructor(m_player_data : PlayerData) -> Player:
 	return self
 
 func constructor_node() -> Player:
+	
+	#await get_tree().process_frame
+	
 	self.position = Utils.parents(self).filter(func(x): return x is World)[0].n_player_spawn.global_position
 	self.player = name.to_int()
 	self.player_grouper = self.get_parent()
@@ -43,15 +47,13 @@ func constructor_node() -> Player:
 	Signals.UILock.connect(set_ui_lock)
 	
 	if player == multiplayer.get_unique_id():
+		#await get_tree().process_frame
 		$CameraAnchor.n_camera.current = true
 		self.ui.visible = true
+		self.start_dialog(load("res://dialog/dialogue.dialogue"))
 		
-	self.n_ui.n_inventory.add_item(POLE)
 	self.sync_player()
 		
-	self.n_ui.n_inventory.AddToHotbar.connect(add_item_to_hotbar)
-		
-	#self.n_fishing_pole.constructor(self)
 	return self
 	
 
@@ -60,7 +62,8 @@ func sync_player():
 		return
 		
 	self.player_data = Game.players[self.player]
-	self.n_ui.n_inventory.deserialize(self.player_data.inventory)
+	self.deserialize()
+		
 	self.render()
 	Signals.PlayerLoaded.emit(self.player, self.player_data)
 		
@@ -105,4 +108,29 @@ func save() -> void:
 	if !self.is_multiplayer_authority():
 		return
 	self.player_data.inventory = self.n_ui.n_inventory.serialize()
+	self.player_data.hotbar = self.n_hotbar_ui.serialize()
 	Serializer.write_json(PlayerData.save_path(self.player_data.name), self.player_data.serialize())
+	
+func deserialize() -> void:
+	if !self.is_multiplayer_authority():
+		return
+	if !(self.n_ui.n_inventory.AddToHotbar.is_connected(add_item_to_hotbar)):
+		self.n_ui.n_inventory.AddToHotbar.connect(add_item_to_hotbar)
+	
+	self.n_ui.n_inventory.deserialize(self.player_data.inventory)
+	self.n_hotbar_ui.deserialize(self.player_data.hotbar)
+
+	if not self.player_data.inventory:
+		self.n_ui.n_inventory.add_item(ItemData.new().set_item_type(POLE))
+		
+		
+### Start Dialog
+func start_dialog(dialog_resource : DialogueResource):
+	var balloon = BALLOON.instantiate()
+	self.n_ui.add_child(balloon)
+	self.ui_locked = true
+	balloon.start(dialog_resource, "", [self])
+	balloon.tree_exiting.connect(func() :
+		self.ui_locked = false
+	)
+	

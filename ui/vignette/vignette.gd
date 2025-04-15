@@ -1,5 +1,5 @@
 extends ColorRect
-class_name Vingette
+class_name Vignette
 
 #@export var center : Vector2
 #@export var radius : float
@@ -16,18 +16,18 @@ var center : Vector2 :
 		center = value
 		self.set_center()
 
-func constructor(p_center : Vector2, screen_to_uv:=true, n_pause_mode:=Tween.TWEEN_PAUSE_PROCESS) -> Vingette:
+func constructor(p_center : Vector2, m_screen_to_uv:=true, n_pause_mode:=Tween.TWEEN_PAUSE_PROCESS) -> Vignette:
 	var c = p_center 
-	if screen_to_uv:
+	if m_screen_to_uv:
 		c = self.screen_to_uv(c)
 	self.pause_mode = n_pause_mode
 	self.Finished.connect(func(): self.queue_free())
 	self.center = c
 	return self
 
-func full_constructor(p_center : Vector2, screen_to_uv:=true, out:=false, n_pause_mode:=Tween.TWEEN_PAUSE_PROCESS) -> Vingette:
+func full_constructor(p_center : Vector2, m_screen_to_uv:=true, out:=false, n_pause_mode:=Tween.TWEEN_PAUSE_PROCESS) -> Vignette:
 	GlobalUI.add_child(self)
-	self.constructor(p_center, screen_to_uv, n_pause_mode)
+	self.constructor(p_center, m_screen_to_uv, n_pause_mode)
 	if out:
 		self.circle_out()
 	else:
@@ -50,12 +50,12 @@ func screen_center() -> Vector2:
 func set_center() -> void:
 	get_material().set_shader_parameter("center", self.center)
 	
-func blank_screen(center: Vector2 = Vector2(0.5, 0.5)) -> void:
-	self.center = center
+func blank_screen(m_center: Vector2 = Vector2(0.5, 0.5)) -> void:
+	self.center = m_center
 	get_material().set_shader_parameter("diameter_factor", 0)
 
-func set_circle_in(center: Vector2 = Vector2(0.5, 0.5)) -> void:
-	self.center = center
+func set_circle_in(m_center: Vector2 = Vector2(0.5, 0.5)) -> void:
+	self.center = m_center
 	self.circle_in()
 	
 func circle_in() -> void:
@@ -69,8 +69,8 @@ func circle_in() -> void:
 	Finished.emit()
 	CirleIn.emit()
 	
-func set_circle_out(center: Vector2 = Vector2(0.5, 0.5)) -> void:
-	self.center = center
+func set_circle_out(m_center: Vector2 = Vector2(0.5, 0.5)) -> void:
+	self.center = m_center
 	self.circle_out()
 	
 func circle_out() -> void:

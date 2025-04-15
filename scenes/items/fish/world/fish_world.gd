@@ -25,6 +25,6 @@ func _ready() -> void:
 
 func render() -> void:
 	if self.n_sprite and self.fish_data:
-		var x = self.fish_data.fish_type.get_image()
-		self.n_sprite.texture = self.fish_data.fish_type.get_image()
+		var x = self.fish_data.item_type.get_image()
+		self.n_sprite.texture = self.fish_data.item_type.get_image()
 	

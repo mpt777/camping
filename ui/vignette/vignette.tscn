@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bdp65u0b86yw6"]
 
-[ext_resource type="Shader" path="res://UI/Vignette/Circle.gdshader" id="1_n4u5i"]
-[ext_resource type="Script" uid="uid://dyxlqju8431is" path="res://UI/Vignette/Vignette.gd" id="2_vmukt"]
+[ext_resource type="Shader" uid="uid://1428toh3mrx4" path="res://ui/vignette/Circle.gdshader" id="1_n4u5i"]
+[ext_resource type="Script" uid="uid://dyxlqju8431is" path="res://ui/vignette/vignette.gd" id="2_vmukt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_11rm7"]
 shader = ExtResource("1_n4u5i")
@@ -12,7 +12,8 @@ shader_parameter/vignette_color = Color(0.04866, 0.0423, 0.09, 1)
 
 [node name="Vignette" type="ColorRect"]
 process_mode = 3
-z_index = 999
+z_index = 4096
+z_as_relative = false
 material = SubResource("ShaderMaterial_11rm7")
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,4 +24,3 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(1, 1, 1, 0)
 script = ExtResource("2_vmukt")
-pause_mode = null

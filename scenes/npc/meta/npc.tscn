@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://nyipl2dlfr2a"]
+
+[ext_resource type="Script" uid="uid://dpthc2bsivqgb" path="res://scenes/npc/meta/npc.gd" id="1_sspvn"]
+
+[node name="Npc" type="CharacterBody3D"]
+script = ExtResource("1_sspvn")

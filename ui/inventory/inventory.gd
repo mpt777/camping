@@ -61,7 +61,7 @@ func deserialize(data : Dictionary) -> void:
 	self.clear()
 	for d in data.get("item_data", []):
 		if "content_type" in d:
-			var x = ContentType.get_content_type(d["content_type"])
+			#var x = ContentType.get_content_type(d["content_type"])
 			self.add_item(ContentType.get_content_type(d["content_type"]).new().deserialize_instance(d))
 		else:
 			self.add_item(ItemData.new().deserialize_instance(d))

@@ -1,9 +1,16 @@
-[gd_scene format=3 uid="uid://cqu8mxs1wemap"]
+[gd_scene load_steps=2 format=3 uid="uid://cqu8mxs1wemap"]
 
-[node name="GlobalUi" type="Control"]
-layout_mode = 3
+[ext_resource type="Script" uid="uid://kmmbo1ghvhqf" path="res://ui/global_ui/global_ui.gd" id="1_4uofg"]
+
+[node name="GlobalUi" type="CanvasLayer"]
+layer = 128
+script = ExtResource("1_4uofg")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.0470588, 0.0431373, 0.0901961, 1)

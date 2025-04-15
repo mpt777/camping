@@ -37,18 +37,12 @@ func _ready() -> void:
 	self.player = Utils.parents(self).filter(func(x): return x is Player)[0]
 	self.active = true
 
-
 func _process(delta: float) -> void:
 	
 	if is_multiplayer_authority():
 		self.bobber_position = self.bobber.global_position
 		
-	self.n_rope.reset()
-	if (self.state in [states.CAST, states.MINIGAME]) or (!is_multiplayer_authority()):
-		self.n_rope.add_point(self.bobber_anchor.global_position)
-		self.n_rope.add_point(self.bobber_position)
-		self.n_rope.add_point(self.bobber_position)
-		self.n_rope.draw_line()
+	self.draw_line()
 	
 	if !is_multiplayer_authority():
 		return
@@ -60,7 +54,17 @@ func _process(delta: float) -> void:
 	self.advance_state(delta)
 	self.is_held_old = self.is_held
 	
-func _input(event: InputEvent) -> void:
+func draw_line() -> void:
+	self.n_rope.reset()
+	if self.bobber_position == Vector3.ZERO:
+		return
+	if (self.state in [states.CAST, states.MINIGAME]) or (!is_multiplayer_authority()):
+		self.n_rope.add_point(self.bobber_anchor.global_position)
+		self.n_rope.add_point(self.bobber_position)
+		self.n_rope.add_point(self.bobber_position)
+		self.n_rope.draw_line()
+	
+func _unhandled_input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
 	if !self.active:
@@ -128,7 +132,7 @@ func cast() -> void:
 	#end arc
 	
 	
-func reel(delta) -> void:
+func reel(_delta) -> void:
 	if self.state != states.CAST:
 		return
 	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * self.CAST_RATE)
@@ -138,7 +142,6 @@ func reel(delta) -> void:
 
 	
 func end() -> void:
-
 	self.state = states.IDLE
 	self.bobber.freeze = true
 	self.bobber.top_level = false

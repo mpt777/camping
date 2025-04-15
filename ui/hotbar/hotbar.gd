@@ -48,7 +48,7 @@ func active_slot():
 func set_item_data(idx : int, item_data : ItemData) -> void:
 	for child in self.n_slots.get_children():
 		child = child as ItemInventoryStandard
-		if child.item_data == item_data:
+		if child.item_data and child.item_data.is_equal(item_data):
 			child.set_item_data(null)
 	self.n_slots.get_child(idx -1).set_item_data(item_data)
 	self.update()
@@ -62,3 +62,40 @@ func update():
 	if not n_slot.item_data.to_world():
 		return
 	self.hotbar.add_item(n_slot.item_data.to_world_instance())
+	
+#####################################################################
+	
+func clear() -> void:
+	for child in self.n_slots.get_children():
+		child = child as ItemInventoryStandard
+		child.set_item_data(null)
+	
+func serialize() -> Dictionary:
+	var item_data : Array[Dictionary] = []
+	
+	for child in self.n_slots.get_children():
+		child = child as ItemInventoryStandard
+		if child.item_data:
+			item_data.append(child.item_data.serialize())
+		else:
+			item_data.append({})
+		
+	return {
+		"item_data": item_data
+	}
+	
+func deserialize(data : Dictionary) -> void:
+	var item_data =data.get("item_data", []) 
+	if !item_data:
+		return
+	self.clear()
+	
+	for idx in len(item_data):
+		var d : Dictionary = item_data[idx]
+		if !d:
+			continue
+		if "content_type" in d:
+			#var x = ContentType.get_content_type(d["content_type"])
+			self.set_item_data(idx + 1, ContentType.get_content_type(d["content_type"]).new().deserialize_instance(d))
+		else:
+			self.set_item_data(idx + 1, ItemData.new().deserialize_instance(d))

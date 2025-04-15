@@ -22,9 +22,9 @@ func render():
 	self.n_texture.texture = null
 	if not self.item_data:
 		return 
-	self.n_popup.set_heading(self.item_data.title)
-	self.n_popup.set_description(self.item_data.description)
-	self.n_popup.set_price(str(self.item_data.price))
+	self.n_popup.set_heading(self.item_data.get_title())
+	self.n_popup.set_description(self.item_data.get_description())
+	self.n_popup.set_price(str(self.item_data.get_price()))
 	
 	self.n_texture.texture = self.item_data.get_image()
 	

@@ -13,6 +13,7 @@ const PLAYER_GROUPER = preload("res://scenes/player/player_grouper/player_groupe
 func _ready():
 	# We only need to spawn players on the server.
 	#Signals.PlayerLoaded.connect(_add_player_via_rpc)
+	
 	if not multiplayer.is_server():
 		return
 	
@@ -42,6 +43,7 @@ func add_player(id: int):
 	
 	player_grouper.name = str(id)
 	player_grouper.set_multiplayer_authority(id)
+		
 	n_players.add_child(player_grouper, true)
 
 func del_player(id: int):

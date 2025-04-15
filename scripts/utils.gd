@@ -88,23 +88,23 @@ func sum_array(array: Array) -> float:
 	return sum
 	
 func max_key(dict):
-	var max_key = null
+	var _max_key = null
 	var max_value = -INF
 
 	for key in dict.keys():
 		if dict[key] > max_value:
 			max_value = dict[key]
-			max_key = key
+			_max_key = key
 
-	return max_key
+	return _max_key
 	
 func min_key(dict):
-	var max_key = null
+	var _max_key = null
 	var max_value = INF
 
 	for key in dict.keys():
 		if dict[key] < max_value:
 			max_value = dict[key]
-			max_key = key
+			_max_key = key
 
-	return max_key
+	return _max_key

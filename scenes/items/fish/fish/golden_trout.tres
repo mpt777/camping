@@ -5,12 +5,13 @@
 
 [resource]
 script = ExtResource("1_x2u1v")
-image = ExtResource("1_ntk17")
-title = "Golden Trout"
-description = "A California Native"
 default_price = 30
 difficulty_depth = 50
 difficulty_breadth = 50
 rarity = 10
 water = Array[int]([0])
+image = ExtResource("1_ntk17")
+title = "Golden Trout"
+description = "A California Native"
+price = 0
 metadata/_custom_type_script = "uid://p5nb05htxgk7"

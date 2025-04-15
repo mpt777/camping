@@ -5,5 +5,5 @@ var register = {
 	"FishData": FishData
 }
 
-func get_content_type(str : String):
-	return self.register[str]
+func get_content_type(string : String):
+	return self.register[string]

@@ -18,7 +18,7 @@ signal EnteredWater
 func set_uuid():
 	return
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	submerged = false
 	if not water:
 		return

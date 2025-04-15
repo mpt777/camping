@@ -20,7 +20,7 @@ var active = true
 func jump():
 	jumping = true
 	
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
 	if !active:
@@ -29,8 +29,11 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("exit"):
 		body.n_ui.visible = !body.n_ui.visible
 		body.set_ui_lock(body.n_ui.visible)
-			
-func _process(delta):
+	
+	if event.is_action_pressed("jump"):
+		jump()
+		
+func _process(_delta):
 	if !is_multiplayer_authority():
 		return
 	if !active:
@@ -39,8 +42,6 @@ func _process(delta):
 		direction = Vector2.ZERO
 		return
 	direction = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	if Input.is_action_just_pressed("jump"):
-		jump()
 		
 func _physics_process(delta):
 	# Add the gravity.
@@ -61,10 +62,10 @@ func _physics_process(delta):
 	var local_direction : Vector3 = Vector3(direction.x, 0, direction.y)
 	local_direction = local_direction.rotated(Vector3.UP, body.n_camera_anchor.n_camera.global_rotation.y)
 	
-	var direction = (body.transform.basis * local_direction).normalized()
+	var _direction = (body.transform.basis * local_direction).normalized()
 	var local_velocity := body.velocity
-	if direction.length() > 0:
-		local_velocity = body.velocity.lerp(direction * SPEED, ACCELERATION)
+	if _direction.length() > 0:
+		local_velocity = body.velocity.lerp(_direction * SPEED, ACCELERATION)
 	else:
 		local_velocity = body.velocity.lerp(Vector3.ZERO, FRICTION)
 	body.velocity.x = local_velocity.x

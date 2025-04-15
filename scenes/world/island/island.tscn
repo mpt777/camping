@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dq6nk182a46tr"]
+[gd_scene load_steps=14 format=3 uid="uid://dq6nk182a46tr"]
 
 [ext_resource type="PackedScene" uid="uid://cqhkqck3rg7qy" path="res://assets/blender/levels/island/island.tscn" id="3_c44sj"]
 [ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/world/island/sky.gdshader" id="3_wb2e1"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://danrhd6yvhfmw" path="res://assets/blender/decorations/Rock/Rock.tscn" id="6_0f7sy"]
 [ext_resource type="PackedScene" uid="uid://bikwxeiuux2nc" path="res://scenes/decorations/water.tscn" id="6_ynh53"]
 [ext_resource type="PackedScene" uid="uid://ca4q7a6ang8yv" path="res://scenes/ocean/ocean.tscn" id="7_ynh53"]
+[ext_resource type="PackedScene" uid="uid://c707o6yb06gro" path="res://scenes/npc/npcs/test/npc_test.tscn" id="8_htapr"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_wb2e1"]
 size = Vector3(7.1, 0.16, 6.03)
@@ -177,3 +178,8 @@ transform = Transform3D(0.457905, 0, 0.889001, 0, 1.92, 0, -0.889001, 0, 0.45790
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Ocean" parent="Water" instance=ExtResource("7_ynh53")]
+
+[node name="NPCS" type="Node3D" parent="."]
+
+[node name="Npc" parent="NPCS" instance=ExtResource("8_htapr")]
+transform = Transform3D(0.793173, 0, -0.608997, 0, 1, 0, 0.608997, 0, 0.793173, 0, 6.91459, -13.64)
