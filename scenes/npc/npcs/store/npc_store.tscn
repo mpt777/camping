@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://cq6l8dknxvrc3"]
+
+[ext_resource type="PackedScene" uid="uid://nyipl2dlfr2a" path="res://scenes/npc/meta/npc.tscn" id="1_h7sir"]
+[ext_resource type="PackedScene" uid="uid://56x7g1580736" path="res://scenes/npc/interactable_area/interactable_area.tscn" id="2_8gaxk"]
+[ext_resource type="PackedScene" uid="uid://ccgte1tjfmcwt" path="res://scenes/interactable/interactables/store/interactable_store.tscn" id="3_vkam8"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_h7sir"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8gaxk"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vkam8"]
+height = 0.707886
+radius = 1.6792
+
+[node name="Npc" instance=ExtResource("1_h7sir")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CylinderMesh_h7sir")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_8gaxk")
+
+[node name="InteractableArea" parent="." index="2" instance=ExtResource("2_8gaxk")]
+collision_layer = 34
+collision_mask = 32
+interactable = ExtResource("3_vkam8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.343577, 1.1821)
+shape = SubResource("CylinderShape3D_vkam8")

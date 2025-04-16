@@ -50,7 +50,7 @@ func constructor_node() -> Player:
 		#await get_tree().process_frame
 		$CameraAnchor.n_camera.current = true
 		self.ui.visible = true
-		self.start_dialog(load("res://dialog/dialogue.dialogue"))
+		#self.start_dialog(load("res://dialog/dialogue.dialogue"))
 		
 	self.sync_player()
 		
@@ -134,3 +134,9 @@ func start_dialog(dialog_resource : DialogueResource):
 		self.ui_locked = false
 	)
 	
+### Interact
+func interact(interactable : Interactable):
+	print("interact!")
+	interactable.constructor(self)
+	self.add_child(interactable)
+	interactable.enter()

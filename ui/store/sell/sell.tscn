@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://crmph801jkwj6"]
+
+[ext_resource type="PackedScene" uid="uid://d0ebqqdex8kw1" path="res://ui/store/store.tscn" id="1_f3bqp"]
+[ext_resource type="Script" uid="uid://r5hslrcyxapt" path="res://ui/store/sell/sell.gd" id="2_mudd6"]
+
+[node name="Sell" instance=ExtResource("1_f3bqp")]
+script = ExtResource("2_mudd6")
+
+[node name="GridContainer" type="GridContainer" parent="." index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
