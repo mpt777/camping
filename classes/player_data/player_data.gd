@@ -34,7 +34,8 @@ func serialize() -> Dictionary:
 	return {
 		'name': self.name,
 		'inventory': self.inventory,
-		'hotbar': self.hotbar
+		'hotbar': self.hotbar,
+		"money": self.money
 	}
 	
 func serialize_update(data: Dictionary) -> PlayerData:
@@ -45,4 +46,5 @@ static func deserialize(data: Dictionary) -> PlayerData:
 	var obj : PlayerData = PlayerData.new().constructor(data["name"])
 	obj.inventory = data["inventory"]
 	obj.hotbar = data["hotbar"]
+	obj.money = data.get("money", 0.0)
 	return obj

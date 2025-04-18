@@ -22,3 +22,10 @@ func add_item_data(item_data : ItemData):
 	n_container.add_child(item_inventory, true)
 	item_inventory = item_inventory as ItemInventoryStandard
 	item_inventory.custom_minimum_size = Vector2(100,100)
+	item_inventory.Clicked.connect(self.sell)
+	
+	
+func sell(item_inventory : ItemInventoryStandard):
+	item_inventory.queue_free()
+	self.player.add_money(item_inventory.item_data.get_price())
+	self.player.remove_item_from_inventory(item_inventory.item_data)

@@ -81,6 +81,12 @@ func add_money(money: int) -> void:
 	self.player_data.money += money
 	self.n_money.text = "$ " + str(self.player_data.money)
 	
+func remove_item_from_inventory(item_data : ItemData) -> void:
+	self.n_ui.n_inventory.remove_item(item_data)
+	self.n_hotbar_ui.remove_item(item_data)
+	await get_tree().process_frame
+	self.save()
+	
 func add_item_to_inventory(item_data : ItemData) -> void:
 	self.n_ui.n_inventory.add_item(item_data)
 	self.save()
@@ -136,7 +142,13 @@ func start_dialog(dialog_resource : DialogueResource):
 	
 ### Interact
 func interact(interactable : Interactable):
-	print("interact!")
 	interactable.constructor(self)
 	self.add_child(interactable)
 	interactable.enter()
+	
+	self.ui.visible = false
+	self.n_input.active = false
+	
+func end_interact():
+	self.ui.visible = true
+	self.n_input.active = true

@@ -40,6 +40,13 @@ func add_item(item_data : ItemData) -> void:
 	item_inventory = item_inventory as ItemInventoryStandard
 	item_inventory.custom_minimum_size = Vector2(100,100)
 	
+func remove_item(item_data : ItemData) -> void:
+	for child in self.n_container.get_children():
+		child = child as ItemInventoryStandard
+		if child.item_data.is_equal(item_data):
+			child.queue_free()
+			return
+	
 func clear() -> void:
 	for child in self.n_container.get_children():
 		child.queue_free()

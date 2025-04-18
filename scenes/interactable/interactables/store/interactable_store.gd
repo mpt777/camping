@@ -9,4 +9,4 @@ func enter():
 	self.n_sell.constructor_node()
 	
 func exit():
-	pass
+	super()

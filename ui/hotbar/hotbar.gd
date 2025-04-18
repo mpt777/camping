@@ -53,6 +53,13 @@ func set_item_data(idx : int, item_data : ItemData) -> void:
 	self.n_slots.get_child(idx -1).set_item_data(item_data)
 	self.update()
 	
+func remove_item(item_data : ItemData) -> void:
+	for child in self.n_slots.get_children():
+		child = child as ItemInventoryStandard
+		if child.item_data and child.item_data.is_equal(item_data):
+			child.set_item_data(null)
+			return
+	
 #@rpc("any_peer", "call_local", "reliable", 2)
 func update():
 	self.hotbar.clear()

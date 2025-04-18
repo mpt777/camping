@@ -5,6 +5,8 @@ class_name ItemInventoryStandard
 @onready var n_texture : TextureRect = %TextureRect
 var active := false
 
+signal Clicked
+
 func popover_position() -> Vector2:
 	var screen_y := get_viewport_rect().size.y
 	var pos := self.global_position + Vector2(self.size.x, 0)
@@ -39,3 +41,8 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	self.active = false
 	n_popup.display(false, self.popover_position())
+	
+	
+func _gui_input(event: InputEvent) -> void:
+	if event.is_action_pressed("left_mouse"):
+		Clicked.emit(self)
