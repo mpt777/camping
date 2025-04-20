@@ -17,15 +17,14 @@ func _ready():
 
 func _on_host_pressed():
 	# Start as server
-	var peer = ENetMultiplayerPeer.new()
+	var peer := ENetMultiplayerPeer.new()
 	#
 	peer.create_server(PORT)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer server")
 		return
 		
-	multiplayer.multiplayer_peer = peer
-	start_game()
+	start_game(peer)
 
 
 func _on_connect_pressed():
@@ -34,23 +33,20 @@ func _on_connect_pressed():
 	if txt == "":
 		OS.alert("Need a remote to connect to.")
 		return
-	var peer = ENetMultiplayerPeer.new()
+	var peer := ENetMultiplayerPeer.new()
 	peer.create_client(txt, PORT)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer client")
 		return
-		
-	multiplayer.multiplayer_peer = peer
-	start_game()
+	
+	start_game(peer)
 
-func start_game():
+func start_game(peer: ENetMultiplayerPeer) -> void:
 	# Hide the UI and unpause to start the game.
 	
+	GlobalUI.n_vignette.visible = true
+	multiplayer.multiplayer_peer = peer
 	$UI.hide()
-	
-	var vignette : Vignette = Game.VIGNETTE.instantiate().full_constructor(Vector2(0.5,0.5), false)
-	await vignette.Finished
-	#GlobalUI.toggle_background(true)
 	
 	get_tree().paused = false
 	

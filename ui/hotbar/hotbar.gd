@@ -7,8 +7,8 @@ class_name HotbarUI
 
 signal Updated
 
-func _ready():
-	self.update()
+#func _ready():
+	#self.update()
 	
 func get_number_key(scancode: int) -> int:
 	match scancode:
@@ -45,23 +45,27 @@ func add_index(amount : int):
 func active_slot():
 	return self.n_slots.get_child(self.active_index-1)
 	
-func set_item_data(idx : int, item_data : ItemData) -> void:
+func set_item_data(idx : int, item_data : ItemData, p_update : bool = true) -> void:
 	for child in self.n_slots.get_children():
 		child = child as ItemInventoryStandard
 		if child.item_data and child.item_data.is_equal(item_data):
 			child.set_item_data(null)
 	self.n_slots.get_child(idx -1).set_item_data(item_data)
-	self.update()
+	if p_update:
+		self.update()
 	
-func remove_item(item_data : ItemData) -> void:
+func remove_item(item_data : ItemData, p_update : bool = true) -> void:
 	for child in self.n_slots.get_children():
 		child = child as ItemInventoryStandard
 		if child.item_data and child.item_data.is_equal(item_data):
 			child.set_item_data(null)
 			return
+	if p_update:
+		self.update()
 	
 #@rpc("any_peer", "call_local", "reliable", 2)
 func update():
+	print("Update")
 	self.hotbar.clear()
 	var n_slot : ItemInventoryStandard = self.active_slot()
 	if not n_slot.item_data:
@@ -101,8 +105,10 @@ func deserialize(data : Dictionary) -> void:
 		var d : Dictionary = item_data[idx]
 		if !d:
 			continue
+		var item
 		if "content_type" in d:
 			#var x = ContentType.get_content_type(d["content_type"])
-			self.set_item_data(idx + 1, ContentType.get_content_type(d["content_type"]).new().deserialize_instance(d))
+			item = ContentType.get_content_type(d["content_type"]).new().deserialize_instance(d)
 		else:
-			self.set_item_data(idx + 1, ItemData.new().deserialize_instance(d))
+			item = ItemData.new().deserialize_instance(d)
+		self.set_item_data(idx + 1, item, false)

@@ -14,6 +14,7 @@ func clear():
 		child.queue_free()
 		
 func add_item(node : Node) -> void:
+	self.clear()
 	$Container.add_child(node, true)
 	node.set_multiplayer_authority(self.player.player)
 	#node.constructor(self.player)

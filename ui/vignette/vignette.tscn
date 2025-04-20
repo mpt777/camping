@@ -3,10 +3,11 @@
 [ext_resource type="Shader" uid="uid://1428toh3mrx4" path="res://ui/vignette/Circle.gdshader" id="1_n4u5i"]
 [ext_resource type="Script" uid="uid://dyxlqju8431is" path="res://ui/vignette/vignette.gd" id="2_vmukt"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_11rm7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_evx6q"]
+resource_local_to_scene = true
 shader = ExtResource("1_n4u5i")
 shader_parameter/center = Vector2(0.5, 0.5)
-shader_parameter/diameter_factor = 1.5
+shader_parameter/diameter_factor = 0.0
 shader_parameter/softness = 0.0
 shader_parameter/vignette_color = Color(0.04866, 0.0423, 0.09, 1)
 
@@ -14,7 +15,7 @@ shader_parameter/vignette_color = Color(0.04866, 0.0423, 0.09, 1)
 process_mode = 3
 z_index = 4096
 z_as_relative = false
-material = SubResource("ShaderMaterial_11rm7")
+material = SubResource("ShaderMaterial_evx6q")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

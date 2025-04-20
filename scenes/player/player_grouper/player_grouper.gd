@@ -12,12 +12,6 @@ func constructor(m_player_data : PlayerData):
 	return self
 	
 func _ready() -> void:
-	if is_multiplayer_authority():
-		GlobalUI.toggle_background(true)
-		var vignette : Vignette = Game.VIGNETTE.instantiate().full_constructor(Vector2(0.5,0.5), false, true)
-		await get_tree().process_frame
-		GlobalUI.toggle_background(false)
-		
 	self.player.position = self.spawn_position
 	self.player.name = self.name
 	self.player.player = int(self.name)

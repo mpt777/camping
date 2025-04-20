@@ -24,6 +24,7 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 @onready var n_hotbar_ui : HotbarUI = $UI/Control/Hotbar
 
 @onready var n_ui : UI = $UI/Control/UI
+#@onready var n_vignette : Vignette = $Transition/Vignette
 
 @onready var n_money := $UI/Control/Label
 
@@ -46,24 +47,21 @@ func constructor_node() -> Player:
 	Game.SyncPlayers.connect(sync_player)
 	Signals.UILock.connect(set_ui_lock)
 	
+	self.sync_player()
+	
 	if player == multiplayer.get_unique_id():
-		#await get_tree().process_frame
 		$CameraAnchor.n_camera.current = true
 		self.ui.visible = true
-		#self.start_dialog(load("res://dialog/dialogue.dialogue"))
-		
-	self.sync_player()
-		
+		GlobalUI.transition_out()
+		self.deserialize()
+	
 	return self
 	
 
 func sync_player():
 	if not self.player in Game.players:
 		return
-		
 	self.player_data = Game.players[self.player]
-	self.deserialize()
-		
 	self.render()
 	Signals.PlayerLoaded.emit(self.player, self.player_data)
 		
@@ -98,6 +96,8 @@ func add_item_to_hotbar(idx : int, item_data : ItemData) -> void:
 # Minigame
 	
 func enter_minigame(mg : Minigame) -> void:
+	if !self.is_multiplayer_authority():
+		return
 	self.n_input.active = false
 	self.ui.visible = false
 	mg.constructor(self)
@@ -105,6 +105,8 @@ func enter_minigame(mg : Minigame) -> void:
 	mg.Exited.connect(exit_minigame)
 	
 func exit_minigame() -> void:
+	if !self.is_multiplayer_authority():
+		return
 	self.ui.visible = true
 	self.n_input.active = true
 	
@@ -125,13 +127,16 @@ func deserialize() -> void:
 	
 	self.n_ui.n_inventory.deserialize(self.player_data.inventory)
 	self.n_hotbar_ui.deserialize(self.player_data.hotbar)
+	self.n_hotbar_ui.update()
 
-	if not self.player_data.inventory:
-		self.n_ui.n_inventory.add_item(ItemData.new().set_item_type(POLE))
+	#if not self.player_data.inventory:
+		#self.n_ui.n_inventory.add_item(ItemData.new().set_item_type(POLE))
 		
 		
 ### Start Dialog
 func start_dialog(dialog_resource : DialogueResource):
+	if !self.is_multiplayer_authority():
+		return
 	var balloon = BALLOON.instantiate()
 	self.n_ui.add_child(balloon)
 	self.ui_locked = true
@@ -142,6 +147,8 @@ func start_dialog(dialog_resource : DialogueResource):
 	
 ### Interact
 func interact(interactable : Interactable):
+	if !self.is_multiplayer_authority():
+		return
 	interactable.constructor(self)
 	self.add_child(interactable)
 	interactable.enter()
@@ -150,5 +157,7 @@ func interact(interactable : Interactable):
 	self.n_input.active = false
 	
 func end_interact():
+	if !self.is_multiplayer_authority():
+		return
 	self.ui.visible = true
 	self.n_input.active = true

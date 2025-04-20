@@ -10,7 +10,7 @@ const JUMP_VELOCITY = 4.5
 @export var FRICTION := 0.5
 @export var rotation_speed := 10
 
-@export var body : CharacterBody3D
+@export var body : Player
 @export var jumping := false
 @export var direction := Vector2()
 
