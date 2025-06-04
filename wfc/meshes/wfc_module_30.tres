@@ -1,0 +1,93 @@
+[gd_resource type="ArrayMesh" load_steps=5 format=4 uid="uid://ir6en0nl2kuq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v8ufd"]
+resource_name = "Grass"
+cull_mode = 2
+albedo_color = Color(0.415715, 0.62666, 0.140853, 1)
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wokow"]
+resource_name = "Rock"
+cull_mode = 2
+albedo_color = Color(0.959994, 0.928316, 0.833281, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8u7u"]
+resource_name = "Beach"
+cull_mode = 2
+albedo_color = Color(0.673327, 0.538042, 0.277901, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_palon"]
+_surfaces = [{
+"aabb": AABB(-0.154879, -0.0150424, -0.0296304, 0.654879, 0.0491289, 0.529639),
+"format": 34359742465,
+"index_count": 42,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAADAAAAAwAEAAUABgABAAMABwADAAUABgADAAgABwAIAAMACQAGAAgABwAJAAgABgAJAAoABwALAAkADAAKAAkADAAJAAsA"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 13,
+"vertex_data": PackedByteArray("AAAAAECeCz2omB4+QJ4LPQAAAAAAAAA/AAAAAECeCz0AAAA/WAj9PDh0dryOTgI+qJgevjB1tLsAAACA8/oQN0B0dryAIH88AAAAPwAAgLKRAAA/3dobPkJ0drz9Uly8VboiPgAAAACQ7X49xYSTPgAAgDDRuAg9AAAAPwAAAAAqHAg9v1+RPkB0drxE7c68AAAAP2B0drxsu/K8")
+}, {
+"aabb": AABB(-0.5, -0.0150424, -0.0296304, 0.5, 0.515042, 0.52963),
+"format": 34359742465,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAAADAAEAAAAEAAMAAAAFAAQABgAEAAUABgAHAAQA"),
+"name": "Rock",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAAAAAD+omB4+AAAAAECeCz0AAAA/AAAAAAAAAD8AAAA/AAAAAECeCz2omB4+qJgevjB1tLsAAACAqJgevgAAAD8AAACAAAAAvwAAAD8AAACA3v7/vkB0dryAu/K8")
+}, {
+"aabb": AABB(-0.499991, -0.253834, -0.4, 0.999991, 0.248326, 0.415572),
+"format": 34359742465,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAQAEAAMABQABAAAABQAAAAYABwAFAAYA"),
+"name": "Beach",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("8/oQN0B0dryAIH88AQAAP3n2gb7LzMy+3dobPkJ0drz9Uly8v1+RPkB0drxE7c68AAAAP2B0drxsu/K83f7/vnn2gb7NzMy+qJgevjB1tLsAAACA3v7/vkB0dryUu/K8")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "wfc_modules_Cube_296"
+_surfaces = [{
+"aabb": AABB(-0.154879, -0.0150424, -0.0296304, 0.654879, 0.0491289, 0.529639),
+"attribute_data": PackedByteArray("6GMXPwAAAD/oYxc/AAAAP+hjFz8AAAA/6GMXPwAAAD/oYxc/AAAAPwAAwD4AAMA+AADAPqT+zT4AAMA+AADAPgAAwD4AAMA+AADAPqb+zT4AAMA+ggHSPgAAwD7UAM8+AADAPgAA0D4AAMA+ggHSPgAAwD4AAOA+AADAPgAA0D4AAMA+AADQPgAAwD4AAOA+AADAPgAA4D4="),
+"format": 34359742487,
+"index_count": 42,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAADAAAABQAGAAcACAAHAAYACAAGAAkACgAJAAYABgALAAwACgAGAA0ACgANAA4ADwAOAA0ADwAQAA4ACgAOABEADgASABEA"),
+"material": SubResource("StandardMaterial3D_v8ufd"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 19,
+"vertex_data": PackedByteArray("AAAAAECeCz2omB4+QJ4LPQAAAAAAAAA/AAAAAECeCz0AAAA/WAj9PDh0dryOTgI+qJgevjB1tLsAAACAAAAAPwAAgLKRAAA/xYSTPgAAgDDRuAg9AAAAPwAAAAAqHAg9AAAAP2B0drxsu/K8v1+RPkB0drxE7c683dobPkJ0drz9Uly8AAAAPwAAgLKRAAA/VboiPgAAAACQ7X49VboiPgAAAACQ7X49WAj9PDh0dryOTgI+AAAAPwAAgLKRAAA/QJ4LPQAAAAAAAAA/8/oQN0B0dryAIH88qJgevjB1tLsAAACAGcxeyv///7/2q/rW////vz/IOrn///+/zqRa6v///78ysNv6////v3t9Zv7///+/7XDe/v///7/zcdn/////v8hYVP////+/R1dT/f///79fVb74////v3t9Zv7///+/qXOl+f///7+pc6X5////v86kWur///+/e31m/v///7/2q/rW////v1hjkP////+/MrDb+v///78=")
+}, {
+"aabb": AABB(-0.5, -0.0150424, -0.0296304, 0.5, 0.515042, 0.52963),
+"attribute_data": PackedByteArray("6GMXPwAAAD/oYxc/AAAAP+hjFz8AAAA/6GMXPwAAAD/oYxc/AAAAP+hjFz8AAAA/6GMXPwAAAD/oYxc/AAAAPw=="),
+"format": 34359742487,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAAADAAEAAAAEAAMAAAAFAAQABgAEAAUABgAHAAQA"),
+"material": SubResource("StandardMaterial3D_wokow"),
+"name": "Rock",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAAAAAAAAD+omB4+AAAAAECeCz0AAAA/AAAAAAAAAD8AAAA/AAAAAECeCz2omB4+qJgevjB1tLsAAACAqJgevgAAAD8AAACAAAAAvwAAAD8AAACA3v7/vkB0dryAu/K8//98pf///7////9/////v////3////+///8lp////79i/mPb////v4D+YNn///+/h/zq+v///7+H/Or6////vw==")
+}, {
+"aabb": AABB(-0.499991, -0.253834, -0.4, 0.999991, 0.248326, 0.415572),
+"attribute_data": PackedByteArray("AADAPgAA4D4AAMA+AADgPgAAwD6AAdI+AADAPgAA8D7//78+6OXrPgAAwD4S09A+AADAPqBr0D4AAMA+AADQPgAAwD4AAMA+AADAPqb+zT4AAMA+AAAAPwAAwD4AAAA/AADAPjgb9D4="),
+"format": 34359742487,
+"index_count": 18,
+"index_data": PackedByteArray("AAABAAIAAwABAAAAAwAAAAQAAgAFAAYABwAIAAkACgALAAwA"),
+"material": SubResource("StandardMaterial3D_u8u7u"),
+"name": "Beach",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 13,
+"vertex_data": PackedByteArray("8/oQN0B0dryAIH88AQAAP3n2gb7LzMy+3dobPkJ0drz9Uly83f7/vnn2gb7NzMy+qJgevjB1tLsAAACAAQAAP3n2gb7LzMy+v1+RPkB0drxE7c68AQAAP3n2gb7LzMy+AAAAP2B0drxsu/K8v1+RPkB0drxE7c683v7/vkB0dryUu/K83f7/vnn2gb7NzMy+qJgevjB1tLsAAACAWGOQ/7ES6WmfTbf+////v19Vvvj///+/trFd/vsgA2wysNv6AB3Ja59Nt/7///+/R1dT/f///7+fTbf+////v8hYVP////+/R1dT/f///792s9/9////v7axXf7///+/MrDb+v///78=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_palon")

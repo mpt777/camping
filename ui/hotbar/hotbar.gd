@@ -107,7 +107,6 @@ func deserialize(data : Dictionary) -> void:
 			continue
 		var item
 		if "content_type" in d:
-			#var x = ContentType.get_content_type(d["content_type"])
 			item = ContentType.get_content_type(d["content_type"]).new().deserialize_instance(d)
 		else:
 			item = ItemData.new().deserialize_instance(d)

@@ -61,7 +61,7 @@ mesh = SubResource("CapsuleMesh_jab13")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh/MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.432679, -0.583803)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.955004, -0.390451)
 mesh = SubResource("BoxMesh_gmlin")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="Mesh/MeshInstance3D"]

@@ -10,6 +10,9 @@ class_name ItemTypeData
 @export var description : String
 @export var price : int
 
+func can_sell() -> bool:
+	return true
+
 func get_image() -> Texture2D:
 	return self.image
 

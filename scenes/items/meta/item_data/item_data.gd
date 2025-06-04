@@ -4,6 +4,7 @@ class_name ItemData
 @export var item_type : ItemTypeData
 @export var uuid : String
 
+
 func _init():
 	if not self.uuid:
 		self.generate_uuid()
@@ -12,6 +13,8 @@ func set_item_type(m_item_type : ItemTypeData) -> ItemData:
 	self.item_type = m_item_type
 	return self
 	
+func can_sell() -> bool:
+	return self.item_type.can_sell()
 	
 func get_title() -> String:
 	return self.item_type.title

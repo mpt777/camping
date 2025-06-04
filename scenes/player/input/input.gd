@@ -26,7 +26,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if !active:
 		return
 	
-	if event.is_action_pressed("exit"):
+	if event.is_action_pressed("inventory"):
 		body.n_ui.visible = !body.n_ui.visible
 		body.set_ui_lock(body.n_ui.visible)
 	
@@ -53,7 +53,8 @@ func _physics_process(delta):
 		body.velocity.y -= gravity * delta
 
 	# Handle Jump.
-	if jumping and body.is_on_floor():
+	#if jumping and body.is_on_floor():
+	if jumping:
 		body.velocity.y = JUMP_VELOCITY
 
 	# Reset jump state.
@@ -62,7 +63,7 @@ func _physics_process(delta):
 	var local_direction : Vector3 = Vector3(direction.x, 0, direction.y)
 	local_direction = local_direction.rotated(Vector3.UP, body.n_camera_anchor.n_camera.global_rotation.y)
 	
-	var _direction = (body.transform.basis * local_direction).normalized()
+	var _direction : Vector3 = (body.transform.basis * local_direction).normalized()
 	var local_velocity := body.velocity
 	if _direction.length() > 0:
 		local_velocity = body.velocity.lerp(_direction * SPEED, ACCELERATION)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dq6nk182a46tr"]
+[gd_scene load_steps=18 format=3 uid="uid://dq6nk182a46tr"]
 
 [ext_resource type="PackedScene" uid="uid://cqhkqck3rg7qy" path="res://assets/blender/levels/island/island.tscn" id="3_c44sj"]
 [ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/world/island/sky.gdshader" id="3_wb2e1"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ca4q7a6ang8yv" path="res://scenes/ocean/ocean.tscn" id="7_ynh53"]
 [ext_resource type="PackedScene" uid="uid://c707o6yb06gro" path="res://scenes/npc/npcs/test/npc_test.tscn" id="8_htapr"]
 [ext_resource type="PackedScene" uid="uid://cq6l8dknxvrc3" path="res://scenes/npc/npcs/store/npc_store.tscn" id="9_00wko"]
+[ext_resource type="PackedScene" uid="uid://c20uevkl3blai" path="res://scenes/proc_terrain/proc_terrain.tscn" id="10_ymros"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_wb2e1"]
 size = Vector3(7.1, 0.16, 6.03)
@@ -55,12 +56,17 @@ shader_parameter/layer_scale_step = 10.0
 shader_parameter/layers_count = 3
 shader_parameter/overwritten_time = 0.0
 
-[sub_resource type="Sky" id="Sky_a2155"]
+[sub_resource type="Sky" id="Sky_00wko"]
 sky_material = SubResource("ShaderMaterial_c44sj")
 
 [sub_resource type="Environment" id="Environment_wb2e1"]
 background_mode = 2
-sky = SubResource("Sky_a2155")
+sky = SubResource("Sky_00wko")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ajfo0"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qt50p"]
+noise = SubResource("FastNoiseLite_ajfo0")
 
 [node name="Island" type="Node3D"]
 
@@ -187,5 +193,10 @@ transform = Transform3D(0.793173, 0, -0.608997, 0, 1, 0, 0.608997, 0, 0.793173, 
 
 [node name="Npc2" parent="NPCS" instance=ExtResource("9_00wko")]
 transform = Transform3D(-0.409493, 0, -0.912313, 0, 1, 0, 0.912313, 0, -0.409493, 6.71696, 6.88289, 0)
+
+[node name="ProcTerrain" parent="." instance=ExtResource("10_ymros")]
+transform = Transform3D(-0.155986, 0, -0.987759, 0, 1, 0, 0.987759, 0, -0.155986, -60.9174, 9.95827, -28.764)
+noise = SubResource("NoiseTexture2D_qt50p")
+run = true
 
 [editable path="NPCS/Npc2"]

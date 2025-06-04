@@ -129,8 +129,8 @@ func deserialize() -> void:
 	self.n_hotbar_ui.deserialize(self.player_data.hotbar)
 	self.n_hotbar_ui.update()
 
-	#if not self.player_data.inventory:
-		#self.n_ui.n_inventory.add_item(ItemData.new().set_item_type(POLE))
+	if not self.player_data.inventory:
+		self.n_ui.n_inventory.add_item(FishingPoleData.new().set_item_type(POLE))
 		
 		
 ### Start Dialog
