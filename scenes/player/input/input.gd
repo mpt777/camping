@@ -75,10 +75,15 @@ func _physics_process(delta):
 	if pos == body.global_position:
 		pos = body.velocity.normalized() * 10000
 	if pos != Vector3.ZERO && abs(pos.x) > 0.99 && pos != body.global_position:
-		var new_transform = body.n_mesh.transform.looking_at(pos, Vector3.UP)
-		body.n_mesh.transform = body.n_mesh.transform.interpolate_with(new_transform, rotation_speed * delta) 
-	body.n_mesh.rotation.x = 0
-	body.n_mesh.rotation.z = 0
+		var new_transform = body.player_mesh.transform.looking_at(pos, Vector3.UP)
+		body.player_mesh.transform = body.player_mesh.transform.interpolate_with(new_transform, rotation_speed * delta) 
+	body.player_mesh.rotation.x = 0
+	body.player_mesh.rotation.z = 0
 
 	body.move_and_slide()
 	
+	#print(body.velocity.length() )
+	if body.velocity.length() > 1:
+		body.player_mesh.animate_to(Enums.ANIMATION.WALK)
+	else:
+		body.player_mesh.animate_to(Enums.ANIMATION.IDLE)

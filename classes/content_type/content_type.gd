@@ -2,6 +2,7 @@ extends Node
 
 var register = {
 	"ItemData": ItemData,
+	"FishingPoleData": FishingPoleData,
 	"FishData": FishData
 }
 

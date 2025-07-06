@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccai5qxege0j2"]
+
+[ext_resource type="Script" uid="uid://k0p4345ledv4" path="res://scenes/player/player_mesh/player_mesh.gd" id="1_bndja"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bndja"]
+animation = &"Blend"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_3x6g5"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5axxy"]
+animation = &"Root"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_xskh4"]
+graph_offset = Vector2(-295.666, -43.1661)
+nodes/Blend/node = SubResource("AnimationNodeAnimation_bndja")
+nodes/Blend/position = Vector2(260, 260)
+nodes/BlendAmount/node = SubResource("AnimationNodeBlend2_3x6g5")
+nodes/BlendAmount/position = Vector2(440, 60)
+nodes/Root/node = SubResource("AnimationNodeAnimation_5axxy")
+nodes/Root/position = Vector2(260, 60)
+nodes/output/position = Vector2(620, 60)
+node_connections = [&"BlendAmount", 0, &"Root", &"BlendAmount", 1, &"Blend", &"output", 0, &"BlendAmount"]
+
+[node name="PlayerMesh" type="Node3D"]
+script = ExtResource("1_bndja")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+active = false
+tree_root = SubResource("AnimationNodeBlendTree_xskh4")
+parameters/BlendAmount/blend_amount = 0.0

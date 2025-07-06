@@ -14,7 +14,6 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 
 # Player synchronized input.
 @onready var n_label = $Label3D
-@onready var n_mesh = $Mesh
 @onready var ui: CanvasLayer = $UI
 @onready var n_camera_anchor : CameraAnchor = $CameraAnchor
 #@onready var n_fishing_pole : FishingPole = $Hotbar/FishingPole
@@ -23,13 +22,15 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 @onready var n_hotbar : Hotbar3D = $Hotbar
 @onready var n_hotbar_ui : HotbarUI = $UI/Control/Hotbar
 
+@onready var player_mesh : PlayerMesh = $PlayerMesh
+
 @onready var n_ui : UI = $UI/Control/UI
-#@onready var n_vignette : Vignette = $Transition/Vignette
 
 @onready var n_money := $UI/Control/Label
 
 var player_grouper : PlayerGrouper
 var player_data : PlayerData
+var avatar_data : AvatarData
 var ui_locked = false
 
 func constructor(m_player_data : PlayerData) -> Player:
@@ -40,6 +41,8 @@ func constructor_node() -> Player:
 	
 	#await get_tree().process_frame
 	
+	self.avatar_data = load("res://scenes/avatar/zoe/zoe_data.tres")
+	
 	self.position = Utils.parents(self).filter(func(x): return x is World)[0].n_player_spawn.global_position
 	self.player = name.to_int()
 	self.player_grouper = self.get_parent()
@@ -48,6 +51,8 @@ func constructor_node() -> Player:
 	Signals.UILock.connect(set_ui_lock)
 	
 	self.sync_player()
+	
+	self.player_mesh.constructor(self.avatar_data)
 	
 	if player == multiplayer.get_unique_id():
 		$CameraAnchor.n_camera.current = true
@@ -129,8 +134,8 @@ func deserialize() -> void:
 	self.n_hotbar_ui.deserialize(self.player_data.hotbar)
 	self.n_hotbar_ui.update()
 
-	#if not self.player_data.inventory:
-		#self.n_ui.n_inventory.add_item(ItemData.new().set_item_type(POLE))
+	if not self.player_data.inventory:
+		self.n_ui.n_inventory.add_item(FishingPoleData.new().set_item_type(POLE))
 		
 		
 ### Start Dialog

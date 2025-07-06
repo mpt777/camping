@@ -14,7 +14,9 @@ func _ready() -> void:
 	
 func constructor_node() -> void:
 	for item in self.player.n_ui.n_inventory.n_container.get_children():
-		self.add_item_data(item.item_data)
+		item = item as ItemInventoryStandard
+		if item.item_data.can_sell():
+			self.add_item_data(item.item_data)
 		
 func add_item_data(item_data : ItemData):
 	var item_inventory = item_data.to_inventory().instantiate()
