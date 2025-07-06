@@ -10,3 +10,10 @@ enum QUALITY {
 	NORMAL,
 	RARE,
 }
+
+enum ANIMATION {
+	IDLE,
+	WALK,
+	RUN,
+	EMOTE,
+}

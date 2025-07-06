@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AvatarData" load_steps=3 format=3 uid="uid://dv28ew7n8umd0"]
+
+[ext_resource type="PackedScene" uid="uid://bou1roux4lsrh" path="res://assets/blender/characters/zoe/zoe.tscn" id="1_bdglm"]
+[ext_resource type="Script" uid="uid://cblx4a8bbxu5c" path="res://scenes/avatar/avatar_data.gd" id="1_yetlb"]
+
+[resource]
+script = ExtResource("1_yetlb")
+mesh = ExtResource("1_bdglm")
+animation_lookup = Dictionary[int, String]({
+0: "Armature|Idle",
+1: "Armature|walk",
+2: "Armature|run"
+})
