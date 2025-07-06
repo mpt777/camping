@@ -6,12 +6,19 @@ class_name CameraAnchor
 @export var min_distance := 0
 @export var max_distance := 6.0
 
+var mouse_mode := 0
+
 var look_dir:= Vector2()
 
 @onready var n_spring : SpringArm3D = $SpringArm3D
 @onready var n_camera : Camera3D = %Camera
 @onready var n_position : Node3D = %SpringPosition
 
+var mouse_modes = [
+	Input.MOUSE_MODE_CAPTURED,
+	Input.MOUSE_MODE_CONFINED,
+	Input.MOUSE_MODE_VISIBLE  
+]
 
 func _ready():
 	pass
@@ -20,19 +27,27 @@ func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
 	
-	if event.is_action_pressed("right_mouse"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	if event.is_action_released("right_mouse"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	#if event.is_action_pressed("right_mouse"):
+		#if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		#else:
+			#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#if event.is_action_released("right_mouse"):
+		#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		#
+	if Input.is_action_just_pressed("ui_cancel"):
+		mouse_mode += 1
+		mouse_mode = (mouse_mode % len(self.mouse_modes))
+		Input.set_mouse_mode(mouse_modes[mouse_mode])
 		
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		look_dir = event.relative * 0.001
+		look_dir = event.relative * 0.003
 		self._rotate_camera()
 		
-	if event.is_action_pressed("wheel_up"):
-		n_spring.spring_length = max(n_spring.spring_length - 1, self.min_distance)
-	if event.is_action_pressed("wheel_down"):
-		n_spring.spring_length = min(n_spring.spring_length + 1, self.max_distance)
+	#if event.is_action_pressed("wheel_up"):
+		#n_spring.spring_length = max(n_spring.spring_length - 1, self.min_distance)
+	#if event.is_action_pressed("wheel_down"):
+		#n_spring.spring_length = min(n_spring.spring_length + 1, self.max_distance)
 	#if Input.is_action_just_pressed("exit"):
 		#self.set_mouse_capture(!self.mouse_captured)
 		

@@ -1,0 +1,68 @@
+[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://dcgcvr2bkc2dj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v8ufd"]
+resource_name = "Grass"
+cull_mode = 2
+albedo_color = Color(0.415715, 0.62666, 0.140853, 1)
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wokow"]
+resource_name = "Rock"
+cull_mode = 2
+albedo_color = Color(0.959994, 0.928316, 0.833281, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_f0wvd"]
+_surfaces = [{
+"aabb": AABB(-0.5, 0, 0.126531, 0.5, 0.0340865, 0.373469),
+"format": 34359742465,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAwAEAAIAAwAFAAQA"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("AAAAvwAAAACDwQk+raxQvgAAAABVkQE+AQAAvwAAAAD9//8+kzcovQAAAAC9Oz4+JJ4LvQAAAAAAAAA/mN69M0CeCz3+//8+")
+}, {
+"aabb": AABB(-0.5, -0.5, -0.0189178, 1, 1, 0.518918),
+"format": 34359742465,
+"index_count": 69,
+"index_data": PackedByteArray("AAABAAIABAAAAAIAAQAQAAIAEAAEAAIAAQADABAAEAARAAQABAARAAUAAwASABAAEQAQABIAEQAHAAUAEQASAAcAAwAGABIABwAIAAkABwAKAAgAEgAKAAcAEgALAAoABgATABIAEgATAAsAEwANAAsABgAMABMAEwAOAA0ADAAOABMADAAPAA4A"),
+"lods": [0.10832, PackedByteArray("AAABAAIAAQADAAIABAAAAAIAAgAFAAQAAwAGAAIABQACAAYABQAGAAcABwAIAAkABwAKAAgABgAKAAcABgALAAoABgAMAAsADAANAAsADAAOAA0ADAAPAA4A")],
+"name": "Rock",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("AAAAv4jBCb6GU5WzAAAAvwAAAL9gXhazyCvIvojBCb6VhWmzI+BMvgAAAL9MtqE8AAAAvwAAAACDwQk+raxQvgAAAABVkQE+gFdKuwAAAL/S/tsykzcovQAAAAC9Oz4+mN7tMwAAAD////8+mN69M0CeCz3+//8+THFkswAAAD+nmB4+pJgePv///z62jluzNj+RPgAAAL8PMDw9/v//PgAAAD/QQkQzAAAAP4vBCb649G6yAQAAPwAAAL8svTuziGdzvojBCb57+Zq8JEl/vtDAh71iMDM9+zYaPYjBCb6xvzc9ND+RPs0/Jr75Lzw9")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "wfc_modules_Cube_298"
+_surfaces = [{
+"aabb": AABB(-0.5, 0, 0.126531, 0.5, 0.0340865, 0.373469),
+"attribute_data": PackedByteArray("GZwoPwAAAD8ZnCg/1I7tPgAAYD8AAAA/GZwoPxgH3j4AAGA/AADAPgAAYD8AAMA+"),
+"format": 34359742487,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAwAEAAIAAwAFAAQA"),
+"material": SubResource("StandardMaterial3D_v8ufd"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("AAAAvwAAAACDwQk+raxQvgAAAABVkQE+AQAAvwAAAAD9//8+kzcovQAAAAC9Oz4+JJ4LvQAAAAAAAAA/mN69M0CeCz3+//8+/3////9//7//f///lW7/v/9///9PZP+/onl9+Z9Z8L5hWovZ3Vc9t7NAS7////8/")
+}, {
+"aabb": AABB(-0.5, -0.5, -0.0189178, 1, 1, 0.518918),
+"attribute_data": PackedByteArray("6GMXPwAAAD/p1wI/AAAAP+hjFz94Bfk+GZwoPwAAAD8ZnCg/1I7tPk6l/j4CGvk+0ujuPiiv6T5kcNo+6qDVPhmcKD8YB94+AABgPwAAwD4AAGA/AADAPhmcKD8YB94+6GMXPwwg3D5kcNo+6qDVPuhjFz8MINw+6GMXPwwg3D5kcNo+6qDVPuhjFz94Nu8+DCAgP8pS7j7oYxc/DCDcPuhjFz8MINw+"),
+"format": 34359742487,
+"index_count": 69,
+"index_data": PackedByteArray("AAABAAIAAwAAAAIAEQADAAIABQARAAIABQAGABEAEQASAAMAAwASAAQABgATABEAEgARABMAEgAIAAQAEgATAAgABgAHABMACAAJAAoACAALAAkAEwALAAgAEwAMAAsABwAUABMAEwAUAAwAFAAOAAwABwANABQAFAAPAA4ADQAPABQADQAQAA8A"),
+"lods": [0.10832, PackedByteArray("AAABAAIAAwAAAAIAAgAEAAMABQAGAAIABgAHAAIABAACAAcABAAHAAgACAAJAAoACAALAAkABwALAAgABwAMAAsABwANAAwADQAOAAwADQAPAA4ADQAQAA8A")],
+"material": SubResource("StandardMaterial3D_wokow"),
+"name": "Rock",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 21,
+"vertex_data": PackedByteArray("AAAAv4jBCb6GU5WzAAAAvwAAAL9gXhazyCvIvojBCb6VhWmzAAAAvwAAAACDwQk+raxQvgAAAABVkQE+AAAAvwAAAL9gXhazI+BMvgAAAL9MtqE8gFdKuwAAAL/S/tsykzcovQAAAAC9Oz4+mN7tMwAAAD////8+mN69M0CeCz3+//8+THFkswAAAD+nmB4+pJgePv///z62jluzNj+RPgAAAL8PMDw9/v//PgAAAD/QQkQzAAAAP4vBCb649G6yAQAAPwAAAL8svTuziGdzvojBCb57+Zq8JEl/vtDAh71iMDM9+zYaPYjBCb6xvzc9ND+RPs0/Jr75Lzw9gdr+//9/QO2y+i4AUIX9/3Iix/w6iHTrrj5N/IGD6N7kv4X1+JhM1rL6LgBxmvT0if0FBoaWRvVp/Hr1h5t37/kbM8k1c83elAskhv///z/LDv9/////P0MHmqj///+/JgBn2P///793Awb5////v/AEFQn///+/mAJqD////78AAGwW////vzzfXftnf8vuYcBt/IJ6A95cEmj7onoX9CwBcgb///+/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_f0wvd")

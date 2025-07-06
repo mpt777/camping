@@ -1,0 +1,164 @@
+[gd_scene load_steps=8 format=3 uid="uid://cecfocfs3b8rp"]
+
+[ext_resource type="Script" uid="uid://be838tuc4t08k" path="res://wfc/module/wfc3d_main.gd" id="1"]
+[ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/world/island/sky.gdshader" id="2_yj0a4"]
+
+[sub_resource type="GDScript" id="3"]
+script/source = "extends Camera3D
+
+
+const LOOK_SENS = 0.005
+const ROLL_SPEED = 1.0
+const SCROLL_WHEEL_UP_INDEX = 4
+const SCROLL_WHEEL_DOWN_INDEX = 5
+
+var mouse_modes = [
+	Input.MOUSE_MODE_CAPTURED,
+	Input.MOUSE_MODE_CONFINED
+]
+
+
+var move_speed = 1.0
+var mouse_mode = 0
+
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _process(delta):
+	var movement_vector = Vector3.ZERO
+	var roll = Vector3.ZERO
+	
+	if Input.is_action_pressed(\"forward\"):
+		movement_vector += Vector3.FORWARD
+	if Input.is_action_pressed(\"backward\"):
+		movement_vector += Vector3.BACK
+	if Input.is_action_pressed(\"right\"):
+		movement_vector += Vector3.RIGHT
+	if Input.is_action_pressed(\"left\"):
+		movement_vector += Vector3.LEFT
+	if Input.is_action_just_pressed(\"cycle_mouse\"):
+		mouse_mode += 1
+		mouse_mode = (mouse_mode % 2)
+		print(mouse_mode)
+		Input.set_mouse_mode(mouse_modes[mouse_mode])
+	
+	translate_object_local(movement_vector.normalized() * delta * move_speed)
+	
+	if Input.is_action_pressed(\"rollr\"):
+		roll += Vector3.FORWARD
+	if Input.is_action_pressed(\"rolll\"):
+		roll += Vector3.BACK
+	
+	if roll:
+		rotate_object_local(roll, ROLL_SPEED * delta)
+
+func _input(event):
+	if mouse_mode == 1:
+		Input.set_mouse_mode(mouse_modes[mouse_mode])		
+		return
+	var mouse_delta = Vector2.ZERO
+	if event is InputEventMouseMotion:
+		mouse_delta = event.relative * LOOK_SENS
+		rotate_y(-mouse_delta.x)
+		rotate_object_local(Vector3.RIGHT, -mouse_delta.y)
+	elif event is InputEventMouseButton:
+		if event.button_index == SCROLL_WHEEL_UP_INDEX:
+			move_speed *= 1.5
+		elif event.button_index == SCROLL_WHEEL_DOWN_INDEX:
+			move_speed *= 0.75
+			
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c44sj"]
+shader = ExtResource("2_yj0a4")
+shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
+shader_parameter/day_bottom_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/sunset_top_color = Color(0.7, 0.75, 1, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.7, 1)
+shader_parameter/night_top_color = Color(0.02, 0, 0.04, 1)
+shader_parameter/night_bottom_color = Color(0.1, 0, 0.2, 1)
+shader_parameter/sky_color = Color(0.03, 0.05, 0.11, 1)
+shader_parameter/horizon_color = Color(0, 0.7, 0.8, 1)
+shader_parameter/horizon_blur = 0.05
+shader_parameter/sun_color = Color(10, 8, 1, 1)
+shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
+shader_parameter/sun_size = 0.166
+shader_parameter/sun_blur = 0.01
+shader_parameter/moon_color = Color(1, 0.95, 0.7, 1)
+shader_parameter/moon_size = 0.06
+shader_parameter/moon_blur = 0.1
+shader_parameter/clouds_edge_color = Color(0.8, 0.8, 0.98, 1)
+shader_parameter/clouds_top_color = Color(1, 1, 1, 1)
+shader_parameter/clouds_middle_color = Color(0.92, 0.92, 0.98, 1)
+shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
+shader_parameter/clouds_speed = 2.0
+shader_parameter/clouds_direction = 0.2
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_cutoff = 0.3
+shader_parameter/clouds_fuzziness = 0.5
+shader_parameter/clouds_weight = 0.0
+shader_parameter/clouds_blur = 0.25
+shader_parameter/star_base_color = Color(1, 1, 1, 1)
+shader_parameter/star_hue_offset = 0.6
+shader_parameter/star_intensity = 0.086
+shader_parameter/star_twinkle_speed = 0.0
+shader_parameter/star_twinkle_intensity = 0.0
+shader_parameter/layer_scale = 20.0
+shader_parameter/layer_scale_step = 10.0
+shader_parameter/layers_count = 3
+shader_parameter/overwritten_time = 0.0
+
+[sub_resource type="Sky" id="Sky_a2155"]
+sky_material = SubResource("ShaderMaterial_c44sj")
+
+[sub_resource type="Environment" id="Environment_lghf3"]
+background_mode = 2
+sky = SubResource("Sky_a2155")
+
+[sub_resource type="GDScript" id="7"]
+script/source = "extends Node3D
+
+
+var rot_speed = 10.0
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+func _process(delta):
+	rotation_degrees.y += rot_speed * delta
+"
+
+[node name="root" type="Node3D"]
+script = ExtResource("1")
+
+[node name="FlyCam" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.83381)
+fov = 30.0
+script = SubResource("3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.781684, -0.488959, 0.387155, 0, 0.620765, 0.783997, -0.623675, -0.612838, 0.485242, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 300.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lghf3")
+
+[node name="DebugText" type="RichTextLabel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="CamFocus" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 3.5)
+script = SubResource("7")
+
+[node name="RotatingCam" type="Camera3D" parent="CamFocus"]
+transform = Transform3D(1, 0, 0, 0, 0.783086, 0.621913, 0, -0.621913, 0.783086, 0, 9.1621, 11.5365)
+current = true
+fov = 40.0

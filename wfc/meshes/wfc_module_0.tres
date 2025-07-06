@@ -1,0 +1,66 @@
+[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://b7dbx14cuib6q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v8ufd"]
+resource_name = "Grass"
+cull_mode = 2
+albedo_color = Color(0.415715, 0.62666, 0.140853, 1)
+roughness = 0.4
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_v8ufd"]
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 0.365473, 1e-05, 1),
+"format": 34896613377,
+"index_count": 15,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAwAEAAIAAwAFAAQABQAGAAQA"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 7,
+"vertex_data": PackedByteArray("//8AAAAAAAAr8gAASCYAAAAAAAAAAAAA//8AANNvAAAAAAAA//8AANDfAACB0QAA//8AAP//AAA=")
+}, {
+"aabb": AABB(-0.180472, -0.5, -0.5, 0.180472, 0.5, 1),
+"format": 34896613377,
+"index_count": 48,
+"index_data": PackedByteArray("AAAMAAIABAACAAwABAAMAAUAAAABAAwADAAGAAUAAQANAAwADAANAAYAAQADAA0ADQAHAAYAAwAOAA0ADQAOAAcADgAJAAcAAwAKAA4ADgAIAAkACgAIAA4ACgALAAgA"),
+"lods": [0.0550028, PackedByteArray("AAABAAIAAQADAAIABAACAAUAAgAGAAUAAgAHAAYAAwAIAAIAAgAIAAcACAAJAAcAAwAKAAgACgALAAgA")],
+"name": "Rock",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 15,
+"vertex_data": PackedByteArray("//8AAAAAAAD+4wAAx0wAAP//HrsAAAAA//8AADV/AAArQf//AAAAACsl//9IJgAAK0H//9NvAAAAAP//gdEAAP//Hrv//wAAK0H/////AADTvgAAnsgAAP//AAD//wAA/uMeu01UAAD//x67wHMAANO+HrvPxwAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fnn58"]
+resource_name = "wfc_modules_Cube_111"
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 1, 1e-05, 1),
+"format": 34896613377,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAAADAAEA"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("//8AAP//AAAAAAAAAAAAAP//AAAAAAAAAAAAAP//AAA=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_v8ufd")
+
+[resource]
+resource_name = "wfc_modules_Cube_266"
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 1, 1e-05, 1),
+"attribute_data": PackedByteArray("/9//X//f/3//3/9//9//Xw=="),
+"format": 34896613399,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAAADAAEA"),
+"material": SubResource("StandardMaterial3D_v8ufd"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("//8AAP///78AAAAAAAD/v///AAAAAP+/AAAAAP///7////9/////f////3////9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_fnn58")
