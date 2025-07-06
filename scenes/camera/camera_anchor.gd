@@ -21,20 +21,20 @@ var mouse_modes = [
 ]
 
 func _ready():
-	pass
+	n_spring.spring_length = 4
 	
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
 	
-	#if event.is_action_pressed("right_mouse"):
-		#if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		#else:
-			#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	#if event.is_action_released("right_mouse"):
-		#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		#
+	if event.is_action_pressed("right_mouse"):
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if event.is_action_released("right_mouse"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		
 	if Input.is_action_just_pressed("ui_cancel"):
 		mouse_mode += 1
 		mouse_mode = (mouse_mode % len(self.mouse_modes))
@@ -44,10 +44,10 @@ func _input(event: InputEvent) -> void:
 		look_dir = event.relative * 0.003
 		self._rotate_camera()
 		
-	#if event.is_action_pressed("wheel_up"):
-		#n_spring.spring_length = max(n_spring.spring_length - 1, self.min_distance)
-	#if event.is_action_pressed("wheel_down"):
-		#n_spring.spring_length = min(n_spring.spring_length + 1, self.max_distance)
+	if event.is_action_pressed("wheel_up"):
+		n_spring.spring_length = max(n_spring.spring_length - 1, self.min_distance)
+	if event.is_action_pressed("wheel_down"):
+		n_spring.spring_length = min(n_spring.spring_length + 1, self.max_distance)
 	#if Input.is_action_just_pressed("exit"):
 		#self.set_mouse_capture(!self.mouse_captured)
 		
