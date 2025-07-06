@@ -1,0 +1,68 @@
+[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://bqxvqv3066t5q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v8ufd"]
+resource_name = "Grass"
+cull_mode = 2
+albedo_color = Color(0.415715, 0.62666, 0.140853, 1)
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wokow"]
+resource_name = "Rock"
+cull_mode = 2
+albedo_color = Color(0.959994, 0.928316, 0.833281, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4p1i7"]
+_surfaces = [{
+"aabb": AABB(-5, 0, -6.65592e-07, 3.73469, 0.340865, 5),
+"format": 34359742465,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAwABAAQAAwAEAAUA"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("4jGsvwAAAAAAAKBA/v+fwAAAAAABAKBAqfWhvwAAAADsawJArMrtvwAAAAB6RdI+AACgwAAAAAC0ha4+//+fwNCFrj4gqzK1")
+}, {
+"aabb": AABB(-5, -5, -5, 5.18918, 10, 10),
+"format": 34359742465,
+"index_count": 69,
+"index_data": PackedByteArray("AAABAAIABAABAAAAAgABABAAEAABAAQAAgAQAAMAEAAEABEABAAFABEAAwAQABIAEQASABAAEQAFAAcAEQAHABIAAwASAAYABwAIAAkABwAJAAoAEgAHAAoAEgAKAAsABgASABMAEgALABMAEwALAA0ABgATAAwAEwANAA4ADAATAA4ADAAOAA8A"),
+"lods": [1.10796, PackedByteArray("AAABAAIAAgABAAMABAABAAAAAQAEAAUAAwABAAYABQAGAAEABQAHAAYABwAIAAkABwAJAAoABgAHAAoABgAKAAsABgALAAwADAALAA0ADAANAA4ADAAOAA8A")],
+"name": "Rock",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("hlN1NeoxrL8AAKBANdM/NeoxrL+6NnpAGqYYNQAAoMAAAKBABTzrvgAAoMD+jjVA4jGsvwAAAAAAAKBAqfWhvwAAAADsawJAyMWItAAAoMAA7vy8rMrtvwAAAAB6RdI+//+fwNCFrj4gqzK1//+fwAAAoEAgq2610T7GvwAAoEAc8yA1yxnuNP//n0DNPsa//iNKvgAAoMAUDADA4FQ1tQAAoED//5/ADaeqs+4xrL8AAKDAc6xqNAAAoMABAKDA4bdBPuoxrL+1IBhAd/zfvgSxKb+2jR9Ana/lvuoxrL+4xMC++zvrvsDPz78BjzXA")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "wfc_modules_Cube_301"
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -6.65592e-08, 0.373469, 0.0340865, 0.5),
+"attribute_data": PackedByteArray("GZwoPwAAAD8AAGA/AAAAPxmcKD/Uju0+GZwoPxgH3j4AAGA/AADAPgAAYD8AAMA+"),
+"format": 34359742487,
+"index_count": 12,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAwABAAQAAwAEAAUA"),
+"material": SubResource("StandardMaterial3D_v8ufd"),
+"name": "Grass",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("gsEJvgAAAAAAAAA//P//vgAAAAABAAA/VJEBvgAAAACtrFA+vTs+vgAAAACVNyg9AAAAvwAAAAAqngs9/v//vkCeCz1N746z/3///wAA/z//f///rxv/P/9///9pEf8/2399+XwoDkEpf4vZpTnBSJd+S7////8/")
+}, {
+"aabb": AABB(-0.5, -0.5, -0.5, 0.518918, 1, 1),
+"attribute_data": PackedByteArray("6GMXPwAAAD/oYxc/eAX5PunXAj8AAAA/GZwoPwAAAD8ZnCg/1I7tPk6l/j4CGvk+0ujuPiiv6T5kcNo+6qDVPhmcKD8YB94+AABgPwAAwD4AAGA/AADAPhmcKD8YB94+6GMXPwwg3D5kcNo+6qDVPuhjFz8MINw+6GMXPwwg3D5kcNo+6qDVPuhjFz94Nu8+DCAgP8pS7j7oYxc/DCDcPuhjFz8MINw+"),
+"format": 34359742487,
+"index_count": 69,
+"index_data": PackedByteArray("AAABAAIAAwABAAAAEQABAAMABQABABEABQARAAYAEQADABIAAwAEABIABgARABMAEgATABEAEgAEAAgAEgAIABMABgATAAcACAAJAAoACAAKAAsAEwAIAAsAEwALAAwABwATABQAEwAMABQAFAAMAA4ABwAUAA0AFAAOAA8ADQAUAA8ADQAPABAA"),
+"lods": [0.110796, PackedByteArray("AAABAAIAAwABAAAAAQADAAQABQABAAYABgABAAcABAAHAAEABAAIAAcACAAJAAoACAAKAAsABwAIAAsABwALAAwABwAMAA0ADQAMAA4ADQAOAA8ADQAPABAA")],
+"material": SubResource("StandardMaterial3D_wokow"),
+"name": "Rock",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 21,
+"vertex_data": PackedByteArray("0kLEM4jBCb4AAAA/xHWZM4jBCb7IK8g+9zx0MwAAAL8AAAA/gsEJvgAAAAAAAAA/VJEBvgAAAACtrFA+9zx0MwAAAL8AAAA/BDA8vQAAAL8yP5E+DNbasgAAAL8AWEq7vTs+vgAAAACVNyg9/v//vkCeCz1N746z////vgAAAD9N776zp5gevgAAAD99woAzCXs+M////z6kmB6+ZbahvAAAAL8g4Ey+sxCRswAAAD/+//++pIUIsovBCb4AAAC/Kb27MgAAAL8BAAC/gfmaPIjBCb6IZ3M+XzAzvdDAh70kSX8+sb83vYjBCb76Nhq9/C88vc0/Jr40P5G+gdp8pYJavhL33PChyVf6D3721W+IivgEn72tvtI9VR/kv5TKmiw2HX721W/lowUDAPjccQ+kYgLD/DeI+lvpATqt+JtmSjEhM3H/f////z+QeiSG////P1ehQof///8/QNgmgP///z9d9MmI////P/nxDnv///8//PMVgP///z827LSF////P8ngQKRDWokPYcAuw4VB+yEP5+eRPGn6CKb4boH///8/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_4p1i7")

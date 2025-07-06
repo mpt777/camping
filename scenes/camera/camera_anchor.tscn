@@ -11,7 +11,7 @@ script = ExtResource("1_ynye0")
 [node name="SpringArm3D" type="SpringArm3D" parent="."]
 collision_mask = 16
 shape = SubResource("SphereShape3D_dovo2")
-spring_length = 4.0
+spring_length = 0.0
 
 [node name="SpringPosition" type="Node3D" parent="SpringArm3D"]
 unique_name_in_owner = true

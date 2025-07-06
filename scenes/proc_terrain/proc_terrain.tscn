@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c20uevkl3blai"]
+
+[ext_resource type="Script" uid="uid://ckjiwpd3vu3rg" path="res://scenes/proc_terrain/proc_terrain.gd" id="1_etqn7"]
+
+[node name="ProcTerrain" type="StaticBody3D"]
+script = ExtResource("1_etqn7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]

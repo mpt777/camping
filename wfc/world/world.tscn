@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://bgicmcs54rylh"]
+
+[ext_resource type="Script" uid="uid://csu0eldee1nbu" path="res://wfc/world/world.gd" id="1_8toxo"]
+[ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/world/island/sky.gdshader" id="2_kyq3w"]
+[ext_resource type="PackedScene" uid="uid://bikwxeiuux2nc" path="res://scenes/decorations/water.tscn" id="3_yeqt1"]
+[ext_resource type="PackedScene" uid="uid://ca4q7a6ang8yv" path="res://scenes/ocean/ocean.tscn" id="4_oi04a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_quv71"]
+shader = ExtResource("2_kyq3w")
+shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
+shader_parameter/day_bottom_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/sunset_top_color = Color(0.7, 0.75, 1, 1)
+shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.7, 1)
+shader_parameter/night_top_color = Color(0.02, 0, 0.04, 1)
+shader_parameter/night_bottom_color = Color(0.1, 0, 0.2, 1)
+shader_parameter/sky_color = Color(0.03, 0.05, 0.11, 1)
+shader_parameter/horizon_color = Color(0, 0.7, 0.8, 1)
+shader_parameter/horizon_blur = 0.05
+shader_parameter/sun_color = Color(10, 8, 1, 1)
+shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
+shader_parameter/sun_size = 0.166
+shader_parameter/sun_blur = 0.01
+shader_parameter/moon_color = Color(1, 0.95, 0.7, 1)
+shader_parameter/moon_size = 0.06
+shader_parameter/moon_blur = 0.1
+shader_parameter/clouds_edge_color = Color(0.8, 0.8, 0.98, 1)
+shader_parameter/clouds_top_color = Color(1, 1, 1, 1)
+shader_parameter/clouds_middle_color = Color(0.92, 0.92, 0.98, 1)
+shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
+shader_parameter/clouds_speed = 2.0
+shader_parameter/clouds_direction = 0.2
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_cutoff = 0.3
+shader_parameter/clouds_fuzziness = 0.5
+shader_parameter/clouds_weight = 0.0
+shader_parameter/clouds_blur = 0.25
+shader_parameter/star_base_color = Color(1, 1, 1, 1)
+shader_parameter/star_hue_offset = 0.6
+shader_parameter/star_intensity = 0.086
+shader_parameter/star_twinkle_speed = 0.0
+shader_parameter/star_twinkle_intensity = 0.0
+shader_parameter/layer_scale = 20.0
+shader_parameter/layer_scale_step = 10.0
+shader_parameter/layers_count = 3
+shader_parameter/overwritten_time = 0.0
+
+[sub_resource type="Sky" id="Sky_a2155"]
+sky_material = SubResource("ShaderMaterial_quv71")
+
+[sub_resource type="Environment" id="Environment_bdmw7"]
+background_mode = 2
+sky = SubResource("Sky_a2155")
+
+[node name="World" type="Node3D" node_paths=PackedStringArray("mesh_container")]
+script = ExtResource("1_8toxo")
+mesh_container = NodePath("Meshes")
+
+[node name="Env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+environment = SubResource("Environment_bdmw7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D(-0.366394, -0.109849, -0.923953, -0.563031, 0.816749, 0.126167, 0.740778, 0.566441, -0.3611, -0.106595, 1.19477, -6.00083)
+shadow_enabled = true
+
+[node name="Water" type="Node3D" parent="."]
+
+[node name="Water" parent="Water" instance=ExtResource("3_yeqt1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Ocean" parent="Water" instance=ExtResource("4_oi04a")]
+
+[node name="Meshes" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
