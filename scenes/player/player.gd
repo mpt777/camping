@@ -19,7 +19,7 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 #@onready var n_fishing_pole : FishingPole = $Hotbar/FishingPole
 @onready var n_input : PlayerInput = $Input
 
-@onready var n_hotbar : Hotbar3D = $Hotbar
+@onready var n_hotbar : Hotbar3D = $PlayerMesh/Hotbar
 @onready var n_hotbar_ui : HotbarUI = $UI/Control/Hotbar
 
 @onready var player_mesh : PlayerMesh = $PlayerMesh

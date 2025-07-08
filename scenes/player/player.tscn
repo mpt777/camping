@@ -25,7 +25,7 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath("CameraAnchor:rotation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath("Mesh:rotation")
+properties/5/path = NodePath("PlayerMesh:current_animation")
 properties/5/spawn = true
 properties/5/replication_mode = 1
 
@@ -45,11 +45,11 @@ replication_config = SubResource("SceneReplicationConfig_fb1vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_37qaq")
 
-[node name="Hotbar" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_p47bc")]
-transform = Transform3D(1, 0, 0, 0, 0.866026, -0.5, 0, 0.5, 0.866026, 0.772532, 1.44335, -0.0954551)
-player = NodePath("..")
-
 [node name="PlayerMesh" parent="." instance=ExtResource("4_5gtgg")]
+
+[node name="Hotbar" parent="PlayerMesh" node_paths=PackedStringArray("player") instance=ExtResource("3_p47bc")]
+transform = Transform3D(1, 0, 0, 0, 0.866026, -0.5, 0, 0.5, 0.866026, 0.772532, 1.44335, -0.0954551)
+player = NodePath("../..")
 
 [node name="CameraAnchor" parent="." instance=ExtResource("3_gmlin")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52306, 0)
@@ -89,7 +89,7 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_default_cursor_shape = 8
-hotbar = NodePath("../../../Hotbar")
+hotbar = NodePath("../../../PlayerMesh/Hotbar")
 
 [node name="MessageContainer" parent="UI/Control" instance=ExtResource("3_lvxji")]
 custom_minimum_size = Vector2(300, 200)
