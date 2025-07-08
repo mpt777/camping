@@ -16,6 +16,7 @@ const JUMP_VELOCITY = 4.5
 
 var active = true
 
+var animated_state : Enums.ANIMATION = Enums.ANIMATION.IDLE
 
 func jump():
 	jumping = true
@@ -32,6 +33,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("jump"):
 		jump()
+		
+	if event.is_action_pressed("emote"):
+		if self.animated_state == Enums.ANIMATION.EMOTE:
+			self.animated_state = Enums.ANIMATION.IDLE
+		else:
+			self.animated_state = Enums.ANIMATION.EMOTE
+			body.player_mesh.animate_to(Enums.ANIMATION.EMOTE)
 		
 func _process(_delta):
 	if !is_multiplayer_authority():
@@ -84,7 +92,11 @@ func _physics_process(delta):
 	body.move_and_slide()
 	
 	#print(body.velocity.length() )
-	if body.velocity.length() > 1:
-		body.player_mesh.animate_to(Enums.ANIMATION.WALK)
-	else:
-		body.player_mesh.animate_to(Enums.ANIMATION.IDLE)
+	if self.animated_state != Enums.ANIMATION.EMOTE:
+		if body.is_on_floor():
+			if body.velocity.length() > 1:
+				body.player_mesh.animate_to(Enums.ANIMATION.WALK)
+			else:
+				body.player_mesh.animate_to(Enums.ANIMATION.IDLE)
+		else:
+			body.player_mesh.animate_to(Enums.ANIMATION.FALLING)

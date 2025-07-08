@@ -15,5 +15,7 @@ enum ANIMATION {
 	IDLE,
 	WALK,
 	RUN,
+	JUMP,
+	FALLING,
 	EMOTE,
 }

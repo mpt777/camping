@@ -25,7 +25,7 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath("CameraAnchor:rotation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath("Mesh:rotation")
+properties/5/path = NodePath("PlayerMesh:current_animation")
 properties/5/spawn = true
 properties/5/replication_mode = 1
 
