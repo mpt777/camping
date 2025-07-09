@@ -7,10 +7,11 @@
 script = ExtResource("1_yetlb")
 mesh = ExtResource("1_bdglm")
 animation_lookup = Dictionary[int, String]({
-0: "Armature|FasterIdle",
+0: "Armature|idle",
 1: "Armature|walk",
 2: "Armature|run",
 3: "Armature|Jump",
-4: "Armature|Falling",
-5: "Armature|dance"
+4: "Armature|falling",
+5: "Armature|snakedance",
+6: "Armature|CastStart"
 })

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8n48n38pjppc"]
+[gd_scene load_steps=8 format=3 uid="uid://b8n48n38pjppc"]
 
 [ext_resource type="Script" uid="uid://c4dlrexmrayjn" path="res://scenes/items/tools/fishing_pole/fishing_pole.gd" id="1_xhvsk"]
 [ext_resource type="PackedScene" uid="uid://ca4ddr77u1a03" path="res://scenes/items/tools/bobber/bobber.tscn" id="2_5dmys"]
@@ -7,6 +7,8 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_xhvsk"]
 size = Vector3(0.1, 2, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4fmbj"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3gnoo"]
 properties/0/path = NodePath(".:bobber_position")
@@ -18,23 +20,30 @@ script = ExtResource("1_xhvsk")
 metadata/_custom_type_script = "uid://chktvyv33f3bf"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("BoxMesh_xhvsk")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.615119)
+visible = false
+mesh = SubResource("BoxMesh_4fmbj")
 
 [node name="Rope" parent="." instance=ExtResource("2_gn0oc")]
 top_level = true
 
 [node name="BobberAnchor" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="Bobber" parent="BobberAnchor" instance=ExtResource("2_5dmys")]
 sleeping = true
 
 [node name="CastAnchor" type="Node3D" parent="BobberAnchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+top_level = true
 visible = false
 
 [node name="Decal" type="Decal" parent="BobberAnchor/CastAnchor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.35944, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.40018, 0)
 size = Vector3(1, 9.28113, 1)
 texture_albedo = ExtResource("4_4fmbj")
 emission_energy = 16.0

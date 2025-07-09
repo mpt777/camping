@@ -15,6 +15,8 @@ const CATCH_RANGE : Array[int] = [2, 10]
 @onready var n_rope : Rope = $Draw3D
 @export var bobber_position : Vector3
 
+var bobber_distance : float = 0
+
 var is_held = false
 var is_held_old = false
 
@@ -38,6 +40,10 @@ func _ready() -> void:
 	self.active = true
 
 func _process(delta: float) -> void:
+	
+	self.n_rope.visible = true
+	if self.state == states.IDLE:
+		self.n_rope.visible = false
 	
 	if is_multiplayer_authority():
 		self.bobber_position = self.bobber.global_position
@@ -75,6 +81,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		self.is_held = true
 		
 func advance_state(delta : float) -> void:
+	
 	if self.is_held:
 		self.target(delta)
 		self.reel(delta)
@@ -83,7 +90,7 @@ func advance_state(delta : float) -> void:
 		return
 		
 	if self.is_held:
-		if self.state == states.IDLE:
+		if self.state == states.IDLE or not self.state:
 			self.state = states.TARGET
 			return
 			
@@ -91,12 +98,24 @@ func advance_state(delta : float) -> void:
 		if self.state == states.TARGET:
 			self.state = states.CAST
 			self.cast()
+		self.bobber_distance = 0.0
+		self.player.player_mesh.animation_lock = false
+		
 		
 func target(delta) -> void:
 	if self.state == states.TARGET:
+		self.player.player_mesh.animation_lock = true
+		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START)
 		self.cast_anchor.visible = true
-		self.cast_anchor.position.z -=  (delta * self.CAST_RATE)
-		self.cast_anchor.global_position.y = self.bobber_anchor.global_position.y
+
+		var forward = -self.player.player_mesh.global_basis.z.normalized()
+		self.cast_anchor.global_position = self.player.global_position + forward * bobber_distance
+
+		self.bobber_distance += delta * self.CAST_RATE
+		
+		#self.cast_anchor.position.z -=  (delta * self.CAST_RATE)
+		#self.cast_anchor.global_position.y = self.bobber_anchor.global_position.y
+		#self.cast_anchor.global_rotation = Vector3.ZERO
 		
 
 func calculate_arc_velocity(start: Vector3, end: Vector3, time: float) -> Vector3:
@@ -114,7 +133,35 @@ func calculate_arc_velocity(start: Vector3, end: Vector3, time: float) -> Vector
 
 	return Vector3(vxz.x, vy, vxz.z)
 	
+func calculate_arc_velocity_with_peak(start: Vector3, end: Vector3, peak_height: float) -> Vector3:
+	var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")  # e.g. 9.8
+
+	if peak_height <= start.y or peak_height <= end.y:
+		push_error("peak_height must be higher than both start.y and end.y")
+		return Vector3.ZERO
+
+	var displacement = end - start
+	var horizontal_displacement = Vector3(displacement.x, 0, displacement.z)
+	var horizontal_distance = horizontal_displacement.length()
+
+	# --- Vertical motion ---
+	var ascent_height = peak_height - start.y
+	var descent_height = peak_height - end.y
+
+	var t_up = sqrt(2 * ascent_height / gravity)
+	var t_down = sqrt(2 * descent_height / gravity)
+	var total_time = t_up + t_down
+
+	# Initial vertical velocity to reach peak
+	var vy = gravity * t_up
+
+	# Horizontal velocity
+	var vxz = horizontal_displacement.normalized() * (horizontal_distance / total_time)
+
+	return Vector3(vxz.x, vy, vxz.z)
+	
 func cast() -> void:
+	await get_tree().create_timer(0.05).timeout
 	self.bobber.position = Vector3(0,0,0)
 	self.bobber.top_level = true
 	self.bobber.global_position = self.bobber.global_position

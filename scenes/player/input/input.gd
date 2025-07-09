@@ -92,11 +92,12 @@ func _physics_process(delta):
 	body.move_and_slide()
 	
 	#print(body.velocity.length() )
-	if self.animated_state != Enums.ANIMATION.EMOTE:
-		if body.is_on_floor():
-			if body.velocity.length() > 1:
-				body.player_mesh.animate_to(Enums.ANIMATION.WALK)
+	if not body.player_mesh.animation_lock:
+		if self.animated_state != Enums.ANIMATION.EMOTE:
+			if body.is_on_floor():
+				if body.velocity.length() > 5:
+					body.player_mesh.animate_to(Enums.ANIMATION.WALK)
+				else:
+					body.player_mesh.animate_to(Enums.ANIMATION.IDLE)
 			else:
-				body.player_mesh.animate_to(Enums.ANIMATION.IDLE)
-		else:
-			body.player_mesh.animate_to(Enums.ANIMATION.FALLING)
+				body.player_mesh.animate_to(Enums.ANIMATION.FALLING)
