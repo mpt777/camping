@@ -4,4 +4,5 @@
 
 [node name="Ocean" type="Node3D"]
 script = ExtResource("1_pde3v")
+radius = null
 metadata/_custom_type_script = "uid://b4we47sg1r0br"
