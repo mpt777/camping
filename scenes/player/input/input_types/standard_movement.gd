@@ -1,38 +1,29 @@
-extends Node
-class_name PlayerInput
+extends PlayerInput
 
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+#var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var gravity = 25
 
 const SPEED = 7
-const JUMP_VELOCITY = 4.5
+const JUMP_VELOCITY = 10
 
 @export var ACCELERATION := 0.8
 @export var FRICTION := 0.5
 @export var rotation_speed := 10
 
-@export var body : Player
 @export var jumping := false
 @export var direction := Vector2()
 
-var active = true
-
 var animated_state : Enums.ANIMATION = Enums.ANIMATION.IDLE
 
-func jump():
-	jumping = true
+func code() -> String:
+	return "movement"
 	
 func _unhandled_input(event: InputEvent) -> void:
-	if !is_multiplayer_authority():
+	if !is_valid():
 		return
-	if !active:
-		return
-	
-	if event.is_action_pressed("inventory"):
-		body.n_ui.visible = !body.n_ui.visible
-		body.set_ui_lock(body.n_ui.visible)
-	
+		
 	if event.is_action_pressed("jump"):
-		jump()
+		jumping = true
 		
 	if event.is_action_pressed("emote"):
 		if self.animated_state == Enums.ANIMATION.EMOTE:
@@ -40,28 +31,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			self.animated_state = Enums.ANIMATION.EMOTE
 			body.player_mesh.animate_to(Enums.ANIMATION.EMOTE)
-		
-func _process(_delta):
-	if !is_multiplayer_authority():
-		return
-	if !active:
-		return
-	if body.ui_locked:
+
+
+func process(_delta):
+	if !is_valid():
 		direction = Vector2.ZERO
 		return
 	direction = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	
+	
+func physics_process(delta):
+	if !is_valid():
+		return
 		
-func _physics_process(delta):
-	# Add the gravity.
-	if !is_multiplayer_authority():
-		return
-	if !active:
-		return
 	if not body.is_on_floor():
 		body.velocity.y -= gravity * delta
 
-	# Handle Jump.
-	#if jumping and body.is_on_floor():
 	if jumping:
 		body.velocity.y = JUMP_VELOCITY
 

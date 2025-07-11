@@ -29,22 +29,22 @@ shader_parameter/horizon_color = Color(0.113725, 0.333333, 0.701961, 1)
 shader_parameter/horizon_blur = 0.05
 shader_parameter/sun_color = Color(10, 8, 1, 1)
 shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
-shader_parameter/sun_size = 0.166
-shader_parameter/sun_blur = 0.01
-shader_parameter/moon_color = Color(1, 0.95, 0.7, 1)
-shader_parameter/moon_size = 0.06
+shader_parameter/sun_size = 0.208
+shader_parameter/sun_blur = 0.502
+shader_parameter/moon_color = Color(0.707301, 0.61305, 0, 1)
+shader_parameter/moon_size = 1.0
 shader_parameter/moon_blur = 0.1
 shader_parameter/clouds_edge_color = Color(0.8, 0.8, 0.98, 1)
 shader_parameter/clouds_top_color = Color(1, 1, 1, 1)
 shader_parameter/clouds_middle_color = Color(0.92, 0.92, 0.98, 1)
 shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
-shader_parameter/clouds_speed = 2.0
-shader_parameter/clouds_direction = -0.5
-shader_parameter/clouds_scale = 2.95
-shader_parameter/clouds_cutoff = 0.38
-shader_parameter/clouds_fuzziness = 0.5
+shader_parameter/clouds_speed = 1.0
+shader_parameter/clouds_direction = 0.2
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_cutoff = 0.3
+shader_parameter/clouds_fuzziness = 0.58
 shader_parameter/clouds_weight = 0.0
-shader_parameter/clouds_blur = 0.35
+shader_parameter/clouds_blur = 0.03
 shader_parameter/star_base_color = Color(1, 1, 1, 1)
 shader_parameter/star_hue_offset = 0.6
 shader_parameter/star_intensity = 0.086
@@ -61,8 +61,9 @@ sky_material = SubResource("ShaderMaterial_c44sj")
 [sub_resource type="Environment" id="Environment_wb2e1"]
 background_mode = 2
 sky = SubResource("Sky_00wko")
-fog_light_energy = 0.0
-fog_sky_affect = 0.969
+fog_mode = 1
+fog_light_color = Color(0.541641, 0.506616, 0.788685, 1)
+fog_sky_affect = 0.0
 
 [node name="Island" type="Node3D"]
 
@@ -89,45 +90,85 @@ shape = SubResource("ConcavePolygonShape3D_wb2e1")
 environment = SubResource("Environment_wb2e1")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(-0.740778, -0.566441, 0.3611, -0.563031, 0.816749, 0.126167, -0.366394, -0.109849, -0.923953, -0.106595, 1.19477, -6.00083)
+transform = Transform3D(-0.740777, -0.566441, 0.3611, -0.587611, 0.806894, 0.060286, -0.325518, -0.167527, -0.930577, -0.106595, 1.19477, -6.00083)
 shadow_enabled = true
 
 [node name="Trees" type="Node3D" parent="."]
 
-[node name="PalmTree" parent="Trees" instance=ExtResource("4_a2155")]
+[node name="Palsm" type="Node3D" parent="Trees"]
+
+[node name="PalmTree" parent="Trees/Palsm" instance=ExtResource("4_a2155")]
 transform = Transform3D(-0.167634, 0, 1.99296, 0, 2, 0, -1.99296, 0, -0.167634, -23.8735, 0.65791, -26.3935)
 
-[node name="PalmTree2" parent="Trees" instance=ExtResource("4_a2155")]
+[node name="PalmTree2" parent="Trees/Palsm" instance=ExtResource("4_a2155")]
 transform = Transform3D(1.78014, 0, 0.911648, 0, 2, 0, -0.911648, 0, 1.78014, 41.0375, 0.65791, -35.5364)
 
-[node name="PalmTree3" parent="Trees" instance=ExtResource("4_a2155")]
+[node name="PalmTree3" parent="Trees/Palsm" instance=ExtResource("4_a2155")]
 transform = Transform3D(1.20895, 0, 1.59325, 0, 2, 0, -1.59325, 0, 1.20895, 61.2111, 0.65791, -11.5108)
 
-[node name="PalmTree4" parent="Trees" instance=ExtResource("4_a2155")]
+[node name="PalmTree4" parent="Trees/Palsm" instance=ExtResource("4_a2155")]
 transform = Transform3D(1.20895, 0, 1.59325, 0, 2, 0, -1.59325, 0, 1.20895, -44.6367, 0.657914, -3.79582)
 
-[node name="PalmTree5" parent="Trees" instance=ExtResource("4_a2155")]
+[node name="PalmTree5" parent="Trees/Palsm" instance=ExtResource("4_a2155")]
 transform = Transform3D(1.20895, 0, 1.59325, 0, 2, 0, -1.59325, 0, 1.20895, -50.3288, 0.657914, -64.1545)
 
-[node name="tree" parent="Trees" instance=ExtResource("5_0f7sy")]
+[node name="Trees" type="Node3D" parent="Trees"]
+
+[node name="tree" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 45.6696, 3.79039, 6.06186)
 
-[node name="tree2" parent="Trees" instance=ExtResource("5_0f7sy")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 41.4003, 3.79039, -9.05334)
+[node name="tree8" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(1.74843, 0, -0.971084, 0, 2, 0, 0.971084, 0, 1.74843, 33.1494, 4.27258, -17.2318)
 
-[node name="tree3" parent="Trees" instance=ExtResource("5_0f7sy")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -10.5997, 3.79039, 2.94666)
+[node name="tree17" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(0.0551108, 0, -1.99924, 0, 2, 0, 1.99924, 0, 0.0551108, 47.4483, -3.37702, -11.6166)
 
-[node name="tree4" parent="Trees" instance=ExtResource("5_0f7sy")]
+[node name="tree18" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(-1.28244, 0, -1.53471, 0, 2, 0, 1.53471, 0, -1.28244, 37.3927, -3.37702, -21.2341)
+
+[node name="tree19" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(-1.28244, 0, -1.53471, 0, 2, 0, 1.53471, 0, -1.28244, 38.5855, -3.37702, 20.5618)
+
+[node name="tree9" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(1.87956, 0, -1.04392, 0, 2.15, 0, 1.04392, 0, 1.87956, 31.8235, 3.79039, -2.48643)
+
+[node name="tree10" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(1.87956, 0, -1.04392, 0, 2.15, 0, 1.04392, 0, 1.87956, 21.2518, 3.79039, -11.0439)
+
+[node name="tree11" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(1.86571, 0, 0.720515, 0, 2, 0, -0.720515, 0, 1.86571, 21.2518, 3.79039, 8.08838)
+
+[node name="tree12" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(1.86571, 0, 0.720515, 0, 2, 0, -0.720515, 0, 1.86571, 34.6388, 4.75594, 8.08838)
+
+[node name="tree13" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(2.00563, 0, 0.774553, 0, 2.15, 0, -0.774553, 0, 2.00563, 34.6388, 3.79039, 16.4467)
+
+[node name="tree14" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(1.86571, 0, 0.720515, 0, 2, 0, -0.720515, 0, 1.86571, 24.9448, 3.79039, 25.1971)
+
+[node name="tree15" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(1.8348, 0, -1.14923, 0, 2.165, 0, 1.14923, 0, 1.8348, 40.0773, 3.79039, -26.0633)
+
+[node name="tree16" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(1.82209, 0, -1.14127, 0, 2.15, 0, 1.14127, 0, 1.82209, 55.8882, 3.79039, 2.95723)
+
+[node name="tree2" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 41.4003, 4.62847, -9.05334)
+
+[node name="tree3" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
+transform = Transform3D(2.15, 0, 0, 0, 2.15, 0, 0, 0, 2.15, -10.5997, 3.79039, 2.94666)
+
+[node name="tree4" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
 transform = Transform3D(1.12766, 0, -1.65178, 0, 2, 0, 1.65178, 0, 1.12766, -30.1188, 3.79039, -10.5026)
 
-[node name="tree6" parent="Trees" instance=ExtResource("5_0f7sy")]
+[node name="tree6" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
 transform = Transform3D(1.12766, 0, -1.65178, 0, 2, 0, 1.65178, 0, 1.12766, -35.1156, 3.7904, -60.4961)
 
-[node name="tree7" parent="Trees" instance=ExtResource("5_0f7sy")]
+[node name="tree7" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
 transform = Transform3D(1.12766, 0, -1.65178, 0, 2, 0, 1.65178, 0, 1.12766, -24.1156, 3.7904, -78.4961)
 
-[node name="tree5" parent="Trees" instance=ExtResource("5_0f7sy")]
+[node name="tree5" parent="Trees/Trees" instance=ExtResource("5_0f7sy")]
 transform = Transform3D(1.15141, 0, 1.63532, 0, 2, 0, -1.63532, 0, 1.15141, -3.43605, 4.79039, -16.4263)
 
 [node name="Decorations" type="Node3D" parent="."]

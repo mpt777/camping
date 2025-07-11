@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr1lvp6lf4lyc"]
+
+[ext_resource type="PackedScene" uid="uid://b1gfi4n8w1cud" path="res://scenes/player/input/player_input.tscn" id="1_ubkm4"]
+[ext_resource type="Script" uid="uid://c2fcmk75x3mms" path="res://scenes/player/input/input_types/ui_controls.gd" id="2_6ubtd"]
+
+[node name="UiControls" instance=ExtResource("1_ubkm4")]
+script = ExtResource("2_6ubtd")

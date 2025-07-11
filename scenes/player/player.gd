@@ -16,8 +16,8 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 @onready var n_label = $Label3D
 @onready var ui: CanvasLayer = $UI
 @onready var n_camera_anchor : CameraAnchor = $CameraAnchor
-#@onready var n_fishing_pole : FishingPole = $Hotbar/FishingPole
-@onready var n_input : PlayerInput = $Input
+
+@onready var inputs := $Inputs
 
 @onready var n_hotbar : Hotbar3D = $PlayerMesh/Hotbar
 @onready var n_hotbar_ui : HotbarUI = $UI/Control/Hotbar
@@ -31,7 +31,8 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 var player_grouper : PlayerGrouper
 var player_data : PlayerData
 var avatar_data : AvatarData
-var ui_locked = false
+
+var mouse_mode : Input.MouseMode = Input.MOUSE_MODE_VISIBLE
 
 func constructor(m_player_data : PlayerData) -> Player:
 	self.player_data = m_player_data
@@ -48,7 +49,7 @@ func constructor_node() -> Player:
 	self.player_grouper = self.get_parent()
 	
 	Game.SyncPlayers.connect(sync_player)
-	Signals.UILock.connect(set_ui_lock)
+	#Signals.UILock.connect(set_can_move)
 	
 	self.sync_player()
 	
@@ -75,10 +76,13 @@ func render():
 		n_label.text = self.player_data.name
 		self.add_money(0)
 	
-func set_ui_lock(lock: bool) -> void:
-	self.ui_locked = lock
-	#self.n_fishing_pole.active = !lock
+func set_ui(v: bool) -> void:
+	self.ui.visible = v
 	
+func has_menu_open() -> bool:
+	if self.ui.visible:
+		return true
+	return false
 	
 func add_money(money: int) -> void:
 	self.player_data.money += money
@@ -98,13 +102,33 @@ func add_item_to_hotbar(idx : int, item_data : ItemData) -> void:
 	self.n_hotbar_ui.set_item_data(idx, item_data)
 	self.save()
 	
+	
+# Inputs	
+###################################################
+
+func set_input(codes: Array[String], active) -> void:
+	for child in self.inputs.get_children():
+		if child.code() in codes:
+			child.active = active
+
+func _process(delta: float):
+	for child in self.inputs.get_children():
+		if child.active:
+			child.process(delta)
+			
+func _physics_process(delta: float) -> void:
+	for child in self.inputs.get_children():
+		if child.active:
+			child.physics_process(delta)
+	
+###################################################	
 # Minigame
 	
 func enter_minigame(mg : Minigame) -> void:
 	if !self.is_multiplayer_authority():
 		return
-	self.n_input.active = false
-	self.ui.visible = false
+	self.set_ui(false)
+	self.set_input(["movement"], false)
 	mg.constructor(self)
 	add_child(mg, true)
 	mg.Exited.connect(exit_minigame)
@@ -112,8 +136,8 @@ func enter_minigame(mg : Minigame) -> void:
 func exit_minigame() -> void:
 	if !self.is_multiplayer_authority():
 		return
-	self.ui.visible = true
-	self.n_input.active = true
+	self.set_ui(false)
+	self.set_input(["movement"], true)
 	
 	
 ####################################################################################################
@@ -144,13 +168,17 @@ func start_dialog(dialog_resource : DialogueResource):
 		return
 	var balloon = BALLOON.instantiate()
 	self.n_ui.add_child(balloon)
-	self.ui_locked = true
+	
+	self.set_input(["movement"], false)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			
 	balloon.start(dialog_resource, "", [self])
 	balloon.tree_exiting.connect(func() :
-		self.ui_locked = false
+		self.set_input(["movement"], true)
+		Input.set_mouse_mode(self.mouse_mode)
 	)
 	
-### Interact
+### Interact #############################################
 func interact(interactable : Interactable):
 	if !self.is_multiplayer_authority():
 		return
@@ -159,10 +187,15 @@ func interact(interactable : Interactable):
 	interactable.enter()
 	
 	self.ui.visible = false
-	self.n_input.active = false
+	
+	self.set_input(["movement", "ui"], false)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	#self.n_input.active = false
 	
 func end_interact():
 	if !self.is_multiplayer_authority():
 		return
 	self.ui.visible = true
-	self.n_input.active = true
+	self.set_input(["movement", "ui"], true)
+	Input.set_mouse_mode(self.mouse_mode)
+	#self.n_input.active = true

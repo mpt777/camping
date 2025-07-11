@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://57kmlfvwo3ed"]
+
+[ext_resource type="PackedScene" uid="uid://b1gfi4n8w1cud" path="res://scenes/player/input/player_input.tscn" id="1_knruq"]
+[ext_resource type="Script" uid="uid://4eo2okfcg5so" path="res://scenes/player/input/input_types/standard_movement.gd" id="2_13kvj"]
+
+[node name="StandardMovement" instance=ExtResource("1_knruq")]
+script = ExtResource("2_13kvj")
+ACCELERATION = 0.8
+FRICTION = 0.5
+rotation_speed = 10
+jumping = false
+direction = Vector2(0, 0)

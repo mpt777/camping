@@ -21,16 +21,16 @@ func add_message(message : Message):
 # Text Input
 func _on_text_edit_focus_entered() -> void:
 	if is_multiplayer_authority():
-		Signals.UILock.emit(true)
+		Signals.UILock.emit(false)
 
 func _on_text_edit_focus_exited() -> void:
 	if is_multiplayer_authority():
-		Signals.UILock.emit(false)
+		Signals.UILock.emit(true)
 
 func _input(event: InputEvent) -> void:
 	if is_multiplayer_authority():
 		if event.is_action_pressed("exit"):
-			Signals.UILock.emit(false)
+			Signals.UILock.emit(true)
 			n_text.release_focus()
 
 func _on_text_edit_text_submitted(new_text: String) -> void:

@@ -1,11 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://cw8w6clmxedi6"]
+[gd_scene load_steps=13 format=3 uid="uid://cw8w6clmxedi6"]
 
 [ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
-[ext_resource type="PackedScene" uid="uid://bg32mxc4ijrjy" path="res://scenes/player/input/input.tscn" id="2_lvxji"]
 [ext_resource type="PackedScene" uid="uid://ddniml3qphela" path="res://scenes/camera/camera_anchor.tscn" id="3_gmlin"]
+[ext_resource type="PackedScene" uid="uid://ceroiw57r1l05" path="res://scenes/player/input/input_types/camera_controls.tscn" id="3_je7p5"]
 [ext_resource type="PackedScene" uid="uid://jv60xuolhlcg" path="res://ui/message_container/message_container.tscn" id="3_lvxji"]
 [ext_resource type="PackedScene" uid="uid://mnalqq5vddyq" path="res://scenes/player/hotbar/hotbar.tscn" id="3_p47bc"]
 [ext_resource type="PackedScene" uid="uid://ccai5qxege0j2" path="res://scenes/player/player_mesh/player_mesh.tscn" id="4_5gtgg"]
+[ext_resource type="PackedScene" uid="uid://57kmlfvwo3ed" path="res://scenes/player/input/input_types/standard_movement.tscn" id="4_fm80t"]
+[ext_resource type="PackedScene" uid="uid://cr1lvp6lf4lyc" path="res://scenes/player/input/input_types/ui_controls.tscn" id="5_gx1jg"]
 [ext_resource type="PackedScene" uid="uid://b803yn8lksfti" path="res://ui/hotbar/hotbar.tscn" id="8_5gtgg"]
 [ext_resource type="PackedScene" uid="uid://b5obyt7oj4or6" path="res://ui/ui/ui.tscn" id="8_qek5x"]
 
@@ -35,8 +37,16 @@ properties/5/replication_mode = 1
 collision_layer = 34
 script = ExtResource("1_hwwnj")
 
-[node name="Input" parent="." node_paths=PackedStringArray("body") instance=ExtResource("2_lvxji")]
-body = NodePath("..")
+[node name="Inputs" type="Node" parent="."]
+
+[node name="StandardMovement" parent="Inputs" node_paths=PackedStringArray("body") instance=ExtResource("4_fm80t")]
+body = NodePath("../..")
+
+[node name="CameraControls" parent="Inputs" node_paths=PackedStringArray("body") instance=ExtResource("3_je7p5")]
+body = NodePath("../..")
+
+[node name="UiControls" parent="Inputs" node_paths=PackedStringArray("body") instance=ExtResource("5_gx1jg")]
+body = NodePath("../..")
 
 [node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_fb1vy")
@@ -52,8 +62,9 @@ hotbar = NodePath("Hotbar")
 transform = Transform3D(1, 0, 0, 0, 0.866026, -0.5, 0, 0.5, 0.866026, 0.772532, 1.44335, -0.0954551)
 player = NodePath("../..")
 
-[node name="CameraAnchor" parent="." instance=ExtResource("3_gmlin")]
+[node name="CameraAnchor" parent="." node_paths=PackedStringArray("body") instance=ExtResource("3_gmlin")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52306, 0)
+body = NodePath("..")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36582, 0)

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bg32mxc4ijrjy"]
-
-[ext_resource type="Script" uid="uid://dslbvtwfa5g53" path="res://scenes/player/input/input.gd" id="1_qaqjc"]
-
-[node name="Input" type="Node"]
-script = ExtResource("1_qaqjc")
