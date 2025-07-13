@@ -36,6 +36,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="Bobber" parent="BobberAnchor" instance=ExtResource("2_5dmys")]
 sleeping = true
+lock_rotation = true
 
 [node name="CastAnchor" type="Node3D" parent="BobberAnchor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)

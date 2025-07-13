@@ -6,7 +6,6 @@ const MG_FISHING = preload("res://scenes/minigames/fishing/mg_fishing.tscn")
 const CAST_RATE := 10
 const CATCH_RANGE : Array[int] = [2, 10]
 
-
 @onready var bobber_anchor := $BobberAnchor
 @onready var cast_anchor := $BobberAnchor/CastAnchor
 @onready var bobber : Bobber = $BobberAnchor/Bobber
@@ -36,8 +35,16 @@ func constructor(m_player : Player) -> FishingPole:
 
 func _ready() -> void:
 	self.bobber.EnteredWater.connect(bobber_entered_water)
+	self.bobber.HitWorld.connect(bobber_hit_world)
 	self.player = Utils.parents(self).filter(func(x): return x is Player)[0]
 	self.active = true
+	
+func is_valid() -> bool:
+	if !is_multiplayer_authority():
+		return false
+	if !self.active:
+		return false
+	return true
 
 func _process(delta: float) -> void:
 	
@@ -50,10 +57,8 @@ func _process(delta: float) -> void:
 		
 	self.draw_line()
 	
-	if !is_multiplayer_authority():
-		return
-	if !self.active:
-		return
+	if !self.is_valid():
+		return 
 		
 	self.cast_anchor.global_rotation.x = 0
 	
@@ -71,10 +76,8 @@ func draw_line() -> void:
 		self.n_rope.draw_line()
 	
 func _unhandled_input(event: InputEvent) -> void:
-	if !is_multiplayer_authority():
-		return
-	if !self.active:
-		return
+	if !self.is_valid():
+		return 
 	if event.is_action_released("left_mouse"):
 		self.is_held = false
 	if event.is_action_pressed("left_mouse"):
@@ -85,7 +88,7 @@ func advance_state(delta : float) -> void:
 	if self.is_held:
 		self.target(delta)
 		self.reel(delta)
-			#
+			
 	if self.is_held == self.is_held_old:
 		return
 		
@@ -98,9 +101,7 @@ func advance_state(delta : float) -> void:
 		if self.state == states.TARGET:
 			self.state = states.CAST
 			self.cast()
-		self.bobber_distance = 0.0
 		self.player.player_mesh.animation_lock = false
-		
 		
 func target(delta) -> void:
 	if self.state == states.TARGET:
@@ -113,11 +114,72 @@ func target(delta) -> void:
 
 		self.bobber_distance += delta * self.CAST_RATE
 		
-		#self.cast_anchor.position.z -=  (delta * self.CAST_RATE)
-		#self.cast_anchor.global_position.y = self.bobber_anchor.global_position.y
-		#self.cast_anchor.global_rotation = Vector3.ZERO
-		
+func cast() -> void:
+	await get_tree().create_timer(0.1).timeout
+	
+	self.bobber.top_level = true
+	
+	self.bobber.global_position = self.bobber.global_position
+	self.bobber.freeze = false
+	
+	self.bobber.angular_velocity = Vector3.ZERO
+	# Arc!
+	self.bobber.linear_velocity = calculate_arc_velocity(
+		self.bobber_anchor.global_position, 
+		self.cast_anchor.global_position,
+		1
+	)
+	print("Casting from", self.bobber.global_position, "to", self.cast_anchor.global_position)
+	self.cast_anchor.visible = false
+	self.cast_anchor.position = Vector3.ZERO
+	#end arc
+	
+func reel(_delta) -> void:
+	if self.state != states.CAST:
+		return
+	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * self.CAST_RATE)
+	if (self.bobber.global_position.distance_squared_to(global_position) < 5):
+		self.state = states.IDLE
+		self.end()
+	
+func end() -> void:
+	self.state = states.IDLE
+	self.bobber_distance = 0.0
 
+	self.bobber.top_level = false
+	self.bobber.position = Vector3.ZERO
+	self.bobber.linear_velocity = Vector3.ZERO
+	self.bobber.angular_velocity = Vector3.ZERO
+	self.bobber.freeze = true
+	
+	self.n_timer.stop()
+
+func bobber_entered_water() -> void:
+	var _time = randf_range(self.CATCH_RANGE[0], self.CATCH_RANGE[1])
+	self.bobber.linear_velocity.x = 0
+	self.bobber.linear_velocity.z = 0
+	self.n_timer.start()
+	
+func bobber_hit_world() -> void:
+	if self.bobber.freeze:
+		return
+	self.n_timer.stop()
+	self.end()
+	
+func _on_timer_timeout() -> void:
+	if self.state != states.CAST:
+		return
+	if !self.bobber.water:
+		return
+	print("Bite!")
+	self.state = states.MINIGAME
+	var mg = MG_FISHING.instantiate()
+	self.player.enter_minigame(mg)
+	mg.Exited.connect(func():
+		self.end()
+	)
+	
+#####################################
 func calculate_arc_velocity(start: Vector3, end: Vector3, time: float) -> Vector3:
 	var displacement = end - start
 
@@ -135,6 +197,7 @@ func calculate_arc_velocity(start: Vector3, end: Vector3, time: float) -> Vector
 	
 func calculate_arc_velocity_with_peak(start: Vector3, end: Vector3, peak_height: float) -> Vector3:
 	var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")  # e.g. 9.8
+	#var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")  # e.g. 9.8
 
 	if peak_height <= start.y or peak_height <= end.y:
 		push_error("peak_height must be higher than both start.y and end.y")
@@ -160,53 +223,3 @@ func calculate_arc_velocity_with_peak(start: Vector3, end: Vector3, peak_height:
 
 	return Vector3(vxz.x, vy, vxz.z)
 	
-func cast() -> void:
-	await get_tree().create_timer(0.05).timeout
-	self.bobber.position = Vector3(0,0,0)
-	self.bobber.top_level = true
-	self.bobber.global_position = self.bobber.global_position
-	self.bobber.freeze = false
-	# Arc!
-	self.bobber.linear_velocity = calculate_arc_velocity(
-		self.bobber_anchor.global_position, 
-		self.cast_anchor.global_position,
-		1
-	)
-	self.bobber.angular_velocity = Vector3.ZERO
-	
-	self.cast_anchor.visible = false
-	self.cast_anchor.position = Vector3.ZERO
-	#end arc
-	
-	
-func reel(_delta) -> void:
-	if self.state != states.CAST:
-		return
-	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * self.CAST_RATE)
-	if (self.bobber.global_position.distance_squared_to(global_position) < 5):
-		self.state = states.IDLE
-		self.end()
-
-	
-func end() -> void:
-	self.state = states.IDLE
-	self.bobber.freeze = true
-	self.bobber.top_level = false
-	self.bobber.position = Vector3(0,0,0)
-
-	self.n_timer.stop()
-	
-func bobber_entered_water():
-	var _time = randf_range(self.CATCH_RANGE[0], self.CATCH_RANGE[1])
-	self.n_timer.start()
-
-func _on_timer_timeout() -> void:
-	if self.state != states.CAST:
-		return
-	print("Bite!")
-	self.state = states.MINIGAME
-	var mg = MG_FISHING.instantiate()
-	self.player.enter_minigame(mg)
-	mg.Exited.connect(func():
-		self.end()
-	)

@@ -12,6 +12,6 @@ animation_lookup = Dictionary[int, String]({
 2: "Armature|run",
 3: "Armature|Jump",
 4: "Armature|falling",
-5: "Armature|snakedance",
+5: "Armature|LongDance",
 6: "Armature|CastStart"
 })

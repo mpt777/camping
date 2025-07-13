@@ -11,9 +11,11 @@ class_name Bobber
 
 @onready var probes = $ProbeContainer.get_children()
 var water = null
-var submerged := false
+var submerged : bool = false
+#var active : bool = false # should this thing be considered active?
 
 signal EnteredWater
+signal HitWorld
 
 func set_uuid():
 	return
@@ -28,7 +30,6 @@ func _physics_process(_delta):
 		if depth > 0:
 			submerged = true
 			apply_force(Vector3.UP * float_force * gravity * depth, p.global_position - global_position)
-			
 
 func _integrate_forces(state: PhysicsDirectBodyState3D):
 	if submerged:
@@ -39,3 +40,14 @@ func _on_area_3d_area_entered(area: Area3D) -> void:
 	if area is Water:
 		self.water = area
 		self.EnteredWater.emit()
+
+func _on_area_3d_area_exited(area: Area3D) -> void:
+	if area is Water:
+		self.water = null
+
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	if self.water:
+		return
+	var layer = body.get_collision_layer()
+	if layer & 1:
+		self.HitWorld.emit()
