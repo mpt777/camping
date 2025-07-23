@@ -9,9 +9,6 @@ var avatar_data : AvatarData
 var current_animation : Enums.ANIMATION
 var tween : Tween
 
-var animation_lock : bool = false
-
-
 #class AnimationDirection
 
 func constructor(avatar_data: AvatarData) -> PlayerMesh:

@@ -13,7 +13,7 @@ const JUMP_VELOCITY = 10
 @export var jumping := false
 @export var direction := Vector2()
 
-var animated_state : Enums.ANIMATION = Enums.ANIMATION.IDLE
+#var animated_state : Enums.ANIMATION = Enums.ANIMATION.IDLE
 
 func code() -> String:
 	return "movement"
@@ -26,10 +26,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		jumping = true
 		
 	if event.is_action_pressed("emote"):
-		if self.animated_state == Enums.ANIMATION.EMOTE:
-			self.animated_state = Enums.ANIMATION.IDLE
+		if self.body.animated_state == Enums.ANIMATION.EMOTE:
+			self.body.animated_state = Enums.ANIMATION.IDLE
 		else:
-			self.animated_state = Enums.ANIMATION.EMOTE
+			self.body.animated_state = Enums.ANIMATION.EMOTE
 			body.player_mesh.animate_to(Enums.ANIMATION.EMOTE)
 
 
@@ -77,12 +77,11 @@ func physics_process(delta):
 	body.move_and_slide()
 	
 	#print(body.velocity.length() )
-	if not body.player_mesh.animation_lock:
-		if self.animated_state != Enums.ANIMATION.EMOTE:
-			if body.is_on_floor():
-				if body.velocity.length() > 5:
-					body.player_mesh.animate_to(Enums.ANIMATION.WALK)
-				else:
-					body.player_mesh.animate_to(Enums.ANIMATION.IDLE)
+	if self.body.animated_state != Enums.ANIMATION.EMOTE:
+		if body.is_on_floor():
+			if body.velocity.length() > 5:
+				body.player_mesh.animate_to(Enums.ANIMATION.WALK)
 			else:
-				body.player_mesh.animate_to(Enums.ANIMATION.FALLING)
+				body.player_mesh.animate_to(Enums.ANIMATION.IDLE)
+		else:
+			body.player_mesh.animate_to(Enums.ANIMATION.FALLING)

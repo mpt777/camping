@@ -15,6 +15,7 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 # Player synchronized input.
 @onready var n_label = $Label3D
 @onready var ui: CanvasLayer = $UI
+@onready var n_menu : Menu = $UI/Control/Menu
 @onready var n_camera_anchor : CameraAnchor = $CameraAnchor
 
 @onready var inputs := $Inputs
@@ -24,8 +25,6 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 
 @onready var player_mesh : PlayerMesh = $PlayerMesh
 
-@onready var n_ui : UI = $UI/Control/UI
-
 @onready var n_money := $UI/Control/Label
 
 var player_grouper : PlayerGrouper
@@ -33,6 +32,9 @@ var player_data : PlayerData
 var avatar_data : AvatarData
 
 var mouse_mode : Input.MouseMode = Input.MOUSE_MODE_VISIBLE
+
+var animated_state : Enums.ANIMATION = Enums.ANIMATION.IDLE
+#self.animated_state = Enums.ANIMATION.IDLE
 
 func constructor(m_player_data : PlayerData) -> Player:
 	self.player_data = m_player_data
@@ -89,13 +91,13 @@ func add_money(money: int) -> void:
 	self.n_money.text = "$ " + str(self.player_data.money)
 	
 func remove_item_from_inventory(item_data : ItemData) -> void:
-	self.n_ui.n_inventory.remove_item(item_data)
+	self.n_menu.n_inventory.remove_item(item_data)
 	self.n_hotbar_ui.remove_item(item_data)
 	await get_tree().process_frame
 	self.save()
 	
 func add_item_to_inventory(item_data : ItemData) -> void:
-	self.n_ui.n_inventory.add_item(item_data)
+	self.n_menu.n_inventory.add_item(item_data)
 	self.save()
 	
 func add_item_to_hotbar(idx : int, item_data : ItemData) -> void:
@@ -136,7 +138,7 @@ func enter_minigame(mg : Minigame) -> void:
 func exit_minigame() -> void:
 	if !self.is_multiplayer_authority():
 		return
-	self.set_ui(false)
+	self.set_ui(true)
 	self.set_input(["movement"], true)
 	
 	
@@ -144,22 +146,22 @@ func exit_minigame() -> void:
 func save() -> void:
 	if !self.is_multiplayer_authority():
 		return
-	self.player_data.inventory = self.n_ui.n_inventory.serialize()
+	self.player_data.inventory = self.n_menu.n_inventory.serialize()
 	self.player_data.hotbar = self.n_hotbar_ui.serialize()
 	Serializer.write_json(PlayerData.save_path(self.player_data.name), self.player_data.serialize())
 	
 func deserialize() -> void:
 	if !self.is_multiplayer_authority():
 		return
-	if !(self.n_ui.n_inventory.AddToHotbar.is_connected(add_item_to_hotbar)):
-		self.n_ui.n_inventory.AddToHotbar.connect(add_item_to_hotbar)
+	if !(self.n_menu.n_inventory.AddToHotbar.is_connected(add_item_to_hotbar)):
+		self.n_menu.n_inventory.AddToHotbar.connect(add_item_to_hotbar)
 	
-	self.n_ui.n_inventory.deserialize(self.player_data.inventory)
+	self.n_menu.n_inventory.deserialize(self.player_data.inventory)
 	self.n_hotbar_ui.deserialize(self.player_data.hotbar)
 	self.n_hotbar_ui.update()
 
 	if not self.player_data.inventory:
-		self.n_ui.n_inventory.add_item(FishingPoleData.new().set_item_type(POLE))
+		self.n_menu.n_inventory.add_item(FishingPoleData.new().set_item_type(POLE))
 		
 		
 ### Start Dialog
@@ -167,7 +169,7 @@ func start_dialog(dialog_resource : DialogueResource):
 	if !self.is_multiplayer_authority():
 		return
 	var balloon = BALLOON.instantiate()
-	self.n_ui.add_child(balloon)
+	self.n_menu.add_child(balloon)
 	
 	self.set_input(["movement"], false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

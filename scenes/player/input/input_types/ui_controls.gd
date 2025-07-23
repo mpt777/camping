@@ -9,8 +9,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 	if event.is_action_pressed("inventory"):
-		body.n_ui.visible = !body.n_ui.visible
-		if body.n_ui.visible:
+		body.n_menu.visible = !body.n_menu.visible
+		if body.n_menu.visible:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			body.set_input(["movement", "camera"], false)
 			body.player_mesh.animate_to(Enums.ANIMATION.IDLE)

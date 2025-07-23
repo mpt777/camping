@@ -13,7 +13,7 @@ func _ready() -> void:
 	pass
 	
 func constructor_node() -> void:
-	for item in self.player.n_ui.n_inventory.n_container.get_children():
+	for item in self.player.n_menu.n_inventory.n_container.get_children():
 		item = item as ItemInventoryStandard
 		if item.item_data.can_sell():
 			self.add_item_data(item.item_data)

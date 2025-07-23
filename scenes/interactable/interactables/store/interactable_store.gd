@@ -1,7 +1,7 @@
 extends Interactable
 class_name InteractableStore
 
-@onready var n_ui : CanvasLayer = $CanvasLayer
+@onready var n_menu : CanvasLayer = $CanvasLayer
 @onready var n_sell : Sell = $CanvasLayer/Sell
 
 func enter():

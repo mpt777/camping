@@ -84,7 +84,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		self.is_held = true
 		
 func advance_state(delta : float) -> void:
-	
 	if self.is_held:
 		self.target(delta)
 		self.reel(delta)
@@ -101,11 +100,10 @@ func advance_state(delta : float) -> void:
 		if self.state == states.TARGET:
 			self.state = states.CAST
 			self.cast()
-		self.player.player_mesh.animation_lock = false
 		
 func target(delta) -> void:
 	if self.state == states.TARGET:
-		self.player.player_mesh.animation_lock = true
+		self.player.animated_state = Enums.ANIMATION.IDLE
 		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START)
 		self.cast_anchor.visible = true
 
@@ -115,7 +113,7 @@ func target(delta) -> void:
 		self.bobber_distance += delta * self.CAST_RATE
 		
 func cast() -> void:
-	await get_tree().create_timer(0.1).timeout
+	#await get_tree().create_timer(0.1).timeout
 	
 	self.bobber.top_level = true
 	
@@ -167,7 +165,7 @@ func bobber_hit_world() -> void:
 	self.end()
 	
 func _on_timer_timeout() -> void:
-	if self.state != states.CAST:
+	if self.state != states.CAST: 
 		return
 	if !self.bobber.water:
 		return

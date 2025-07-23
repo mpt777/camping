@@ -1,4 +1,4 @@
 extends Control
-class_name UI
+class_name Menu
 
 @onready var n_inventory : Inventory = $TabContainer/PanelContainer/Inventory
