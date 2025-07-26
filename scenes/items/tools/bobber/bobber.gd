@@ -22,6 +22,8 @@ func set_uuid():
 
 func _physics_process(_delta):
 	submerged = false
+	if !self.top_level:
+		return
 	if not water:
 		return
 	

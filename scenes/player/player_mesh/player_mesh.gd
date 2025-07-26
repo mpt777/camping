@@ -85,7 +85,7 @@ func _blend_animation(animation: Enums.ANIMATION):
 @rpc("call_local", "any_peer", "unreliable", 2)
 func sync_animation(animation: Enums.ANIMATION):
 	if get_multiplayer_authority() == multiplayer.get_remote_sender_id():
-		print("SYNC ANIM", self.name, "owner:", get_multiplayer_authority(), "sender:", multiplayer.get_remote_sender_id(), "animation:", animation, "instance:", multiplayer.get_unique_id())
+		#print("SYNC ANIM", self.name, "owner:", get_multiplayer_authority(), "sender:", multiplayer.get_remote_sender_id(), "animation:", animation, "instance:", multiplayer.get_unique_id())
 
 		_blend_animation(animation)
 	

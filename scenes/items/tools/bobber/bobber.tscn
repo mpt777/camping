@@ -3,11 +3,11 @@
 [ext_resource type="Script" uid="uid://dbs5ynbydpdnr" path="res://scenes/items/tools/bobber/bobber.gd" id="1_63my7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xhvsk"]
-radius = 0.25
+radius = 0.1
 
 [sub_resource type="SphereMesh" id="SphereMesh_xhvsk"]
-radius = 0.25
-height = 0.5
+radius = 0.1
+height = 0.2
 radial_segments = 16
 rings = 16
 

@@ -69,7 +69,7 @@ func draw_line() -> void:
 	self.n_rope.reset()
 	if self.bobber_position == Vector3.ZERO:
 		return
-	if (self.state in [states.CAST, states.MINIGAME]) or (!is_multiplayer_authority()):
+	if (self.state in [states.CAST, states.MINIGAME]): #or (!is_multiplayer_authority()):
 		self.n_rope.add_point(self.bobber_anchor.global_position)
 		self.n_rope.add_point(self.bobber_position)
 		self.n_rope.add_point(self.bobber_position)
@@ -136,7 +136,11 @@ func reel(_delta) -> void:
 	if self.state != states.CAST:
 		return
 	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * self.CAST_RATE)
-	if (self.bobber.global_position.distance_squared_to(global_position) < 5):
+	
+	var delta : Vector3 = self.bobber.global_position - global_position
+	var distance_squared_xz : float = delta.x * delta.x + delta.z * delta.z
+
+	if distance_squared_xz < 10:
 		self.state = states.IDLE
 		self.end()
 	
