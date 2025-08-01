@@ -1,5 +1,5 @@
 [gd_scene load_steps=2 format=3 uid="uid://dhtes2mppnxem"]
 
-[ext_resource type="PackedScene" uid="uid://brebk57bues6d" path="res://assets/blender/items/fishing_pole/fishing_pole.blend" id="1_1t4ss"]
+[ext_resource type="PackedScene" uid="uid://s3s0x2hxpq3p" path="res://assets/blender/items/fishing_pole/fishing_pole.gltf" id="1_1t4ss"]
 
 [node name="fishing_pole" instance=ExtResource("1_1t4ss")]

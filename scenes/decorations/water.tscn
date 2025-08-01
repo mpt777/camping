@@ -8,8 +8,8 @@ size = Vector3(500, 20, 500)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_wb2e1"]
 size = Vector2(500, 500)
-subdivide_width = 200
-subdivide_depth = 200
+subdivide_width = 100
+subdivide_depth = 100
 
 [sub_resource type="BoxMesh" id="BoxMesh_c44sj"]
 size = Vector3(500, 1, 500)

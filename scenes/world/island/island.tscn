@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://dq6nk182a46tr"]
+[gd_scene load_steps=25 format=3 uid="uid://dq6nk182a46tr"]
 
+[ext_resource type="Shader" uid="uid://d1x7pn5iwhuur" path="res://scenes/world/island/style_sky.gdshader" id="2_00wko"]
+[ext_resource type="Texture2D" uid="uid://bq38u3a8dwypo" path="res://scenes/world/island/circle.png" id="3_ajfo0"]
 [ext_resource type="PackedScene" uid="uid://b10o81aeb5nv5" path="res://assets/blender/levels/island/island.tscn" id="3_c44sj"]
-[ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/world/island/sky.gdshader" id="3_wb2e1"]
+[ext_resource type="Texture2D" uid="uid://di631hkauvxti" path="res://scenes/world/island/shooting_star_sampler.png" id="3_ymros"]
 [ext_resource type="PackedScene" uid="uid://d1xq3cg2aa6ua" path="res://assets/blender/decorations/PalmTree/palm_tree.tscn" id="4_a2155"]
 [ext_resource type="PackedScene" uid="uid://bw34gqoxhebja" path="res://assets/blender/decorations/Tree/Tree.tscn" id="5_0f7sy"]
 [ext_resource type="PackedScene" uid="uid://danrhd6yvhfmw" path="res://assets/blender/decorations/Rock/Rock.tscn" id="6_0f7sy"]
@@ -16,54 +18,69 @@ size = Vector3(7.1, 0.16, 6.03)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_wb2e1"]
 data = PackedVector3Array(-3.55, 0.08, 3.015, 3.55, 0.08, 3.015, -3.55, -0.08, 3.015, 3.55, 0.08, 3.015, 3.55, -0.08, 3.015, -3.55, -0.08, 3.015, 3.55, 0.08, -3.015, -3.55, 0.08, -3.015, 3.55, -0.08, -3.015, -3.55, 0.08, -3.015, -3.55, -0.08, -3.015, 3.55, -0.08, -3.015, 3.55, 0.08, 3.015, 3.55, 0.08, -3.015, 3.55, -0.08, 3.015, 3.55, 0.08, -3.015, 3.55, -0.08, -3.015, 3.55, -0.08, 3.015, -3.55, 0.08, -3.015, -3.55, 0.08, 3.015, -3.55, -0.08, -3.015, -3.55, 0.08, 3.015, -3.55, -0.08, 3.015, -3.55, -0.08, -3.015, 3.55, 0.08, 3.015, -3.55, 0.08, 3.015, 3.55, 0.08, -3.015, -3.55, 0.08, 3.015, -3.55, 0.08, -3.015, 3.55, 0.08, -3.015, -3.55, -0.08, 3.015, 3.55, -0.08, 3.015, -3.55, -0.08, -3.015, 3.55, -0.08, 3.015, 3.55, -0.08, -3.015, -3.55, -0.08, -3.015)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c44sj"]
-shader = ExtResource("3_wb2e1")
-shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
-shader_parameter/day_bottom_color = Color(0.4, 0.8, 1, 1)
-shader_parameter/sunset_top_color = Color(0.7, 0.75, 1, 1)
-shader_parameter/sunset_bottom_color = Color(1, 0.5, 0.7, 1)
-shader_parameter/night_top_color = Color(0.02, 0, 0.04, 1)
-shader_parameter/night_bottom_color = Color(0.1, 0, 0.2, 1)
-shader_parameter/sky_color = Color(0.03, 0.05, 0.11, 1)
-shader_parameter/horizon_color = Color(0.113725, 0.333333, 0.701961, 1)
-shader_parameter/horizon_blur = 0.05
-shader_parameter/sun_color = Color(10, 8, 1, 1)
-shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
-shader_parameter/sun_size = 0.208
-shader_parameter/sun_blur = 0.502
-shader_parameter/moon_color = Color(0.707301, 0.61305, 0, 1)
-shader_parameter/moon_size = 1.0
-shader_parameter/moon_blur = 0.1
-shader_parameter/clouds_edge_color = Color(0.8, 0.8, 0.98, 1)
-shader_parameter/clouds_top_color = Color(1, 1, 1, 1)
-shader_parameter/clouds_middle_color = Color(0.92, 0.92, 0.98, 1)
-shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
-shader_parameter/clouds_speed = 1.0
-shader_parameter/clouds_direction = 0.2
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ajfo0"]
+noise_type = 2
+frequency = 0.0187
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qt50p"]
+seamless = true
+noise = SubResource("FastNoiseLite_ajfo0")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_syjbi"]
+noise_type = 2
+frequency = 0.0031
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pmias"]
+seamless = true
+noise = SubResource("FastNoiseLite_syjbi")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_foesr"]
+noise_type = 2
+frequency = 0.0071
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_blo7u"]
+seamless = true
+noise = SubResource("FastNoiseLite_foesr")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x3vca"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bsevg"]
+seamless = true
+noise = SubResource("FastNoiseLite_x3vca")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ymros"]
+shader = ExtResource("2_00wko")
+shader_parameter/cloud_shape_sampler = SubResource("NoiseTexture2D_blo7u")
+shader_parameter/cloud_noise_sampler = SubResource("NoiseTexture2D_pmias")
+shader_parameter/cloud_curves = SubResource("NoiseTexture2D_qt50p")
+shader_parameter/clouds_samples = 16
+shader_parameter/shadow_sample = 4
+shader_parameter/cloud_speed = 1.0
+shader_parameter/clouds_density = 0.6
 shader_parameter/clouds_scale = 1.0
-shader_parameter/clouds_cutoff = 0.3
-shader_parameter/clouds_fuzziness = 0.58
-shader_parameter/clouds_weight = 0.0
-shader_parameter/clouds_blur = 0.03
-shader_parameter/star_base_color = Color(1, 1, 1, 1)
-shader_parameter/star_hue_offset = 0.6
-shader_parameter/star_intensity = 0.086
-shader_parameter/star_twinkle_speed = 0.0
-shader_parameter/star_twinkle_intensity = 0.0
-shader_parameter/layer_scale = 20.0
-shader_parameter/layer_scale_step = 10.0
-shader_parameter/layers_count = 3
-shader_parameter/overwritten_time = 0.0
+shader_parameter/clouds_smoothness = 0.06
+shader_parameter/clouds_light_color = Color(0.942309, 0.724506, 0.778341, 1)
+shader_parameter/clouds_shadow_intensity = 0.9
+shader_parameter/high_clouds_sampler = SubResource("NoiseTexture2D_bsevg")
+shader_parameter/high_clouds_density = 0.15
+shader_parameter/top_color = Color(0.358634, 0.422316, 0.842475, 1)
+shader_parameter/bottom_color = Color(0.466432, 0.225672, 0.373202, 1)
+shader_parameter/sun_scatter = Color(0.578311, 0.586856, 0.802883, 1)
+shader_parameter/astro_tint = Color(0.99673, 0.996272, 0.98758, 1)
+shader_parameter/astro_sampler = ExtResource("3_ajfo0")
+shader_parameter/astro_scale = 8.0
+shader_parameter/astro_intensity = 1.0
+shader_parameter/stars_intensity = 5.0
+shader_parameter/shooting_stars_intensity = 5.0
+shader_parameter/shooting_star_sampler = ExtResource("3_ymros")
+shader_parameter/shooting_star_tint = Color(0.745475, 0.425527, 0.811015, 1)
 
-[sub_resource type="Sky" id="Sky_00wko"]
-sky_material = SubResource("ShaderMaterial_c44sj")
+[sub_resource type="Sky" id="Sky_ajfo0"]
+sky_material = SubResource("ShaderMaterial_ymros")
 
-[sub_resource type="Environment" id="Environment_wb2e1"]
+[sub_resource type="Environment" id="Environment_qt50p"]
 background_mode = 2
-sky = SubResource("Sky_00wko")
-fog_mode = 1
-fog_light_color = Color(0.541641, 0.506616, 0.788685, 1)
-fog_sky_affect = 0.0
+sky = SubResource("Sky_ajfo0")
 
 [node name="Island" type="Node3D"]
 
@@ -87,10 +104,11 @@ shape = SubResource("ConcavePolygonShape3D_wb2e1")
 [node name="Env" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
-environment = SubResource("Environment_wb2e1")
+environment = SubResource("Environment_qt50p")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(-0.740777, -0.566441, 0.3611, -0.587611, 0.806894, 0.060286, -0.325518, -0.167527, -0.930577, -0.106595, 1.19477, -6.00083)
+[node name="Sun" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D(-0.536953, -0.601158, 0.591854, -0.488553, 0.79354, 0.362781, -0.687749, -0.0943562, -0.719791, -0.106595, 0.990671, -6.00083)
+light_energy = 0.083
 shadow_enabled = true
 
 [node name="Trees" type="Node3D" parent="."]

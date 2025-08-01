@@ -200,7 +200,8 @@ void vertex() {
 	#ifdef DISPLACEMENT
 	//float height = texture(displacement_texture, global_position.xz / displacement_scale.x + displacement_time * displacement_scroll_speed).r;
 	//VERTEX.y += height * displacement_strength;
-	float time = displacement_time * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
+	float time = TIME * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
+	//float time = displacement_time * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
 	float displace1 = texture(displacement_texture, fma(global_position.xz, displacement_scale, time * -wind_direction.xz)).r;
 	float displace2 = texture(displacement_texture, fma(global_position.xz, displacement_scale * displacement_scale_offset, time * (-wind_direction.xz + displacement_scroll_offset))).r;
 	float displacement_mixed = mix(displace1, displace1, 0.4);
