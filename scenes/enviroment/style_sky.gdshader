@@ -60,6 +60,8 @@ group_uniforms astro;
 	uniform sampler2D astro_sampler : repeat_disable, filter_linear_mipmap;
 	uniform float astro_scale : hint_range(0.1, 10.0, 0.1) = 1.0;
 	uniform float astro_intensity : hint_range(1.0, 3.0, 0.1) = 1.0;
+	
+	uniform sampler2D moon_sampler : repeat_disable, filter_linear_mipmap;
 
 group_uniforms stars;
 
@@ -225,31 +227,66 @@ vec3 get_blended_color(vec3 night, vec3 sunrise, vec3 day, vec3 sunset, float t)
 }
 
 vec3 add_stars(vec3 sky_color, vec3 _EYEDIR) {
+	
+	float night_w, sunrise_w, day_w, sunset_w;
+	get_phase_weights(time_of_day, night_w, sunrise_w, day_w, sunset_w);
+
+	float star_opacity = night_w; // 1.0 at night, fades out at sunrise/sunset
+
 	if (stars_intensity > 0.0) {
 		vec2 stars = voronoi(_EYEDIR * 25.0).xz;
 		// Use stars_size to scale the "glow" threshold
 		float threshold = stars_amount / stars_size + ((1.0 + sin(TIME + stars.y)) / 2.0) * (0.05 / stars_size);
 		// Scale brightness falloff with star size
 		float star = smoothstep(threshold, 0.0, stars.x);
-		sky_color += star * stars_intensity;
+		sky_color += (star * stars_intensity * star_opacity);
 	}
 	return sky_color;
 }
 
+vec4 get_astro_color(vec3 dir, vec3 _EYEDIR, sampler2D sampler) {
+	vec3 dir_local = direction_to_matrix(dir) * _EYEDIR;
+	vec2 uv = (-(dir_local.xy / max(dir_local.z, 0.01)) * astro_scale) + vec2(0.5);
+	
+	float mask = ceil(
+	    clamp(uv.x * (1.0 - uv.x), 0.0, 1.0) *
+	    clamp(uv.y * (1.0 - uv.y), 0.0, 1.0)
+	) * ceil(dir_local.z);
+	
+	float rotation_angle = 0.0; // example: slowly rotating over time
+	if (LIGHT0_DIRECTION.z < 0.0) {
+	    rotation_angle = 3.1415926; // rotate 180 degrees (π radians)
+	}
+
+	vec2 centered_uv = uv - vec2(0.5);
+
+	float cos_a = cos(rotation_angle);
+	float sin_a = sin(rotation_angle);
+	vec2 rotated_uv = vec2(
+	    centered_uv.x * cos_a - centered_uv.y * sin_a,
+	    centered_uv.x * sin_a + centered_uv.y * cos_a
+	);
+
+	rotated_uv += vec2(0.5);
+	vec4 color = texture(sampler, rotated_uv) * mask;
+	return color;
+}
+
+	
+
 void sky() {
 	float t = time_of_day;
+	float night_w, sunrise_w, day_w, sunset_w;
+	get_phase_weights(time_of_day, night_w, sunrise_w, day_w, sunset_w);
 	
 	float horizon_mask = abs(EYEDIR.y);
 	float bottom_mask = smoothstep(0.5, 0.45, SKY_COORDS.y);
 	
-	vec3 dir = direction_to_matrix(LIGHT0_DIRECTION) * EYEDIR;
-	vec2 astro_uv = (-(dir.xy / dir.z) * astro_scale) + vec2(0.5);
-	float astro_mask = ceil(
-		clamp(astro_uv.x * (1.0 - astro_uv.x), 0.0, 1.0) *
-		clamp(astro_uv.y * (1.0 - astro_uv.y), 0.0, 1.0)
-		) * ceil(dir.z);
-	vec4 astro_color = texture(astro_sampler, astro_uv);
-	
+	vec3 sun_dir = normalize(LIGHT0_DIRECTION);
+	vec3 moon_dir = -sun_dir;  // opposite
+
+	vec4 moon_color = get_astro_color(moon_dir, EYEDIR, moon_sampler);
+	vec4 sun_color = get_astro_color(sun_dir, EYEDIR, astro_sampler);
 	// Sky color
 	
 	vec3 sky_gradient = mix(
@@ -260,13 +297,19 @@ void sky() {
 	vec3 sunset_color = get_blended_color(night_sun_scatter, sr_sun_scatter, sun_scatter, ss_sun_scatter, t) * (1.0 - horizon_mask);
 	vec3 sky_color = clamp(sky_gradient + sunset_color, 0.0, 1.0);
 	
+	//float glow_size = 0.015 * astro_scale; // lower = tighter glow, tweak as needed
+	//float angle_to_light = dot(normalize(EYEDIR), normalize(LIGHT0_DIRECTION));
+	//float glow = smoothstep(glow_size, 0.0, 1.0 - angle_to_light);
+	//sky_color += pow(glow, 1000.0);
+	//sky_color += pow(glow, 1000.0);
+	
 	// Stars
 	sky_color = add_stars(sky_color, EYEDIR);
 
 	// Add shooting stars
 	
 	if(shooting_stars_intensity > 0.0){
-		sky_color += get_shooting_star(EYEDIR) * shooting_stars_intensity * shooting_star_tint;
+		sky_color += get_shooting_star(EYEDIR) * shooting_stars_intensity * shooting_star_tint * night_w;
 	}
 	
 	// Add astro
@@ -278,9 +321,13 @@ void sky() {
 		working_astro_intensity = 1.0; // 0.9 may look better based on your environment!
 	}
 
-	sky_color = mix(sky_color, astro_color.rgb * working_astro_intensity * astro_tint, astro_color.a * astro_mask * bottom_mask);
-	
-	
+
+	//float sun_intensity = day_w + sunrise_w + sunset_w; // sun visible during day phases
+	//float moon_intensity = night_w;                     // moon visible at night
+
+	sky_color = mix(sky_color, sun_color.rgb * working_astro_intensity * astro_tint, sun_color.a * 1.0 * bottom_mask);
+	sky_color = mix(sky_color, moon_color.rgb * working_astro_intensity * astro_tint, moon_color.a * 1.0 * bottom_mask);
+
 	// Add high clouds
 	vec3 clouds_color = get_blended_color(night_clouds_light_color, sr_clouds_light_color, clouds_light_color, ss_clouds_light_color, t);
 	

@@ -38,13 +38,12 @@ shape = SubResource("ConcavePolygonShape3D_wb2e1")
 [node name="Env" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" parent="Env" node_paths=PackedStringArray("astro") instance=ExtResource("2_00wko")]
-time = 1.27733
+time = 0.5
 day_length = 30.0
 astro = NodePath("../Sun")
 
 [node name="Sun" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-light_color = Color(0.894922, 0.894922, 0.894922, 1)
+transform = Transform3D(1, 0, 0, 0, -0.214173, 0.976796, 0, -0.976796, -0.214173, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Trees" type="Node3D" parent="."]
