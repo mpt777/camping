@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bq38u3a8dwypo"
-path.s3tc="res://.godot/imported/circle.png-98bfa2557849e097ab825e58dee55d08.s3tc.ctex"
+uid="uid://di631hkauvxti"
+path.s3tc="res://.godot/imported/shooting_star_sampler.png-2b500e38cc54c760e7f92d060a44897d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://scenes/world/island/circle.png"
-dest_files=["res://.godot/imported/circle.png-98bfa2557849e097ab825e58dee55d08.s3tc.ctex"]
+source_file="res://scenes/enviroment/shooting_star_sampler.png"
+dest_files=["res://.godot/imported/shooting_star_sampler.png-2b500e38cc54c760e7f92d060a44897d.s3tc.ctex"]
 
 [params]
 

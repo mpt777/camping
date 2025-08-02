@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://b5wvsfndnelas"]
 
 [ext_resource type="Script" uid="uid://be838tuc4t08k" path="res://wfc/module/wfc3d_main.gd" id="1"]
-[ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/world/island/sky.gdshader" id="2_yj0a4"]
+[ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/enviroment/sky.gdshader" id="2_yj0a4"]
 
 [sub_resource type="GDScript" id="3"]
 script/source = "extends Camera3D
