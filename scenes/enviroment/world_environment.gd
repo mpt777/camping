@@ -16,6 +16,9 @@ var is_paused: bool = false:
 @export var astro : DirectionalLight3D 
 @export var moon : DirectionalLight3D 
 
+@export var astro_power : float = 0.25
+@export var moon_power : float = 0.1
+
 @export var sunrise_start := 0.10
 @export var day_start     := 0.30
 @export var sunset_start  := 0.60
@@ -61,41 +64,24 @@ func rotate_astro(t: float) -> void:
 		return
 	if not moon:
 		return
-
-	#var angle := 0.0
-	
-	#if t < sunrise_start:
-		#angle = NIGHT_ANGLE
-	#elif t < day_start:
-		#var f = remap_value(t, sunrise_start, day_start)
-		#angle = lerp(NIGHT_ANGLE, SUNRISE_ANGLE, f)
-	#elif t < sunset_start:
-		#var f = remap_value(t, day_start, sunset_start)
-		#angle = lerp(SUNRISE_ANGLE, DAY_ANGLE, f)
-	#elif t < night_start:
-		#var f = remap_value(t, sunset_start, night_start)
-		#angle = lerp(DAY_ANGLE, SUNSET_ANGLE, f)
-	#else:
-		#var f = remap_value(t, night_start, 1.0)
-		#angle = lerp(SUNSET_ANGLE, NIGHT2_ANGLE, f)
-
-	#astro.rotation_degrees.x = angle
-	#astro.rotation_degrees.x = -lerp(-90, 270, t)
 	
 	var sun_angle = lerp(-90.0, 270.0, t)
 	astro.rotation_degrees.x = -sun_angle
-	moon.rotation_degrees.x = -astro.rotation_degrees.x
-	
-	var _is_day : bool = self.is_day()
-	astro.visible=_is_day
-	moon.visible = not _is_day
+	moon.rotation_degrees.x = -sun_angle + 180
 
-	## Optional: fade light energy smoothly
-	#var sun_weight = clamp(remap_value(t, sunrise_start, sunset_start), 0.0, 1.0)
-	#var moon_weight = 1.0 - sun_weight
-#
-	#astro.light_energy = sun_weight
-	#moon.light_energy = moon_weight
+	# gradients
+	
+	var sun_dot = astro.global_transform.basis.z.normalized().dot(Vector3.UP)
+	var moon_dot = moon.global_transform.basis.z.normalized().dot(Vector3.UP)
+
+	var sun_weight = clamp(sun_dot, 0.0, astro_power)
+	var moon_weight = clamp(moon_dot, 0.0, moon_power)
+
+	astro.light_energy = sun_weight
+	moon.light_energy = moon_weight
+
+	astro.visible = sun_weight > 0.01
+	moon.visible = moon_weight > 0.01
 	
 
 func render():

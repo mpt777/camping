@@ -264,7 +264,7 @@ vec4 get_astro_color(vec3 dir, vec3 _EYEDIR, sampler2D sampler) {
 	) * ceil(dir_local.z);
 	
 	float rotation_angle = 0.0; // example: slowly rotating over time
-	if (LIGHT0_DIRECTION.z < 0.0) {
+	if (SUN_DIRECTION.z < 0.0) {
 	    rotation_angle = 3.1415926; // rotate 180 degrees (π radians)
 	}
 
