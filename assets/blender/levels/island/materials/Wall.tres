@@ -4,4 +4,4 @@
 resource_name = "Wall"
 cull_mode = 2
 albedo_color = Color(0.431106, 0.268238, 0.149075, 1)
-roughness = 0.5
+metallic_specular = 0.0

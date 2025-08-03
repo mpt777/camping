@@ -1,0 +1,23 @@
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://cxvofubv6lnq8"]
+
+[ext_resource type="Material" uid="uid://c3kht1rjqq5hb" path="res://scenes/enviroment/world_environment.tres" id="1_20bqk"]
+
+[sub_resource type="Sky" id="Sky_ajfo0"]
+sky_material = ExtResource("1_20bqk")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_ajfo0")
+ambient_light_source = 3
+ambient_light_color = Color(0.912237, 0.664943, 0.656046, 1)
+ambient_light_sky_contribution = 0.5
+reflected_light_source = 2
+tonemap_mode = 3
+ssao_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.80673, 0.815106, 0.942576, 1)
+fog_density = 1.0
+fog_aerial_perspective = 1.0
+fog_depth_curve = 0.732043
+fog_depth_begin = 50.0
+fog_depth_end = 1000.0

@@ -1,3 +1,4 @@
+@tool
 extends WorldEnvironment
 
 @export_range(0.0, 24.0, 0.1)
@@ -5,9 +6,15 @@ var time: float = 12.0:
 	set(value):
 		time = value
 		render()
+		
+@export
+var is_paused: bool = false:
+	set(value):
+		is_paused = value
 
 @export var day_length: float = (0.5 * 60) # full day cycle in seconds
 @export var astro : DirectionalLight3D 
+@export var moon : DirectionalLight3D 
 
 @export var sunrise_start := 0.10
 @export var day_start     := 0.30
@@ -34,6 +41,8 @@ func _ready() -> void:
 	
 
 func _physics_process(delta: float) -> void:
+	if is_paused:
+		return
 	time += (24.0 / day_length) * delta
 	time = fmod(time, 24.0) # Wrap around after 24 hours
 	render()
@@ -41,9 +50,16 @@ func _physics_process(delta: float) -> void:
 	
 func remap_value(t: float, a: float, b: float) -> float:
 	return clamp((t - a) / (b - a), 0.0, 1.0)
+	
+func is_day() -> bool:
+	var sun_dir = astro.global_transform.basis.z.normalized()
+	var up = Vector3.UP
+	return sun_dir.dot(up) > 0.0
 
 func rotate_astro(t: float) -> void:
 	if not astro:
+		return
+	if not moon:
 		return
 
 	#var angle := 0.0
@@ -68,6 +84,11 @@ func rotate_astro(t: float) -> void:
 	
 	var sun_angle = lerp(-90.0, 270.0, t)
 	astro.rotation_degrees.x = -sun_angle
+	moon.rotation_degrees.x = -astro.rotation_degrees.x
+	
+	var _is_day : bool = self.is_day()
+	astro.visible=_is_day
+	moon.visible = not _is_day
 
 	## Optional: fade light energy smoothly
 	#var sun_weight = clamp(remap_value(t, sunrise_start, sunset_start), 0.0, 1.0)
@@ -82,3 +103,4 @@ func render():
 	rotate_astro(normalized_time)
 	if shader:
 		shader.set_shader_parameter("time_of_day", normalized_time)
+		shader.set_shader_parameter("SUN_DIRECTION", astro.global_transform.basis.z.normalized())

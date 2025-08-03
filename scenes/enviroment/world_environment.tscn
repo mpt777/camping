@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://byi8suase6m5k"]
+[gd_scene load_steps=6 format=3 uid="uid://byi8suase6m5k"]
 
 [ext_resource type="Material" uid="uid://c3kht1rjqq5hb" path="res://scenes/enviroment/world_environment.tres" id="1_u46sn"]
-[ext_resource type="PackedScene" uid="uid://cws2rqup00iws" path="res://assets/blender/levels/island/island.glb" id="3_abj85"]
 [ext_resource type="Script" uid="uid://bw7f1aecch7yx" path="res://scenes/enviroment/world_environment.gd" id="4_pw3yr"]
 
 [sub_resource type="Sky" id="Sky_ajfo0"]
@@ -35,10 +34,6 @@ day_length = 5.0
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_u46sn")
 
-[node name="island" parent="." instance=ExtResource("3_abj85")]
-visible = false
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.993274, 0.115787, 0, -0.115787, 0.993274, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 0.41904, -0.907968, 0, 0.907968, 0.41904, 0, 0, 0)
 visible = false
-shadow_enabled = true

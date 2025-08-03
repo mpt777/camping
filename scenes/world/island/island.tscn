@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dq6nk182a46tr"]
+[gd_scene load_steps=13 format=3 uid="uid://dq6nk182a46tr"]
 
 [ext_resource type="PackedScene" uid="uid://byi8suase6m5k" path="res://scenes/enviroment/world_environment.tscn" id="2_00wko"]
-[ext_resource type="PackedScene" uid="uid://b10o81aeb5nv5" path="res://assets/blender/levels/island/island.tscn" id="3_c44sj"]
+[ext_resource type="PackedScene" uid="uid://bssiv6nsg4sgd" path="res://assets/blender/levels/island/island.tscn" id="3_c44sj"]
+[ext_resource type="Environment" uid="uid://cxvofubv6lnq8" path="res://scenes/world/island/island_environment.tres" id="3_ymros"]
 [ext_resource type="PackedScene" uid="uid://d1xq3cg2aa6ua" path="res://assets/blender/decorations/PalmTree/palm_tree.tscn" id="4_a2155"]
 [ext_resource type="PackedScene" uid="uid://bw34gqoxhebja" path="res://assets/blender/decorations/Tree/Tree.tscn" id="5_0f7sy"]
 [ext_resource type="PackedScene" uid="uid://danrhd6yvhfmw" path="res://assets/blender/decorations/Rock/Rock.tscn" id="6_0f7sy"]
@@ -37,13 +38,23 @@ shape = SubResource("ConcavePolygonShape3D_wb2e1")
 
 [node name="Env" type="Node3D" parent="."]
 
-[node name="WorldEnvironment" parent="Env" node_paths=PackedStringArray("astro") instance=ExtResource("2_00wko")]
-time = 0.5
+[node name="WorldEnvironment" parent="Env" node_paths=PackedStringArray("astro", "moon") instance=ExtResource("2_00wko")]
+environment = ExtResource("3_ymros")
+time = 2.74666
 day_length = 30.0
 astro = NodePath("../Sun")
+moon = NodePath("../Moon")
 
 [node name="Sun" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(1, 0, 0, 0, -0.214173, 0.976796, 0, -0.976796, -0.214173, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.658689, -0.752415, 0, 0.752415, 0.658689, 0, 0, 0)
+light_energy = 0.25
+shadow_enabled = true
+
+[node name="Moon" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D(1, 0, 0, 0, 0.658689, 0.752415, 0, -0.752415, 0.658689, 0, 0, 0)
+visible = false
+light_color = Color(0.306508, 0.43705, 0.740116, 1)
+light_energy = 0.266
 shadow_enabled = true
 
 [node name="Trees" type="Node3D" parent="."]

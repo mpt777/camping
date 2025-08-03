@@ -7,6 +7,8 @@ group_uniforms day;
 	uniform float day_start     : hint_range(0.0, 1.0) = 0.30;
 	uniform float sunset_start  : hint_range(0.0, 1.0) = 0.70;
 	uniform float night_start   : hint_range(0.0, 1.0) = 0.80;
+	
+	uniform vec3 SUN_DIRECTION;
 
 group_uniforms clouds;
 
@@ -60,6 +62,9 @@ group_uniforms astro;
 	uniform sampler2D astro_sampler : repeat_disable, filter_linear_mipmap;
 	uniform float astro_scale : hint_range(0.1, 10.0, 0.1) = 1.0;
 	uniform float astro_intensity : hint_range(1.0, 3.0, 0.1) = 1.0;
+	
+	uniform float astro_glow_power : hint_range(0.0, 1000.0) = 100.0;
+	uniform float astro_glow_intensity : hint_range(0.0, 2000.0) = 1000.0;
 	
 	uniform sampler2D moon_sampler : repeat_disable, filter_linear_mipmap;
 
@@ -220,6 +225,11 @@ float get_shooting_star(vec3 eyedir){
 	return clamp(shooting_star, 0.0, 1.0);
 }
 
+
+bool is_day(float t, vec3 _SUN_DIRECTION) {
+    return dot(normalize(_SUN_DIRECTION), vec3(0.0, 1.0, 0.0)) > 0.0;
+}
+
 vec3 get_blended_color(vec3 night, vec3 sunrise, vec3 day, vec3 sunset, float t) {
     float night_w, sunrise_w, day_w, sunset_w;
     get_phase_weights(t, night_w, sunrise_w, day_w, sunset_w);
@@ -282,8 +292,13 @@ void sky() {
 	float horizon_mask = abs(EYEDIR.y);
 	float bottom_mask = smoothstep(0.5, 0.45, SKY_COORDS.y);
 	
-	vec3 sun_dir = normalize(LIGHT0_DIRECTION);
+	vec3 sun_dir = normalize(SUN_DIRECTION);
 	vec3 moon_dir = -sun_dir;  // opposite
+	
+	//if (!is_day(t, SUN_DIRECTION)) {
+		//sun_dir = -sun_dir;
+		//moon_dir = -moon_dir;
+	//}
 
 	vec4 moon_color = get_astro_color(moon_dir, EYEDIR, moon_sampler);
 	vec4 sun_color = get_astro_color(sun_dir, EYEDIR, astro_sampler);
@@ -297,11 +312,10 @@ void sky() {
 	vec3 sunset_color = get_blended_color(night_sun_scatter, sr_sun_scatter, sun_scatter, ss_sun_scatter, t) * (1.0 - horizon_mask);
 	vec3 sky_color = clamp(sky_gradient + sunset_color, 0.0, 1.0);
 	
-	//float glow_size = 0.015 * astro_scale; // lower = tighter glow, tweak as needed
-	//float angle_to_light = dot(normalize(EYEDIR), normalize(LIGHT0_DIRECTION));
-	//float glow = smoothstep(glow_size, 0.0, 1.0 - angle_to_light);
-	//sky_color += pow(glow, 1000.0);
-	//sky_color += pow(glow, 1000.0);
+	// Astro glow (sun & moon)
+	float angle_to_sun = dot(normalize(EYEDIR), normalize(sun_dir));
+	float sun_glow = pow(max(angle_to_sun, 0.0), astro_glow_power); // 1000 = sharp glow falloff
+	sky_color += sun_glow * sun_scatter * astro_glow_intensity; // adjust multiplier for glow brightness
 	
 	// Stars
 	sky_color = add_stars(sky_color, EYEDIR);
