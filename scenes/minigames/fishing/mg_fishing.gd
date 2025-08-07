@@ -12,6 +12,8 @@ const GOOD_TIME := 3.0
 const BAD_TIME := 10.0
 const bad_delay := 2.0
 
+var success = false
+
 var is_bad_running := false
 var is_held := false
 var current_masher : Masher
@@ -51,7 +53,8 @@ func _process(delta: float) -> void:
 			self.exit()
 		
 	if self.n_good.value >= MAX_VALUE:
-		self.player.add_item_to_inventory(self.current_fish)
+		#self.player.add_item_to_inventory(self.current_fish)
+		self.success = true
 		self.exit()
 		
 func get_current_masher():

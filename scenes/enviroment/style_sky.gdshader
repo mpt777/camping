@@ -7,7 +7,7 @@ group_uniforms day;
 	uniform float day_start     : hint_range(0.0, 1.0) = 0.30;
 	uniform float sunset_start  : hint_range(0.0, 1.0) = 0.70;
 	uniform float night_start   : hint_range(0.0, 1.0) = 0.80;
-	
+
 	uniform vec3 SUN_DIRECTION;
 
 group_uniforms clouds;
@@ -36,20 +36,20 @@ group_uniforms sky_morning;
 	uniform vec3 sr_bottom_color : source_color = vec3(0.466, 0.226, 0.373);
 	uniform vec3 sr_sun_scatter : source_color = vec3(0.578, 0.587, 0.803);
 	uniform vec3 sr_clouds_light_color : source_color = vec3(0.942, 0.725, 0.778);
-	
+
 group_uniforms sky_day;
-	
+
 	uniform vec3 top_color : source_color = vec3(0.359, 0.422, 0.842);
 	uniform vec3 bottom_color : source_color = vec3(0.466, 0.226, 0.373);
 	uniform vec3 sun_scatter : source_color = vec3(0.578, 0.587, 0.803);
 	uniform vec3 clouds_light_color : source_color = vec3(0.942, 0.725, 0.778);
-	
+
 group_uniforms sky_evening;
 	uniform vec3 ss_top_color : source_color = vec3(0.359, 0.422, 0.842);
 	uniform vec3 ss_bottom_color : source_color = vec3(0.466, 0.226, 0.373);
 	uniform vec3 ss_sun_scatter : source_color = vec3(0.578, 0.587, 0.803);
 	uniform vec3 ss_clouds_light_color : source_color = vec3(0.942, 0.725, 0.778);
-	
+
 group_uniforms sky_night;
 	uniform vec3 night_top_color : source_color = vec3(0.359, 0.422, 0.842);
 	uniform vec3 night_bottom_color : source_color = vec3(0.466, 0.226, 0.373);
@@ -62,10 +62,10 @@ group_uniforms astro;
 	uniform sampler2D astro_sampler : repeat_disable, filter_linear_mipmap;
 	uniform float astro_scale : hint_range(0.1, 10.0, 0.1) = 1.0;
 	uniform float astro_intensity : hint_range(1.0, 3.0, 0.1) = 1.0;
-	
+
 	uniform float astro_glow_power : hint_range(0.0, 1000.0) = 100.0;
 	uniform float astro_glow_intensity : hint_range(0.0, 2000.0) = 1000.0;
-	
+
 	uniform sampler2D moon_sampler : repeat_disable, filter_linear_mipmap;
 
 group_uniforms stars;
@@ -97,7 +97,7 @@ vec3 hash( vec3 x ){
 vec3 voronoi( in vec3 x ){
 	vec3 p = floor( x );
 	vec3 f = fract( x );
-	
+
 	float id = 0.0;
 	vec2 res = vec2( 100.0 );
 	for( int k=-1; k<=1; k++ )
@@ -133,7 +133,7 @@ float cloud_density(vec3 p, float progress){
 	float clouds_shape = texture(cloud_shape_sampler, (p.xy + t_o) * clouds_scale).x;
 	float height_curve = texture(cloud_curves, vec2(progress, 0.0)).x;
 	float base_density = 1.0 - clouds_density;
-	float density = 
+	float density =
 	smoothstep(base_density - clouds_smoothness,
 	base_density + clouds_smoothness,
 	clouds_shape * noise * height_curve
@@ -142,21 +142,21 @@ float cloud_density(vec3 p, float progress){
 }
 
 vec2 cloud_ray_march(vec3 direction, vec3 sun_direction){
-	
+
 	float density = 0.0;
 	float light = 0.0;
-	
+
 	float height = 0.03;
 	vec3 sample_point = vec3(0.0, 0.0, 2.0);
-	
+
 	int loop_offset = clouds_samples * 3;
-	
+
 	for(int i = loop_offset; i < clouds_samples + loop_offset; i++) {
 		float progress = float(i) / float(clouds_samples);
 		sample_point = direction * height * progress;
 		float point_density = cloud_density(sample_point, progress);
 		density += point_density;
-		
+
 		float point_light = 0.0;
 		for(int f = 0; f < shadow_sample; f++){
 			float shadow_progress = float(f) / float(shadow_sample);
@@ -178,7 +178,7 @@ void get_phase_weights(float t, out float night_w, out float sunrise_w, out floa
     day_w = remap(t, day_start, day_start + 0.05) * (1.0 - remap(t, sunset_start, sunset_start + 0.05));
     sunset_w = remap(t, sunset_start, sunset_start + 0.05) * (1.0 - remap(t, night_start, night_start + 0.05));
     night_w += remap(t, night_start, night_start + 0.05);
-    
+
     float total = night_w + sunrise_w + day_w + sunset_w;
     if (total > 0.0) {
         night_w /= total;
@@ -215,7 +215,7 @@ float get_shooting_star(vec3 eyedir){
 			clamp(shooting_uv.x * (1.0 - shooting_uv.x), 0.0, 1.0) *
 			clamp(shooting_uv.y * (1.0 - shooting_uv.y), 0.0, 1.0)
 			) * ceil(shooting_dir.z);
-			
+
 		shooting_star = clamp(
 			shooting_star + texture(shooting_star_sampler, shooting_uv).x
 			* sin(progress * PI)
@@ -237,7 +237,7 @@ vec3 get_blended_color(vec3 night, vec3 sunrise, vec3 day, vec3 sunset, float t)
 }
 
 vec3 add_stars(vec3 sky_color, vec3 _EYEDIR) {
-	
+
 	float night_w, sunrise_w, day_w, sunset_w;
 	get_phase_weights(time_of_day, night_w, sunrise_w, day_w, sunset_w);
 
@@ -257,12 +257,12 @@ vec3 add_stars(vec3 sky_color, vec3 _EYEDIR) {
 vec4 get_astro_color(vec3 dir, vec3 _EYEDIR, sampler2D sampler) {
 	vec3 dir_local = direction_to_matrix(dir) * _EYEDIR;
 	vec2 uv = (-(dir_local.xy / max(dir_local.z, 0.01)) * astro_scale) + vec2(0.5);
-	
+
 	float mask = ceil(
 	    clamp(uv.x * (1.0 - uv.x), 0.0, 1.0) *
 	    clamp(uv.y * (1.0 - uv.y), 0.0, 1.0)
 	) * ceil(dir_local.z);
-	
+
 	float rotation_angle = 0.0; // example: slowly rotating over time
 	if (SUN_DIRECTION.z < 0.0) {
 	    rotation_angle = 3.1415926; // rotate 180 degrees (π radians)
@@ -282,19 +282,19 @@ vec4 get_astro_color(vec3 dir, vec3 _EYEDIR, sampler2D sampler) {
 	return color;
 }
 
-	
+
 
 void sky() {
 	float t = time_of_day;
 	float night_w, sunrise_w, day_w, sunset_w;
 	get_phase_weights(time_of_day, night_w, sunrise_w, day_w, sunset_w);
-	
+
 	float horizon_mask = abs(EYEDIR.y);
 	float bottom_mask = smoothstep(0.5, 0.45, SKY_COORDS.y);
-	
+
 	vec3 sun_dir = normalize(SUN_DIRECTION);
 	vec3 moon_dir = -sun_dir;  // opposite
-	
+
 	//if (!is_day(t, SUN_DIRECTION)) {
 		//sun_dir = -sun_dir;
 		//moon_dir = -moon_dir;
@@ -303,31 +303,31 @@ void sky() {
 	vec4 moon_color = get_astro_color(moon_dir, EYEDIR, moon_sampler);
 	vec4 sun_color = get_astro_color(sun_dir, EYEDIR, astro_sampler);
 	// Sky color
-	
+
 	vec3 sky_gradient = mix(
-		get_blended_color(night_bottom_color, sr_bottom_color, bottom_color, ss_bottom_color, t), 
-		get_blended_color(night_top_color, sr_top_color,top_color, ss_top_color, t), 
+		get_blended_color(night_bottom_color, sr_bottom_color, bottom_color, ss_bottom_color, t),
+		get_blended_color(night_top_color, sr_top_color,top_color, ss_top_color, t),
 		clamp(EYEDIR.y, 0.0, 1.0)
 	);
 	vec3 sunset_color = get_blended_color(night_sun_scatter, sr_sun_scatter, sun_scatter, ss_sun_scatter, t) * (1.0 - horizon_mask);
 	vec3 sky_color = clamp(sky_gradient + sunset_color, 0.0, 1.0);
-	
+
 	// Astro glow (sun & moon)
 	float angle_to_sun = dot(normalize(EYEDIR), normalize(sun_dir));
 	float sun_glow = pow(max(angle_to_sun, 0.0), astro_glow_power); // 1000 = sharp glow falloff
 	sky_color += sun_glow * sun_scatter * astro_glow_intensity; // adjust multiplier for glow brightness
-	
+
 	// Stars
 	sky_color = add_stars(sky_color, EYEDIR);
 
 	// Add shooting stars
-	
+
 	if(shooting_stars_intensity > 0.0){
 		sky_color += get_shooting_star(EYEDIR) * shooting_stars_intensity * shooting_star_tint * night_w;
 	}
-	
+
 	// Add astro
-	
+
 	// This can be used to limit reflection intensity, if the sun's intensity goes
 	// over 1 its HDR and can bleed through shadows badly and muddy shadows
 	float working_astro_intensity = astro_intensity;
@@ -344,21 +344,21 @@ void sky() {
 
 	// Add high clouds
 	vec3 clouds_color = get_blended_color(night_clouds_light_color, sr_clouds_light_color, clouds_light_color, ss_clouds_light_color, t);
-	
+
 	if(high_clouds_density > 0.0){
 		vec2 high_clouds_uv = (EYEDIR.xz / clamp(EYEDIR.y, 0.0, 1.0)) * 0.25 + TIME * 0.001;
 		float high_clouds_mask = texture(high_clouds_sampler, high_clouds_uv).x;
 		sky_color = mix(sky_color, clouds_color, smoothstep(0.0, 1.0, high_clouds_mask) * horizon_mask * bottom_mask * high_clouds_density);
 	}
-	
+
 	// clouds
 	if (AT_HALF_RES_PASS) {
 		vec3 clouds_direction = vec3(EYEDIR.xz / clamp(EYEDIR.y, 0.0, 1.0), 1.0);
 		vec2 clouds = EYEDIR.y > 0.0 ? cloud_ray_march(clouds_direction, LIGHT0_DIRECTION) : vec2(0.0);
-		
+
 		COLOR = mix(bottom_color, clouds_color, exp(-clouds.y * clouds_shadow_intensity));
 		ALPHA = (1.0 - exp(-clouds.x * horizon_mask * bottom_mask * 10.0));
-		
+
 	}else{
 		COLOR.rgb = mix(sky_color, HALF_RES_COLOR.rgb, HALF_RES_COLOR.a);
 	}

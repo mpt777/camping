@@ -1,13 +1,21 @@
+@tool
 extends Node3D
 class_name Draw3D
 
 # Called when the node enters the scene tree for the first time.
-var points := []
+@export var points : Array[Vector3] = []
+@export var rerender : bool :
+	set(value):
+		rerender = value
+		self.clear_mesh()
+		self.draw_line()
+		
 var color = Color.WHITE_SMOKE
 var mesh_instance : MeshInstance3D
 
 func _ready():
 	self.name="Draw3D"
+	self.draw_line()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -24,6 +32,9 @@ func add_point(pos : Vector3) -> void:
 
 func reset() -> void:
 	points = []
+	self.clear_mesh()
+		
+func clear_mesh() -> void:
 	if mesh_instance:
 		mesh_instance.queue_free()
 		
@@ -37,6 +48,8 @@ func draw_line() -> MeshInstance3D:
 	
 	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINE_STRIP, material)
 	
+	if (!points):
+		return
 	for i in range(points.size()):
 		if i + 1 < points.size():
 			var A = points[i]

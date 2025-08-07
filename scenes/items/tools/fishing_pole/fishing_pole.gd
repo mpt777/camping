@@ -12,6 +12,7 @@ const CATCH_RANGE : Array[int] = [2, 10]
 @onready var n_timer : Timer = $Timer
 
 @onready var n_rope : Rope = $Draw3D
+@onready var n_pole_rope : Rope = $Draw3D2
 @export var bobber_position : Vector3
 
 var bobber_distance : float = 0
@@ -23,7 +24,8 @@ enum states {
 	IDLE,
 	TARGET,
 	CAST,
-	MINIGAME
+	MINIGAME,
+	CATCH
 }
 @export var state = states.IDLE
 var player : Player
@@ -38,6 +40,7 @@ func _ready() -> void:
 	self.bobber.HitWorld.connect(bobber_hit_world)
 	self.player = Utils.parents(self).filter(func(x): return x is Player)[0]
 	self.active = true
+	self.n_pole_rope.draw_line()
 	
 func is_valid() -> bool:
 	if !is_multiplayer_authority():
@@ -55,6 +58,9 @@ func _process(delta: float) -> void:
 	if is_multiplayer_authority():
 		self.bobber_position = self.bobber.global_position
 		
+	if self.state == states.CATCH:
+		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START)
+		
 	self.draw_line()
 	
 	if !self.is_valid():
@@ -69,7 +75,7 @@ func draw_line() -> void:
 	self.n_rope.reset()
 	if self.bobber_position == Vector3.ZERO:
 		return
-	if (self.state in [states.CAST, states.MINIGAME]): #or (!is_multiplayer_authority()):
+	if (self.state in [states.CAST, states.MINIGAME, states.CATCH]): #or (!is_multiplayer_authority()):
 		self.n_rope.add_point(self.bobber_anchor.global_position)
 		self.n_rope.add_point(self.bobber_position)
 		self.n_rope.add_point(self.bobber_position)
@@ -113,8 +119,6 @@ func target(delta) -> void:
 		self.bobber_distance += delta * self.CAST_RATE
 		
 func cast() -> void:
-	#await get_tree().create_timer(0.1).timeout
-	
 	self.bobber.top_level = true
 	
 	self.bobber.global_position = self.bobber.global_position
@@ -130,7 +134,6 @@ func cast() -> void:
 	print("Casting from", self.bobber.global_position, "to", self.cast_anchor.global_position)
 	self.cast_anchor.visible = false
 	self.cast_anchor.position = Vector3.ZERO
-	#end arc
 	
 func reel(_delta) -> void:
 	if self.state != states.CAST:
@@ -168,6 +171,22 @@ func bobber_hit_world() -> void:
 	self.n_timer.stop()
 	self.end()
 	
+func catch(fish : FishData) -> void:
+	self.state = states.CATCH
+	self.player.animated_state = Enums.ANIMATION.IDLE
+	
+	self.bobber.angular_velocity = Vector3.ZERO
+	self.bobber.linear_velocity = calculate_arc_velocity(
+		self.bobber.global_position, 
+		self.player.global_position + Vector3(0,2,0), 
+		0.5
+	)
+	
+	self.player.add_item_to_inventory(fish)
+	
+	await get_tree().create_timer(0.5).timeout
+	self.end()
+	
 func _on_timer_timeout() -> void:
 	if self.state != states.CAST: 
 		return
@@ -178,7 +197,10 @@ func _on_timer_timeout() -> void:
 	var mg = MG_FISHING.instantiate()
 	self.player.enter_minigame(mg)
 	mg.Exited.connect(func():
-		self.end()
+		if mg.success:
+			self.catch(mg.current_fish)
+		else:
+			self.end()
 	)
 	
 #####################################
