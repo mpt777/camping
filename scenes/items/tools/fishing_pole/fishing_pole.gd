@@ -15,6 +15,9 @@ const CATCH_RANGE : Array[int] = [2, 10]
 @onready var n_pole_rope : Rope = $Draw3D2
 @export var bobber_position : Vector3
 
+@export var cast_curve : Curve
+var cast_curve_driver : Utils.CurveMap3DMove
+
 var bobber_distance : float = 0
 
 var is_held = false
@@ -42,12 +45,31 @@ func _ready() -> void:
 	self.active = true
 	self.n_pole_rope.draw_line()
 	
+	
 func is_valid() -> bool:
 	if !is_multiplayer_authority():
 		return false
 	if !self.active:
 		return false
 	return true
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if !self.is_valid():
+		return 
+	if event.is_action_released("left_mouse"):
+		self.is_held = false
+	if event.is_action_pressed("left_mouse"):
+		self.is_held = true
+		
+func draw_line() -> void:
+	self.n_rope.reset()
+	if self.bobber_position == Vector3.ZERO:
+		return
+	if (self.state in [states.CAST, states.MINIGAME, states.CATCH]): #or (!is_multiplayer_authority()):
+		self.n_rope.add_point(self.bobber_anchor.global_position)
+		self.n_rope.add_point(self.bobber_position)
+		self.n_rope.add_point(self.bobber_position)
+		self.n_rope.draw_line()
 
 func _process(delta: float) -> void:
 	
@@ -66,28 +88,12 @@ func _process(delta: float) -> void:
 	if !self.is_valid():
 		return 
 		
+	if self.cast_curve_driver:
+		self.cast_curve_driver.update(delta)
 	self.cast_anchor.global_rotation.x = 0
 	
 	self.advance_state(delta)
 	self.is_held_old = self.is_held
-	
-func draw_line() -> void:
-	self.n_rope.reset()
-	if self.bobber_position == Vector3.ZERO:
-		return
-	if (self.state in [states.CAST, states.MINIGAME, states.CATCH]): #or (!is_multiplayer_authority()):
-		self.n_rope.add_point(self.bobber_anchor.global_position)
-		self.n_rope.add_point(self.bobber_position)
-		self.n_rope.add_point(self.bobber_position)
-		self.n_rope.draw_line()
-	
-func _unhandled_input(event: InputEvent) -> void:
-	if !self.is_valid():
-		return 
-	if event.is_action_released("left_mouse"):
-		self.is_held = false
-	if event.is_action_pressed("left_mouse"):
-		self.is_held = true
 		
 func advance_state(delta : float) -> void:
 	if self.is_held:
@@ -120,18 +126,33 @@ func target(delta) -> void:
 		
 func cast() -> void:
 	self.bobber.top_level = true
-	
 	self.bobber.global_position = self.bobber.global_position
+	#self.bobber.freeze = true 
+	#self.cast_curve_driver = Utils.CurveMap3DMove.new().constructor(
+		#Utils.CurveMap3D.new().constructor(
+			#self.cast_curve,
+			#self.bobber_anchor.global_position,
+			#self.cast_anchor.global_position,
+			#2.0,
+			#0.8
+		#),
+		#self.bobber
+	#)
+	#self.bobber.angular_velocity = Vector3.ZERO
+	#self.cast_curve_driver.Finished.connect(func():
+		#self.to_physics()
+	#)
 	self.bobber.freeze = false
-	
 	self.bobber.angular_velocity = Vector3.ZERO
+	
 	# Arc!
-	self.bobber.linear_velocity = calculate_arc_velocity(
+	print(self.bobber_anchor.global_position.distance_squared_to(self.cast_anchor.global_position))
+	self.bobber.linear_velocity = calculate_arc_velocity_with_peak(
 		self.bobber_anchor.global_position, 
 		self.cast_anchor.global_position,
-		1
+		self.bobber.global_position.y + 2
 	)
-	print("Casting from", self.bobber.global_position, "to", self.cast_anchor.global_position)
+
 	self.cast_anchor.visible = false
 	self.cast_anchor.position = Vector3.ZERO
 	
@@ -158,16 +179,25 @@ func end() -> void:
 	self.bobber.freeze = true
 	
 	self.n_timer.stop()
+	
+func to_physics() -> void:
+	if self.cast_curve_driver:
+		bobber.linear_velocity = self.cast_curve_driver.get_velocity()
+	self.cast_curve_driver = null
+	self.bobber.freeze = false
+	#self.bobber.angular_velocity = Vector3.ZERO
 
 func bobber_entered_water() -> void:
+	self.to_physics()
 	var _time = randf_range(self.CATCH_RANGE[0], self.CATCH_RANGE[1])
 	self.bobber.linear_velocity.x = 0
 	self.bobber.linear_velocity.z = 0
 	self.n_timer.start()
 	
 func bobber_hit_world() -> void:
-	if self.bobber.freeze:
-		return
+	#if self.bobber.freeze:
+		#return
+	self.to_physics()
 	self.n_timer.stop()
 	self.end()
 	
@@ -175,17 +205,34 @@ func catch(fish : FishData) -> void:
 	self.state = states.CATCH
 	self.player.animated_state = Enums.ANIMATION.IDLE
 	
-	self.bobber.angular_velocity = Vector3.ZERO
-	self.bobber.linear_velocity = calculate_arc_velocity(
-		self.bobber.global_position, 
-		self.player.global_position + Vector3(0,2,0), 
-		0.5
+	self.bobber.freeze = true 
+	self.cast_curve_driver = Utils.CurveMap3DMove.new().constructor(
+		Utils.CurveMap3D.new().constructor(
+			self.cast_curve,
+			self.bobber.global_position,
+			self.player.global_position + Vector3(0,2,0),
+			2.0,
+			0.8
+		),
+		self.bobber
 	)
+	self.bobber.angular_velocity = Vector3.ZERO
+	self.cast_curve_driver.Finished.connect(func():
+		self.to_physics()
+		self.end()
+	)
+	
+	#self.bobber.angular_velocity = Vector3.ZERO
+	#self.bobber.linear_velocity = calculate_arc_velocity_with_peak(
+		#self.bobber.global_position, 
+		#self.player.global_position + Vector3(0,2,0), 
+		#self.bobber.global_position.y + 2
+	#)
 	
 	self.player.add_item_to_inventory(fish)
 	
-	await get_tree().create_timer(0.5).timeout
-	self.end()
+	#await get_tree().create_timer(0.5).timeout
+	#self.end()
 	
 func _on_timer_timeout() -> void:
 	if self.state != states.CAST: 

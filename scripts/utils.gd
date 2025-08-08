@@ -108,3 +108,82 @@ func min_key(dict):
 			_max_key = key
 
 	return _max_key
+
+
+class CurveMap3D:
+	var curve : Curve
+	var start : Vector3
+	var end : Vector3
+	var amplitude : float
+	var time : float
+	
+	func constructor(p_curve : Curve, p_start : Vector3, p_end: Vector3, p_amplitude: float, p_time: float) -> CurveMap3D:
+		self.curve = p_curve
+		self.start = p_start
+		self.end = p_end
+		self.amplitude = p_amplitude
+		self.time = p_time
+		return self
+		
+	func get_velocity_at(elapsed: float) -> Vector3:
+		var small_delta = 0.01
+		var t1 = clamp(elapsed / time, 0.0, 1.0)
+		var t0 = clamp(t1 - small_delta, 0.0, 1.0)
+
+		var pos1 = start.lerp(end, t1)
+		pos1.y += curve.sample(t1) * amplitude
+
+		var pos0 = start.lerp(end, t0)
+		pos0.y += curve.sample(t0) * amplitude
+
+		return (pos1 - pos0) / (small_delta * time)
+
+	
+	func get_point_at(elapsed: float) -> Vector3:
+		# Convert elapsed time to normalized 0..1 progress
+		var t = clamp(elapsed / time, 0.0, 1.0)
+		# Linear interpolation in XZ space
+		var pos = start.lerp(end, t)
+		# Apply vertical offset from curve
+		var height_offset = curve.sample(t) * amplitude
+		pos.y += height_offset
+		print(pos)
+		
+		return pos
+		
+class CurveMap3DMove:
+	var curve_map_3d : CurveMap3D
+	var time : float = 0.0
+	var node: Node3D
+	signal Finished
+	var _finished_emitted : bool = false
+	
+	func constructor(p_curve_map_3d : CurveMap3D, p_node: Node3D) -> CurveMap3DMove:
+		self.curve_map_3d = p_curve_map_3d
+		self.node = p_node
+		return self
+		
+	func reset() -> void:
+		self._finished_emitted = false
+		self.time = 0.0
+		
+	func t() -> float:
+		return clamp(time / curve_map_3d.time, 0.0, 1.0)
+		
+	func get_velocity():
+		return self.curve_map_3d.get_velocity_at(self.t())
+		
+	func update(delta: float) -> bool:
+		time += delta
+		var _t = self.t()
+		
+		if _t < 1.0:
+			node.global_position = curve_map_3d.get_point_at(_t)
+		
+		if _t >= 1.0 and not _finished_emitted:
+			_finished_emitted = true
+			emit_signal("Finished")
+
+		return _t >= 1.0
+		
+	

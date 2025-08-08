@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://j6nkub5hkfgb"]
+
+[ext_resource type="PackedScene" uid="uid://c6c4ey5jpwob6" path="res://scenes/items/boyant/boyant.tscn" id="2_ocmxu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ymanj"]
+size = Vector3(4, 1, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g5uai"]
+size = Vector3(4, 1, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ocmxu"]
+size = Vector3(4, 1, 4)
+
+[node name="Boyant" instance=ExtResource("2_ocmxu")]
+collision_layer = 9
+float_force = 1.8
+
+[node name="Marker3D" type="Marker3D" parent="ProbeContainer" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78694, 0.286589, -1.91502)
+
+[node name="Marker3D2" type="Marker3D" parent="ProbeContainer" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.11784, 0.278853, -1.98891)
+
+[node name="Marker3D3" type="Marker3D" parent="ProbeContainer" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0872, 0.286318, 2.07393)
+
+[node name="Marker3D4" type="Marker3D" parent="ProbeContainer" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.10824, 0.300946, 2.07212)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("BoxMesh_ymanj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+shape = SubResource("BoxShape3D_g5uai")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+shape = SubResource("BoxShape3D_ocmxu")

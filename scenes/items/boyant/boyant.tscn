@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6c4ey5jpwob6"]
+
+[ext_resource type="Script" uid="uid://dwy73gotoinfw" path="res://scenes/items/boyant/boyant.gd" id="1_nesvl"]
+
+[node name="Boyant" type="RigidBody3D" node_paths=PackedStringArray("probes_container")]
+collision_layer = 8
+script = ExtResource("1_nesvl")
+probes_container = NodePath("ProbeContainer")
+
+[node name="ProbeContainer" type="Node3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

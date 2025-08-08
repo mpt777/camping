@@ -1,10 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8n48n38pjppc"]
+[gd_scene load_steps=8 format=3 uid="uid://b8n48n38pjppc"]
 
 [ext_resource type="Script" uid="uid://c4dlrexmrayjn" path="res://scenes/items/tools/fishing_pole/fishing_pole.gd" id="1_xhvsk"]
 [ext_resource type="PackedScene" uid="uid://ca4ddr77u1a03" path="res://scenes/items/tools/bobber/bobber.tscn" id="2_5dmys"]
 [ext_resource type="PackedScene" uid="uid://dhtes2mppnxem" path="res://assets/blender/items/fishing_pole/fishing_pole.tscn" id="2_cmdqa"]
 [ext_resource type="PackedScene" uid="uid://bkjur5rlck3uc" path="res://scenes/items/tools/fishing_pole/rope.tscn" id="2_gn0oc"]
 [ext_resource type="Texture2D" uid="uid://bt80r07c3tl8w" path="res://icon.svg" id="4_4fmbj"]
+
+[sub_resource type="Curve" id="Curve_cmdqa"]
+_data = [Vector2(0, 0.023152), 0.0, 4.24045, 0, 0, Vector2(0.413793, 0.878554), 0.156385, 0.156385, 0, 0, Vector2(0.997845, 0), -2.35581, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3gnoo"]
 properties/0/path = NodePath(".:bobber_position")
@@ -16,6 +20,7 @@ properties/1/replication_mode = 1
 
 [node name="FishingPole" type="Node3D"]
 script = ExtResource("1_xhvsk")
+cast_curve = SubResource("Curve_cmdqa")
 metadata/_custom_type_script = "uid://chktvyv33f3bf"
 
 [node name="fishing_pole" parent="." instance=ExtResource("2_cmdqa")]

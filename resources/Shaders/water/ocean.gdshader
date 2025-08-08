@@ -81,6 +81,11 @@ uniform sampler2D depth_texture: hint_depth_texture, filter_linear_mipmap, repea
 
 varying vec3 global_position;
 
+group_uniforms NewDisplacement;
+uniform sampler2D wave;
+uniform float noise_scale = 10.0;
+uniform float wave_speed = 2.0;
+uniform float height_scale = 0.15;
 
 #ifdef CAUSTICS
 // Permutation polynomial hash credit Stefan Gustavson
@@ -196,20 +201,27 @@ bool in_bounds(vec2 uv) {
 
 void vertex() {
 	global_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-
-	#ifdef DISPLACEMENT
-	//float height = texture(displacement_texture, global_position.xz / displacement_scale.x + displacement_time * displacement_scroll_speed).r;
-	//VERTEX.y += height * displacement_strength;
-	float time = TIME * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
-	//float time = displacement_time * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
-	float displace1 = texture(displacement_texture, fma(global_position.xz, displacement_scale, time * -wind_direction.xz)).r;
-	float displace2 = texture(displacement_texture, fma(global_position.xz, displacement_scale * displacement_scale_offset, time * (-wind_direction.xz + displacement_scroll_offset))).r;
-	float displacement_mixed = mix(displace1, displace1, 0.4);
-	float offset = fma(displacement_mixed, 2.0, -1.0) * displacement_strength;
-	VERTEX.y += offset;
-	global_position.y += offset;
-	#endif
+	float offset = texture(wave, global_position.xz / noise_scale + displacement_time * wave_speed).r;
+	VERTEX.y += offset * height_scale;
+	global_position.y += offset * height_scale;
 }
+
+//void vertex() {
+	//global_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+//
+	//#ifdef DISPLACEMENT
+	////float height = texture(displacement_texture, global_position.xz / displacement_scale.x + displacement_time * displacement_scroll_speed).r;
+	////VERTEX.y += height * displacement_strength;
+	//float time = TIME * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
+	////float time = displacement_time * displacement_scroll_speed * fma(wind_intensity, 0.7, 0.3);
+	//float displace1 = texture(displacement_texture, fma(global_position.xz, displacement_scale, time * -wind_direction.xz)).r;
+	//float displace2 = texture(displacement_texture, fma(global_position.xz, displacement_scale * displacement_scale_offset, time * (-wind_direction.xz + displacement_scroll_offset))).r;
+	//float displacement_mixed = mix(displace1, displace2, 0.4);
+	//float offset = fma(displacement_mixed, 2.0, -1.0) * displacement_strength;
+	//VERTEX.y += offset;
+	//global_position.y += offset;
+	//#endif
+//}
 
 
 void fragment() {

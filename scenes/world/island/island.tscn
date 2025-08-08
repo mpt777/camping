@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dq6nk182a46tr"]
+[gd_scene load_steps=14 format=3 uid="uid://dq6nk182a46tr"]
 
 [ext_resource type="PackedScene" uid="uid://byi8suase6m5k" path="res://scenes/enviroment/world_environment.tscn" id="2_00wko"]
 [ext_resource type="PackedScene" uid="uid://bssiv6nsg4sgd" path="res://assets/blender/levels/island/island.tscn" id="3_c44sj"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ca4q7a6ang8yv" path="res://scenes/ocean/ocean.tscn" id="7_ynh53"]
 [ext_resource type="PackedScene" uid="uid://c707o6yb06gro" path="res://scenes/npc/npcs/test/npc_test.tscn" id="8_htapr"]
 [ext_resource type="PackedScene" uid="uid://cq6l8dknxvrc3" path="res://scenes/npc/npcs/store/npc_store.tscn" id="9_00wko"]
+[ext_resource type="PackedScene" uid="uid://j6nkub5hkfgb" path="res://scenes/items/buoy/buoy.tscn" id="9_ajfo0"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_wb2e1"]
 size = Vector3(7.1, 0.16, 6.03)
@@ -40,18 +41,19 @@ shape = SubResource("ConcavePolygonShape3D_wb2e1")
 
 [node name="WorldEnvironment" parent="Env" node_paths=PackedStringArray("astro", "moon") instance=ExtResource("2_00wko")]
 environment = ExtResource("3_ymros")
-time = 8.70663
+time = 6.01327
 day_length = 30.0
 astro = NodePath("../Sun")
 moon = NodePath("../Moon")
 
 [node name="Sun" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(1, 0, 0, 0, 0.759277, 0.650767, 0, -0.650767, 0.759277, 0, 0, 0)
-light_energy = 0.25
+transform = Transform3D(1, 0, 0, 0, 0.999994, 0.00347407, 0, -0.00347407, 0.999994, 0, 0, 0)
+visible = false
+light_energy = 0.00347407
 shadow_enabled = true
 
 [node name="Moon" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(1, 0, 0, 0, -0.759277, -0.650767, 0, 0.650767, -0.759277, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -0.999994, -0.00347414, 0, 0.00347414, -0.999994, 0, 0, 0)
 visible = false
 light_color = Color(0.306508, 0.43705, 0.740116, 1)
 light_energy = 0.0
@@ -209,6 +211,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 radius = 3
 metadata/_edit_lock_ = true
 
+[node name="Buoy" parent="Water" instance=ExtResource("9_ajfo0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78444, 1.49419, -49.1295)
+
 [node name="NPCS" type="Node3D" parent="."]
 
 [node name="Npc" parent="NPCS" instance=ExtResource("8_htapr")]
@@ -232,4 +237,5 @@ metadata/_edit_lock_ = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 metadata/_edit_lock_ = true
 
+[editable path="Water/Water"]
 [editable path="NPCS/Npc2"]
