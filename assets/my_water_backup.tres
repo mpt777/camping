@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=12 format=3 uid="uid://cr8yf6r3utjih"]
+[gd_resource type="ShaderMaterial" load_steps=12 format=3 uid="uid://kptrmypvj3xq"]
 
-[ext_resource type="Shader" uid="uid://btcf800k2w7wt" path="res://resources/Shaders/water/ocean.gdshader" id="1_xwlr2"]
+[ext_resource type="Shader" uid="uid://btcf800k2w7wt" path="res://resources/Shaders/water/ocean.gdshader" id="1_3a4ga"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_eyp26"]
 frequency = 0.0146
@@ -52,7 +52,7 @@ noise = SubResource("FastNoiseLite_1tpla")
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_xwlr2")
+shader = ExtResource("1_3a4ga")
 shader_parameter/absorption_color = Color(1, 0.870588, 0, 1)
 shader_parameter/fresnel_radius = 2.0
 shader_parameter/fresnel_color = Color(3.1285e-07, 0.253409, 0.327427, 1)
@@ -93,4 +93,4 @@ shader_parameter/normal_map = SubResource("NoiseTexture2D_dowuo")
 shader_parameter/wave = SubResource("NoiseTexture2D_bihc4")
 shader_parameter/noise_scale = 1.0
 shader_parameter/wave_speed = 0.05
-shader_parameter/height_scale = 0.15
+shader_parameter/height_scale = 0.3

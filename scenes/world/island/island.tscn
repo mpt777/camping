@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://dq6nk182a46tr"]
 
-[ext_resource type="PackedScene" uid="uid://byi8suase6m5k" path="res://scenes/enviroment/world_environment.tscn" id="2_00wko"]
+[ext_resource type="PackedScene" uid="uid://byi8suase6m5k" path="res://scenes/enviroment/world/world_environment.tscn" id="2_00wko"]
 [ext_resource type="PackedScene" uid="uid://bssiv6nsg4sgd" path="res://assets/blender/levels/island/island.tscn" id="3_c44sj"]
 [ext_resource type="Environment" uid="uid://cxvofubv6lnq8" path="res://scenes/world/island/island_environment.tres" id="3_ymros"]
 [ext_resource type="PackedScene" uid="uid://d1xq3cg2aa6ua" path="res://assets/blender/decorations/PalmTree/palm_tree.tscn" id="4_a2155"]
@@ -41,22 +41,21 @@ shape = SubResource("ConcavePolygonShape3D_wb2e1")
 
 [node name="WorldEnvironment" parent="Env" node_paths=PackedStringArray("astro", "moon") instance=ExtResource("2_00wko")]
 environment = ExtResource("3_ymros")
-time = 6.01327
+time = 23.2666
 day_length = 30.0
 astro = NodePath("../Sun")
 moon = NodePath("../Moon")
 
 [node name="Sun" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(1, 0, 0, 0, 0.999994, 0.00347407, 0, -0.00347407, 0.999994, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -0.190826, -0.981623, 0, 0.981623, -0.190826, 0, 0, 0)
 visible = false
-light_energy = 0.00347407
+light_energy = 0.0
 shadow_enabled = true
 
 [node name="Moon" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(1, 0, 0, 0, -0.999994, -0.00347414, 0, 0.00347414, -0.999994, 0, 0, 0)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 0.190826, 0.981623, 0, -0.981623, 0.190826, 0, 0, 0)
 light_color = Color(0.306508, 0.43705, 0.740116, 1)
-light_energy = 0.0
+light_energy = 0.1
 shadow_enabled = true
 
 [node name="Trees" type="Node3D" parent="."]
@@ -212,7 +211,7 @@ radius = 3
 metadata/_edit_lock_ = true
 
 [node name="Buoy" parent="Water" instance=ExtResource("9_ajfo0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78444, 1.49419, -49.1295)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2859, 1.49419, -49.1295)
 
 [node name="NPCS" type="Node3D" parent="."]
 

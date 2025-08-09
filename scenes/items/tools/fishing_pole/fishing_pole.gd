@@ -6,13 +6,14 @@ const MG_FISHING = preload("res://scenes/minigames/fishing/mg_fishing.tscn")
 const CAST_RATE := 10
 const CATCH_RANGE : Array[int] = [2, 10]
 
-@onready var bobber_anchor := $BobberAnchor
-@onready var cast_anchor := $BobberAnchor/CastAnchor
-@onready var bobber : Bobber = $BobberAnchor/Bobber
+@onready var rotation_fixer := $RotationFixer
+@onready var bobber_anchor := $RotationFixer/BobberAnchor
+@onready var cast_anchor := $RotationFixer/BobberAnchor/CastAnchor
+@onready var bobber : Bobber = $RotationFixer/BobberAnchor/Bobber
 @onready var n_timer : Timer = $Timer
 
-@onready var n_rope : Rope = $Draw3D
-@onready var n_pole_rope : Rope = $Draw3D2
+@onready var n_rope : Rope = $RotationFixer/Draw3D
+@onready var n_pole_rope : Rope = $RotationFixer/Draw3D2
 @export var bobber_position : Vector3
 
 @export var cast_curve : Curve
@@ -81,7 +82,7 @@ func _process(delta: float) -> void:
 		self.bobber_position = self.bobber.global_position
 		
 	if self.state == states.CATCH:
-		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START)
+		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.5)
 		
 	self.draw_line()
 	
@@ -115,8 +116,8 @@ func advance_state(delta : float) -> void:
 		
 func target(delta) -> void:
 	if self.state == states.TARGET:
-		self.player.animated_state = Enums.ANIMATION.IDLE
-		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START)
+		self.player.animated_state = Enums.ANIMATION.EMOTE
+		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.8)
 		self.cast_anchor.visible = true
 
 		var forward = -self.player.player_mesh.global_basis.z.normalized()
@@ -142,6 +143,7 @@ func cast() -> void:
 	#self.cast_curve_driver.Finished.connect(func():
 		#self.to_physics()
 	#)
+	self.player.animated_state = Enums.ANIMATION.IDLE
 	self.bobber.freeze = false
 	self.bobber.angular_velocity = Vector3.ZERO
 	
@@ -159,6 +161,8 @@ func cast() -> void:
 func reel(_delta) -> void:
 	if self.state != states.CAST:
 		return
+		
+	self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.8)
 	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * self.CAST_RATE)
 	
 	var delta : Vector3 = self.bobber.global_position - global_position
@@ -178,6 +182,7 @@ func end() -> void:
 	self.bobber.angular_velocity = Vector3.ZERO
 	self.bobber.freeze = true
 	
+	self.player.animated_state = Enums.ANIMATION.IDLE
 	self.n_timer.stop()
 	
 func to_physics() -> void:

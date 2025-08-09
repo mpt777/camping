@@ -8,6 +8,8 @@ var avatar_data : AvatarData
 @export var hotbar : Hotbar3D
 var current_animation : Enums.ANIMATION
 var tween : Tween
+var active_slot_is_root := true
+
 
 #class AnimationDirection
 
@@ -36,66 +38,61 @@ func initialize_hotbar():
 	
 	
 func _physics_process(delta: float) -> void:
-	return
-	print(self.tree.get("parameters/BlendAmount/blend_amount"))
+	if self.tree.get("parameters/BlendAmount/blend_amount"):
+		print(self.tree.get("parameters/BlendAmount/blend_amount"))
 	
 
-func _blend_animation(animation: Enums.ANIMATION):
-	
+func _blend_animation(animation: Enums.ANIMATION, strength: float = 1.0):
 	if animation == self.current_animation:
 		return
-		
+	
 	var root = self.tree.tree_root.get_node("Root")
 	var blend = self.tree.tree_root.get_node("Blend")
-	var final_val = 1.0
-	#print(self.avatar_data.animation_lookup[animation])
-	#self.avatar.get_node("AnimationPlayer").play(self.avatar_data.animation_lookup[animation])
+	var final_val = strength
 	
-	
-	#return
-	#print(root.animation, " ", self.tree.get("parameters/BlendAmount/blend_amount"))
-	#return
-	
-	#print("Start-------------------", self.current_animation)
-	
-	if root.animation != self.avatar_data.animation_lookup[self.current_animation]:
-		#print("SWAP")sd
-		var root_temp = root
+	# If root isn't the active slot, swap them
+	if not active_slot_is_root:
+		var temp = root
 		root = blend
-		blend = root_temp
-		final_val = 0.0
-		
-	#print("----------------")
+		blend = temp
+		final_val = 1.0 - strength
 	
 	root.animation = self.avatar_data.animation_lookup[self.current_animation]
 	blend.animation = self.avatar_data.animation_lookup[animation]
 	
+	if root.animation == blend.animation:
+		return
+	
+	if tween and tween.is_valid():
+		tween.kill()
 	self.current_animation = animation
-
-	var tween = create_tween()
-	tween.tween_property(self.tree, "parameters/BlendAmount/blend_amount", final_val, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
-	# When finsished, reset the postiiosn so we can tween to next one
+	active_slot_is_root = not active_slot_is_root  # flip for next time
+	
+	tween = create_tween()
+	tween.tween_property(
+		self.tree,
+		"parameters/BlendAmount/blend_amount",
+		final_val,
+		0.8
+	).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	tween.tween_callback(func():
-		pass
-		#print("COMPLETE", get_multiplayer_authority(), self.get_parent().name, self)
-		#root.animation = blend.animation
-		#self.tree.set("parameters/BlendAmount/blend_amount", self.get_blend())
+		print("COMPLETE")
 	)
 
+
 @rpc("call_local", "any_peer", "unreliable", 2)
-func sync_animation(animation: Enums.ANIMATION):
+func sync_animation(animation: Enums.ANIMATION, strength : float = 1.0):
 	if get_multiplayer_authority() == multiplayer.get_remote_sender_id():
 		#print("SYNC ANIM", self.name, "owner:", get_multiplayer_authority(), "sender:", multiplayer.get_remote_sender_id(), "animation:", animation, "instance:", multiplayer.get_unique_id())
-
-		_blend_animation(animation)
+		_blend_animation(animation, strength)
 	
-func animate_to(animation: Enums.ANIMATION):
+func animate_to(animation: Enums.ANIMATION, strength : float = 1.0):
 	if !is_multiplayer_authority():
 		return
 	if animation == self.current_animation:
 		return
 	print("----------------------------------------------")
-	sync_animation.rpc(animation)  # Broadcast to all
+	sync_animation.rpc(animation, strength)  # Broadcast to all
 	#print("-----------------------", self.name, "owner:", get_multiplayer_authority(), "animation:", animation)
 
 		#print("HERE", " ", multiplayer.get_unique_id())

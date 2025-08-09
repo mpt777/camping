@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bgicmcs54rylh"]
 
 [ext_resource type="Script" uid="uid://csu0eldee1nbu" path="res://wfc/world/world.gd" id="1_8toxo"]
-[ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/enviroment/sky.gdshader" id="2_kyq3w"]
+[ext_resource type="Shader" uid="uid://djku5fxyk0ia4" path="res://scenes/enviroment/world/sky.gdshader" id="2_kyq3w"]
 [ext_resource type="PackedScene" uid="uid://bikwxeiuux2nc" path="res://scenes/decorations/water.tscn" id="3_yeqt1"]
 [ext_resource type="PackedScene" uid="uid://ca4q7a6ang8yv" path="res://scenes/ocean/ocean.tscn" id="4_oi04a"]
 

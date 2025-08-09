@@ -1,9 +1,9 @@
 [gd_resource type="ShaderMaterial" load_steps=13 format=3 uid="uid://c3kht1rjqq5hb"]
 
-[ext_resource type="Shader" uid="uid://d1x7pn5iwhuur" path="res://scenes/enviroment/style_sky.gdshader" id="1_fe3y3"]
-[ext_resource type="Texture2D" uid="uid://bq38u3a8dwypo" path="res://scenes/enviroment/circle.png" id="2_o0w5c"]
-[ext_resource type="Texture2D" uid="uid://bl2lfyq5aoosr" path="res://scenes/enviroment/Moon.png" id="3_eqgtx"]
-[ext_resource type="Texture2D" uid="uid://di631hkauvxti" path="res://scenes/enviroment/shooting_star_sampler.png" id="4_5q8o3"]
+[ext_resource type="Shader" uid="uid://d1x7pn5iwhuur" path="res://scenes/enviroment/world/style_sky.gdshader" id="1_fe3y3"]
+[ext_resource type="Texture2D" uid="uid://bq38u3a8dwypo" path="res://scenes/enviroment/world/circle.png" id="2_o0w5c"]
+[ext_resource type="Texture2D" uid="uid://bl2lfyq5aoosr" path="res://scenes/enviroment/world/Moon.png" id="3_eqgtx"]
+[ext_resource type="Texture2D" uid="uid://di631hkauvxti" path="res://scenes/enviroment/world/shooting_star_sampler.png" id="4_5q8o3"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_o0w5c"]
 
@@ -35,12 +35,12 @@ noise = SubResource("FastNoiseLite_vfdcj")
 
 [resource]
 shader = ExtResource("1_fe3y3")
-shader_parameter/time_of_day = 0.163886
+shader_parameter/time_of_day = 0.969442
 shader_parameter/sunrise_start = 0.1
 shader_parameter/day_start = 0.3
 shader_parameter/sunset_start = 0.6
 shader_parameter/night_start = 0.8
-shader_parameter/SUN_DIRECTION = Vector3(0, -0.515052, 0.857159)
+shader_parameter/SUN_DIRECTION = Vector3(0, -0.981624, -0.190826)
 shader_parameter/cloud_shape_sampler = SubResource("NoiseTexture2D_2756g")
 shader_parameter/cloud_noise_sampler = SubResource("NoiseTexture2D_vfdcj")
 shader_parameter/cloud_curves = SubResource("NoiseTexture2D_eqgtx")

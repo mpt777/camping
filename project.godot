@@ -29,6 +29,10 @@ GlobalUI="*res://ui/global_ui/global_ui.tscn"
 ContentType="*res://classes/content_type/content_type.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [dialogue_manager]
 
 runtime/balloon_path="res://ui/dialog/balloon.tscn"

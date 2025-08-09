@@ -17,35 +17,40 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:state")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath("RotationFixer:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="FishingPole" type="Node3D"]
 script = ExtResource("1_xhvsk")
 cast_curve = SubResource("Curve_cmdqa")
 metadata/_custom_type_script = "uid://chktvyv33f3bf"
 
-[node name="fishing_pole" parent="." instance=ExtResource("2_cmdqa")]
+[node name="RotationFixer" type="Node3D" parent="."]
 
-[node name="Draw3D" parent="." instance=ExtResource("2_gn0oc")]
+[node name="fishing_pole" parent="RotationFixer" instance=ExtResource("2_cmdqa")]
+
+[node name="Draw3D" parent="RotationFixer" instance=ExtResource("2_gn0oc")]
 top_level = true
 
-[node name="Draw3D2" parent="." instance=ExtResource("2_gn0oc")]
+[node name="Draw3D2" parent="RotationFixer" instance=ExtResource("2_gn0oc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294055, -0.0819591)
 points = Array[Vector3]([Vector3(0, 0, 0), Vector3(0, 1.73, 0.05), Vector3(0, 0, 0)])
 rerender = true
 
-[node name="BobberAnchor" type="Node3D" parent="."]
+[node name="BobberAnchor" type="Node3D" parent="RotationFixer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.02665, -0.0410145)
 
-[node name="Bobber" parent="BobberAnchor" instance=ExtResource("2_5dmys")]
+[node name="Bobber" parent="RotationFixer/BobberAnchor" instance=ExtResource("2_5dmys")]
 sleeping = true
 lock_rotation = true
 
-[node name="CastAnchor" type="Node3D" parent="BobberAnchor"]
+[node name="CastAnchor" type="Node3D" parent="RotationFixer/BobberAnchor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 top_level = true
 visible = false
 
-[node name="Decal" type="Decal" parent="BobberAnchor/CastAnchor"]
+[node name="Decal" type="Decal" parent="RotationFixer/BobberAnchor/CastAnchor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.40018, 0)
 size = Vector3(1, 9.28113, 1)
 texture_albedo = ExtResource("4_4fmbj")
@@ -53,7 +58,7 @@ emission_energy = 16.0
 upper_fade = 0.000264038
 lower_fade = 0.00047593
 
-[node name="OutBobber" type="Node3D" parent="."]
+[node name="OutBobber" type="Node3D" parent="RotationFixer"]
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
