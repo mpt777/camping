@@ -2,9 +2,9 @@ extends Node3D
 class_name PlayerGlobal
 
 func _ready() -> void:
-	pass
+	self.ready.connect(_on_ready)
 
-func _enter_tree() -> void:
+func _on_ready() -> void:
 	$".".set_multiplayer_authority(get_parent().name.to_int())
 	
 	if is_multiplayer_authority():

@@ -23,12 +23,12 @@ fog_depth_end = 1000.0
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_u46sn"]
 properties/0/path = NodePath(".:time")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("Environment_qt50p")
 script = ExtResource("4_pw3yr")
-time = 0.0
+time = 16.48
 day_length = 5.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

@@ -37,6 +37,7 @@ func _exit_tree():
 
 
 func add_player(id: int):
+	print("add ", id)
 	var player_grouper = PLAYER_GROUPER.instantiate()
 	if id in Game.players:
 		player_grouper.constructor(Game.players[id])

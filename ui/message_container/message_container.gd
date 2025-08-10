@@ -8,9 +8,10 @@ const MESSAGE_UI = preload("res://ui/message_ui/message_ui.tscn")
 
 func _ready():
 	Signals.AddMessageToBox.connect(add_message)
+	self.ready.connect(_on_ready)
 	
-func _enter_tree() -> void:
-	self.set_multiplayer_authority(multiplayer.get_unique_id())
+func _on_ready():
+	self.set_multiplayer_authority(self.get_parent().get_multiplayer_authority())
 	
 func add_message(message : Message):
 	var message_ui : MessageUI = MESSAGE_UI.instantiate().constructor(message.message, message.color)

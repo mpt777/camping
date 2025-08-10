@@ -62,6 +62,7 @@ func start_game(peer: ENetMultiplayerPeer) -> void:
 	# Clients will instantiate the level via the spawner.
 	if multiplayer.is_server():
 		change_level.call_deferred(load("res://scenes/world/world.tscn"))
+		print("Server Starting World")
 
 # Call this function deferred and only on the main authority (server).
 func change_level(scene: PackedScene):

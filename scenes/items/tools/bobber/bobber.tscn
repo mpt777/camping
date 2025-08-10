@@ -15,12 +15,6 @@ rings = 16
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:top_level")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath(".:freeze")
-properties/2/spawn = true
-properties/2/replication_mode = 2
 
 [node name="Bobber" type="RigidBody3D" node_paths=PackedStringArray("probes_container")]
 collision_layer = 8
@@ -49,14 +43,14 @@ mesh = SubResource("SphereMesh_xhvsk")
 [node name="Marker3D" type="Marker3D" parent="ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00630683, 0)
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_63my7")
-
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://k21mwowyf534")
 spawn_path = NodePath("../Spawner")
 
 [node name="Spawner" type="Node3D" parent="."]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_63my7")
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
 [connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

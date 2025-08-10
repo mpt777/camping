@@ -7,7 +7,7 @@ var mouse_modes = [
 	Input.MOUSE_MODE_VISIBLE  
 ]
 
-var mouse_mode_index : int = 0
+var mouse_mode_index : int = 1
 
 
 func code() -> String:

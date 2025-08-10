@@ -12,12 +12,13 @@ func constructor(m_player_data : PlayerData):
 	return self
 	
 func _ready() -> void:
+	self.ready.connect(_on_ready)
 	self.player.position = self.spawn_position
 	self.player.name = self.name
 	self.player.player = int(self.name)
 	self.player.player_data = self.player_data
 
+func _on_ready():
+	$".".set_multiplayer_authority(name.to_int())
 	player.constructor_node()
 	
-func _enter_tree() -> void:
-	$".".set_multiplayer_authority(name.to_int())

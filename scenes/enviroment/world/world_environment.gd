@@ -60,10 +60,9 @@ func is_day() -> bool:
 	return sun_dir.dot(up) > 0.0
 
 func rotate_astro(t: float) -> void:
-	if not astro:
+	if not astro or not moon:
 		return
-	if not moon:
-		return
+
 	
 	var sun_angle = lerp(-90.0, 270.0, t)
 	astro.rotation_degrees.x = -sun_angle
@@ -87,6 +86,6 @@ func rotate_astro(t: float) -> void:
 func render():
 	var normalized_time = fmod(time / 24.0, 1.0)
 	rotate_astro(normalized_time)
-	if shader:
+	if shader and astro:
 		shader.set_shader_parameter("time_of_day", normalized_time)
 		shader.set_shader_parameter("SUN_DIRECTION", astro.global_transform.basis.z.normalized())
