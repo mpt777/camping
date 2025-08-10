@@ -18,6 +18,7 @@ const CATCH_RANGE : Array[int] = [2, 10]
 
 @export var cast_curve : Curve
 var cast_curve_driver : Utils.CurveMap3DMove
+@export var line_curve : Curve
 
 var bobber_distance : float = 0
 
@@ -28,9 +29,34 @@ enum states {
 	IDLE,
 	TARGET,
 	CAST,
+	REEL,
 	MINIGAME,
 	CATCH
 }
+
+func draw_reel_straight(fp : FishingPole):
+	fp.n_rope.add_point(fp.bobber_anchor.global_position)
+	fp.n_rope.add_point(fp.bobber_position)
+	fp.n_rope.add_point(fp.bobber_position)
+	fp.n_rope.draw_line()
+
+func draw_reel_curved(fp : FishingPole):
+	var points = 20
+	var curve_map = Utils.CurveMap3D.new().constructor(
+		fp.line_curve, 
+		fp.bobber_anchor.global_position,
+		fp.bobber_position,
+		1, points
+	)
+	for i in range(points + 1):
+		fp.n_rope.add_point(curve_map.get_point_at(i))
+	fp.n_rope.draw_line()
+
+#class FishingPoleState:
+	#
+	#func process():
+		#pass
+	#
 @export var state = states.IDLE
 var player : Player
 
@@ -45,7 +71,6 @@ func _ready() -> void:
 	self.player = Utils.parents(self).filter(func(x): return x is Player)[0]
 	self.active = true
 	self.n_pole_rope.draw_line()
-	
 	
 func is_valid() -> bool:
 	if !is_multiplayer_authority():
@@ -62,28 +87,22 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_mouse"):
 		self.is_held = true
 		
-func draw_line() -> void:
+func draw_line(flat=false) -> void:
 	self.n_rope.reset()
 	if self.bobber_position == Vector3.ZERO:
 		return
-	if (self.state in [states.CAST, states.MINIGAME, states.CATCH]): #or (!is_multiplayer_authority()):
-		self.n_rope.add_point(self.bobber_anchor.global_position)
-		self.n_rope.add_point(self.bobber_position)
-		self.n_rope.add_point(self.bobber_position)
-		self.n_rope.draw_line()
+	if self.state in [states.MINIGAME, states.REEL]:
+		draw_reel_straight(self)
+	if (self.state in [states.CAST, states.CATCH]):
+		draw_reel_curved(self)
+
 
 func _process(delta: float) -> void:
-	
-	self.n_rope.visible = true
-	if self.state == states.IDLE:
-		self.n_rope.visible = false
-	
+
 	if is_multiplayer_authority():
 		self.bobber_position = self.bobber.global_position
 		
-	if self.state == states.CATCH:
-		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.5)
-		
+	self.animate()
 	self.draw_line()
 	
 	if !self.is_valid():
@@ -95,11 +114,31 @@ func _process(delta: float) -> void:
 	
 	self.advance_state(delta)
 	self.is_held_old = self.is_held
+	
+func animate() -> void:
+	self.n_rope.visible = true
+	if self.state == states.IDLE:
+		self.n_rope.visible = false
+		
+	if self.state == states.CATCH:
+		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.5)
+	
+	if self.state == states.MINIGAME:
+		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.4)
+		
+	if self.state == states.REEL:
+		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.2)
 		
 func advance_state(delta : float) -> void:
 	if self.is_held:
-		self.target(delta)
-		self.reel(delta)
+		if self.state == states.CAST:
+			self.state = states.REEL
+	else:
+		if self.state == states.REEL:
+			self.state = states.CAST
+			
+	self.target(delta)
+	self.reel(delta)	
 			
 	if self.is_held == self.is_held_old:
 		return
@@ -115,40 +154,25 @@ func advance_state(delta : float) -> void:
 			self.cast()
 		
 func target(delta) -> void:
-	if self.state == states.TARGET:
-		self.player.animated_state = Enums.ANIMATION.EMOTE
-		self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.8)
-		self.cast_anchor.visible = true
+	if self.state != states.TARGET:
+		return
+	self.player.animated_state = Enums.ANIMATION.EMOTE
+	self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.8)
+	self.cast_anchor.visible = true
 
-		var forward = -self.player.player_mesh.global_basis.z.normalized()
-		self.cast_anchor.global_position = self.player.global_position + forward * bobber_distance
+	var forward = -self.player.player_mesh.global_basis.z.normalized()
+	self.cast_anchor.global_position = self.player.global_position + forward * bobber_distance
 
-		self.bobber_distance += delta * self.CAST_RATE
+	self.bobber_distance += delta * self.CAST_RATE
 		
 func cast() -> void:
 	self.bobber.top_level = true
 	self.bobber.global_position = self.bobber.global_position
-	#self.bobber.freeze = true 
-	#self.cast_curve_driver = Utils.CurveMap3DMove.new().constructor(
-		#Utils.CurveMap3D.new().constructor(
-			#self.cast_curve,
-			#self.bobber_anchor.global_position,
-			#self.cast_anchor.global_position,
-			#2.0,
-			#0.8
-		#),
-		#self.bobber
-	#)
-	#self.bobber.angular_velocity = Vector3.ZERO
-	#self.cast_curve_driver.Finished.connect(func():
-		#self.to_physics()
-	#)
 	self.player.animated_state = Enums.ANIMATION.IDLE
 	self.bobber.freeze = false
 	self.bobber.angular_velocity = Vector3.ZERO
 	
 	# Arc!
-	print(self.bobber_anchor.global_position.distance_squared_to(self.cast_anchor.global_position))
 	self.bobber.linear_velocity = calculate_arc_velocity_with_peak(
 		self.bobber_anchor.global_position, 
 		self.cast_anchor.global_position,
@@ -159,10 +183,11 @@ func cast() -> void:
 	self.cast_anchor.position = Vector3.ZERO
 	
 func reel(_delta) -> void:
-	if self.state != states.CAST:
+	if self.state != states.REEL:
 		return
+	self.draw_line()
 		
-	self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.8)
+	self.player.player_mesh.animate_to(Enums.ANIMATION.CAST_START, 0.3)
 	self.bobber.apply_central_force(self.bobber.global_position.direction_to(global_position) * self.CAST_RATE)
 	
 	var delta : Vector3 = self.bobber.global_position - global_position
@@ -190,7 +215,6 @@ func to_physics() -> void:
 		bobber.linear_velocity = self.cast_curve_driver.get_velocity()
 	self.cast_curve_driver = null
 	self.bobber.freeze = false
-	#self.bobber.angular_velocity = Vector3.ZERO
 
 func bobber_entered_water() -> void:
 	self.to_physics()
@@ -200,8 +224,6 @@ func bobber_entered_water() -> void:
 	self.n_timer.start()
 	
 func bobber_hit_world() -> void:
-	#if self.bobber.freeze:
-		#return
 	self.to_physics()
 	self.n_timer.stop()
 	self.end()
@@ -221,23 +243,14 @@ func catch(fish : FishData) -> void:
 		),
 		self.bobber
 	)
+	self.bobber.add_fish(fish)
 	self.bobber.angular_velocity = Vector3.ZERO
 	self.cast_curve_driver.Finished.connect(func():
 		self.to_physics()
+		self.player.add_item_to_inventory(fish)
+		self.bobber.remove_fish()
 		self.end()
 	)
-	
-	#self.bobber.angular_velocity = Vector3.ZERO
-	#self.bobber.linear_velocity = calculate_arc_velocity_with_peak(
-		#self.bobber.global_position, 
-		#self.player.global_position + Vector3(0,2,0), 
-		#self.bobber.global_position.y + 2
-	#)
-	
-	self.player.add_item_to_inventory(fish)
-	
-	#await get_tree().create_timer(0.5).timeout
-	#self.end()
 	
 func _on_timer_timeout() -> void:
 	if self.state != states.CAST: 

@@ -11,6 +11,8 @@ properties/0/replication_mode = 1
 script = ExtResource("1_yen4i")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+shaded = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_yen4i")

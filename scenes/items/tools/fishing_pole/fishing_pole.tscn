@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8n48n38pjppc"]
+[gd_scene load_steps=9 format=3 uid="uid://b8n48n38pjppc"]
 
 [ext_resource type="Script" uid="uid://c4dlrexmrayjn" path="res://scenes/items/tools/fishing_pole/fishing_pole.gd" id="1_xhvsk"]
 [ext_resource type="PackedScene" uid="uid://ca4ddr77u1a03" path="res://scenes/items/tools/bobber/bobber.tscn" id="2_5dmys"]
@@ -8,6 +8,10 @@
 
 [sub_resource type="Curve" id="Curve_cmdqa"]
 _data = [Vector2(0, 0.023152), 0.0, 4.24045, 0, 0, Vector2(0.413793, 0.878554), 0.156385, 0.156385, 0, 0, Vector2(0.997845, 0), -2.35581, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_eyqrh"]
+_data = [Vector2(0, 1), 0.0, -2.19483, 0, 0, Vector2(1e-05, 1), -1.83774, -1.83774, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3gnoo"]
@@ -24,6 +28,7 @@ properties/2/replication_mode = 1
 [node name="FishingPole" type="Node3D"]
 script = ExtResource("1_xhvsk")
 cast_curve = SubResource("Curve_cmdqa")
+line_curve = SubResource("Curve_eyqrh")
 metadata/_custom_type_script = "uid://chktvyv33f3bf"
 
 [node name="RotationFixer" type="Node3D" parent="."]

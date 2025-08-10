@@ -1,37 +1,28 @@
-extends RigidBody3D
+extends Boyant
 class_name Bobber
-
-@export var syncable := true
-@export var float_force := 1.0
-@export var water_drag := 0.05
-@export var water_angular_drag := 0.05
-
-@onready var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-#@onready var water = get_node('/root/Main/Water')
-
-@onready var probes = $ProbeContainer.get_children()
-var water = null
-var submerged : bool = false
-#var active : bool = false # should this thing be considered active?
 
 signal EnteredWater
 signal HitWorld
 
-func set_uuid():
-	return
+@onready var fish_spawner : Node3D = $Spawner
+
+func add_fish(fish_data : FishData):
+	var node : FishWorld = fish_data.to_world_instance()
+	fish_spawner.add_child(node, true)
+	node.set_multiplayer_authority(self.get_multiplayer_authority())
+	
+func _on_multiplayer_spawner_spawned(node: Node) -> void:
+	await get_tree().process_frame
+	node.set_multiplayer_authority(self.get_multiplayer_authority())
+	
+func remove_fish():
+	for child in fish_spawner.get_children():
+		child.queue_free()
 
 func _physics_process(_delta):
-	submerged = false
 	if !self.top_level:
 		return
-	if not water:
-		return
-	
-	for p in probes:
-		var depth = (water.get_height(p.global_position) - p.global_position.y)
-		if depth > 0:
-			submerged = true
-			apply_force(Vector3.UP * float_force * gravity * depth, p.global_position - global_position)
+	super(_delta)
 
 func _integrate_forces(state: PhysicsDirectBodyState3D):
 	if submerged:

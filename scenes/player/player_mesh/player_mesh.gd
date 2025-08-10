@@ -38,6 +38,7 @@ func initialize_hotbar():
 	
 	
 func _physics_process(delta: float) -> void:
+	return
 	if self.tree.get("parameters/BlendAmount/blend_amount"):
 		print(self.tree.get("parameters/BlendAmount/blend_amount"))
 	

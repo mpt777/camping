@@ -137,20 +137,24 @@ class CurveMap3D:
 		pos0.y += curve.sample(t0) * amplitude
 
 		return (pos1 - pos0) / (small_delta * time)
-
-	
+			
 	func get_point_at(elapsed: float) -> Vector3:
-		# Convert elapsed time to normalized 0..1 progress
 		var t = clamp(elapsed / time, 0.0, 1.0)
-		# Linear interpolation in XZ space
+
 		var pos = start.lerp(end, t)
-		# Apply vertical offset from curve
-		var height_offset = curve.sample(t) * amplitude
-		pos.y += height_offset
-		print(pos)
-		
+		var dy = end.y - start.y
+		var baseline_y = start.y + dy * t
+
+		var raw = curve.sample(t)
+		var start_val = curve.sample(0.0)
+		var end_val = curve.sample(1.0)
+		var offset = raw - lerp(start_val, end_val, t)
+
+		pos.y = baseline_y + offset * amplitude
+
 		return pos
-		
+
+
 class CurveMap3DMove:
 	var curve_map_3d : CurveMap3D
 	var time : float = 0.0
@@ -180,7 +184,7 @@ class CurveMap3DMove:
 		if _t < 1.0:
 			node.global_position = curve_map_3d.get_point_at(_t)
 		
-		if _t >= 1.0 and not _finished_emitted:
+		if _t >= 0.8 and not _finished_emitted:
 			_finished_emitted = true
 			emit_signal("Finished")
 
