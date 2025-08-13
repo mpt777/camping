@@ -1,7 +1,8 @@
 extends Minigame
 class_name MGFishing
 
-
+const FISH_DATA = preload("res://scenes/items/fish/fish_data.gd")
+const FISH_TYPE = preload("res://scenes/items/fish/fish/golden_trout.tres")
 const MASHER = preload("res://scenes/minigames/fishing/masher/masher.tscn")
 
 @onready var n_good : ProgressBar = %BarGood
@@ -24,7 +25,7 @@ const MAX_VALUE := 100.0
 
 func _ready() -> void:
 	$BadTimerStart.start(self.bad_delay)
-	self.current_fish = Game.FISH.new().constructor(Game.FISH_TYPE)
+	self.current_fish = FISH_DATA.new().constructor(FISH_TYPE)
 	self.create_mashers()
 
 func _input(event : InputEvent):

@@ -8,10 +8,18 @@ func code() -> String:
 	return ""
 
 func activate() -> void:
-	self.active = true
+	pass
 	
 func deactivate() -> void:
-	self.active = true
+	pass
+	
+func set_active(a : bool) -> void:
+	if a:
+		self.active = true
+		self.activate()
+	else:
+		self.deactivate()
+		self.active = false
 
 func is_valid() -> bool:
 	if not self.active:

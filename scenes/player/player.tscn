@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
 [ext_resource type="PackedScene" uid="uid://ddniml3qphela" path="res://scenes/camera/camera_anchor.tscn" id="3_gmlin"]
 [ext_resource type="PackedScene" uid="uid://ceroiw57r1l05" path="res://scenes/player/input/input_types/camera_controls.tscn" id="3_je7p5"]
-[ext_resource type="PackedScene" uid="uid://jv60xuolhlcg" path="res://ui/message_container/message_container.tscn" id="3_lvxji"]
+[ext_resource type="PackedScene" uid="uid://jv60xuolhlcg" path="res://ui/messaging/message_container/message_container.tscn" id="3_lvxji"]
 [ext_resource type="PackedScene" uid="uid://mnalqq5vddyq" path="res://scenes/player/hotbar/hotbar.tscn" id="3_p47bc"]
 [ext_resource type="PackedScene" uid="uid://ccai5qxege0j2" path="res://scenes/player/player_mesh/player_mesh.tscn" id="4_5gtgg"]
 [ext_resource type="PackedScene" uid="uid://57kmlfvwo3ed" path="res://scenes/player/input/input_types/standard_movement.tscn" id="4_fm80t"]
 [ext_resource type="PackedScene" uid="uid://cr1lvp6lf4lyc" path="res://scenes/player/input/input_types/ui_controls.tscn" id="5_gx1jg"]
-[ext_resource type="PackedScene" uid="uid://b803yn8lksfti" path="res://ui/hotbar/hotbar.tscn" id="8_5gtgg"]
-[ext_resource type="PackedScene" uid="uid://b5obyt7oj4or6" path="res://ui/ui/ui.tscn" id="8_qek5x"]
+[ext_resource type="PackedScene" uid="uid://b803yn8lksfti" path="res://ui/player_ui/hotbar/hotbar.tscn" id="8_5gtgg"]
+[ext_resource type="PackedScene" uid="uid://b5obyt7oj4or6" path="res://ui/player_ui/ui/ui.tscn" id="8_qek5x"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fb1vy"]
 properties/0/path = NodePath(".:player")
@@ -79,6 +79,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 16
 
 [node name="Hotbar" parent="UI/Control" node_paths=PackedStringArray("hotbar") instance=ExtResource("8_5gtgg")]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -95,17 +96,19 @@ mouse_default_cursor_shape = 8
 hotbar = NodePath("../../../PlayerMesh/Hotbar")
 
 [node name="MessageContainer" parent="UI/Control" instance=ExtResource("3_lvxji")]
-custom_minimum_size = Vector2(300, 200)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 300)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_right = 0.0
-offset_top = -32.0
-offset_right = 28.0
+offset_top = -200.0
+offset_right = 300.0
 grow_horizontal = 1
 grow_vertical = 0
 
 [node name="Label" type="Label" parent="UI/Control"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -115,5 +118,6 @@ offset_bottom = 23.0
 grow_horizontal = 0
 
 [node name="Menu" parent="UI/Control" instance=ExtResource("8_qek5x")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1

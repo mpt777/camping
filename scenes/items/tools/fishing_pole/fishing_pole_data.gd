@@ -3,6 +3,7 @@ class_name FishingPoleData
 
 #@export var fishing_pole_type : ItemTypeData
 
+
 func can_sell() -> bool:
 	return false
 

@@ -41,6 +41,7 @@ func process(_delta):
 	
 	
 func physics_process(delta):
+		
 	if !is_valid():
 		return
 		
@@ -77,6 +78,14 @@ func physics_process(delta):
 	body.move_and_slide()
 	
 	#print(body.velocity.length() )
+	self.animate()
+
+
+func deactivate():
+	body.player_mesh.animate_to(Enums.ANIMATION.IDLE)
+	body.velocity = Vector3.ZERO
+
+func animate():
 	if self.body.animated_state != Enums.ANIMATION.EMOTE:
 		if body.is_on_floor():
 			if body.velocity.length() > 5:

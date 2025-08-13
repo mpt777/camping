@@ -9,7 +9,7 @@ shader = ExtResource("1_n4u5i")
 shader_parameter/center = Vector2(0.5, 0.5)
 shader_parameter/diameter_factor = 0.0
 shader_parameter/softness = 0.0
-shader_parameter/vignette_color = Color(0.04866, 0.0423, 0.09, 1)
+shader_parameter/vignette_color = Color(0.870588, 0.592157, 0.580392, 1)
 
 [node name="Vignette" type="ColorRect"]
 process_mode = 3

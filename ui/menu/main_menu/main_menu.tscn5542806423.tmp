@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://dsvmgit4i36vo"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Net" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Options" type="HBoxContainer" parent="Net"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Net/Options"]
+layout_mode = 2
+text = "Direct:"
+
+[node name="Host" type="Button" parent="Net/Options"]
+layout_mode = 2
+text = "Host"
+
+[node name="Connect" type="Button" parent="Net/Options"]
+layout_mode = 2
+text = "Connect"
+
+[node name="Remote" type="LineEdit" parent="Net/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "127.0.0.1"
+placeholder_text = "Remote Host"
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Options2" type="HBoxContainer" parent="Net"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Net/Options2"]
+layout_mode = 2
+text = "Name"
+
+[node name="Name" type="LineEdit" parent="Net/Options2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Name"
+caret_blink = true
+caret_blink_interval = 0.5
+
+[connection signal="pressed" from="Net/Options/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Net/Options/Connect" to="." method="_on_connect_pressed"]

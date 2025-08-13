@@ -1,0 +1,371 @@
+[gd_scene load_steps=16 format=3 uid="uid://dsvmgit4i36vo"]
+
+[ext_resource type="Theme" uid="uid://c6pypmql4nntq" path="res://assets/theme/main_menu_theme.tres" id="1_ckgxk"]
+[ext_resource type="Script" uid="uid://bshhkj5nwrati" path="res://ui/menu/main_menu/main_menu.gd" id="1_g35j4"]
+[ext_resource type="PackedScene" uid="uid://bssiv6nsg4sgd" path="res://assets/blender/levels/island/island.tscn" id="3_wbe2a"]
+[ext_resource type="PackedScene" uid="uid://byi8suase6m5k" path="res://scenes/enviroment/world/world_environment.tscn" id="4_icwl6"]
+[ext_resource type="Environment" uid="uid://cxvofubv6lnq8" path="res://scenes/world/island/island_environment.tres" id="5_gxwru"]
+[ext_resource type="PackedScene" uid="uid://d1xq3cg2aa6ua" path="res://assets/blender/decorations/PalmTree/palm_tree.tscn" id="6_r5w7w"]
+[ext_resource type="PackedScene" uid="uid://bw34gqoxhebja" path="res://assets/blender/decorations/Tree/Tree.tscn" id="7_m4l7j"]
+[ext_resource type="PackedScene" uid="uid://danrhd6yvhfmw" path="res://assets/blender/decorations/Rock/Rock.tscn" id="8_hw2um"]
+[ext_resource type="PackedScene" uid="uid://bikwxeiuux2nc" path="res://scenes/decorations/water.tscn" id="9_ik5it"]
+[ext_resource type="PackedScene" uid="uid://ca4q7a6ang8yv" path="res://scenes/ocean/ocean.tscn" id="10_m63mo"]
+[ext_resource type="PackedScene" uid="uid://j6nkub5hkfgb" path="res://scenes/items/buoy/buoy.tscn" id="11_eoqoy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ayw4n"]
+size = Vector3(7.1, 0.16, 6.03)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ktq7v"]
+data = PackedVector3Array(-3.55, 0.08, 3.015, 3.55, 0.08, 3.015, -3.55, -0.08, 3.015, 3.55, 0.08, 3.015, 3.55, -0.08, 3.015, -3.55, -0.08, 3.015, 3.55, 0.08, -3.015, -3.55, 0.08, -3.015, 3.55, -0.08, -3.015, -3.55, 0.08, -3.015, -3.55, -0.08, -3.015, 3.55, -0.08, -3.015, 3.55, 0.08, 3.015, 3.55, 0.08, -3.015, 3.55, -0.08, 3.015, 3.55, 0.08, -3.015, 3.55, -0.08, -3.015, 3.55, -0.08, 3.015, -3.55, 0.08, -3.015, -3.55, 0.08, 3.015, -3.55, -0.08, -3.015, -3.55, 0.08, 3.015, -3.55, -0.08, 3.015, -3.55, -0.08, -3.015, 3.55, 0.08, 3.015, -3.55, 0.08, 3.015, 3.55, 0.08, -3.015, -3.55, 0.08, 3.015, -3.55, 0.08, -3.015, 3.55, 0.08, -3.015, -3.55, -0.08, 3.015, 3.55, -0.08, 3.015, -3.55, -0.08, -3.015, 3.55, -0.08, 3.015, 3.55, -0.08, -3.015, -3.55, -0.08, -3.015)
+
+[sub_resource type="LabelSettings" id="LabelSettings_g35j4"]
+font_size = 100
+outline_size = 50
+outline_color = Color(0.146528, 0.104941, 0.185341, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g35j4"]
+bg_color = Color(0.59, 0.59, 0.59, 0)
+
+[node name="MainMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ckgxk")
+script = ExtResource("1_g35j4")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(-0.980299, 0, -0.19752, 0, 1, 0, 0.19752, 0, -0.980299, 4.83652, 8.49708, -116.213)
+current = true
+
+[node name="island" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_wbe2a")]
+
+[node name="Ramp" type="Node3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.174505, -0.119764, -0.977346, 0.565859, 0.824502, 5.08831e-09, 0.805823, -0.553041, 0.211649, 7.64418, 2.84789, -19.915)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Ramp"]
+mesh = SubResource("BoxMesh_ayw4n")
+skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Ramp"]
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ramp/StaticBody3D"]
+transform = Transform3D(1, -3.72529e-09, 0, -3.72529e-09, 1, 0, -1.49012e-08, 1.49012e-08, 1, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_ktq7v")
+
+[node name="Env" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="WorldEnvironment" parent="SubViewportContainer/SubViewport/Env" node_paths=PackedStringArray("astro", "moon") instance=ExtResource("4_icwl6")]
+environment = ExtResource("5_gxwru")
+time = 6.0
+is_paused = true
+day_length = 30.0
+astro = NodePath("../Sun")
+moon = NodePath("../Moon")
+
+[node name="Sun" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Env"]
+visible = false
+light_energy = 0.0
+shadow_enabled = true
+
+[node name="Moon" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Env"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+visible = false
+light_color = Color(0.306508, 0.43705, 0.740116, 1)
+light_energy = 8.74228e-08
+shadow_enabled = true
+
+[node name="Trees" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="Palsm" type="Node3D" parent="SubViewportContainer/SubViewport/Trees"]
+
+[node name="PalmTree" parent="SubViewportContainer/SubViewport/Trees/Palsm" instance=ExtResource("6_r5w7w")]
+transform = Transform3D(-0.167634, 0, 1.99296, 0, 2, 0, -1.99296, 0, -0.167634, -23.8735, 0.65791, -26.3935)
+
+[node name="PalmTree2" parent="SubViewportContainer/SubViewport/Trees/Palsm" instance=ExtResource("6_r5w7w")]
+transform = Transform3D(1.78014, 0, 0.911648, 0, 2, 0, -0.911648, 0, 1.78014, 41.0375, 0.65791, -35.5364)
+
+[node name="PalmTree3" parent="SubViewportContainer/SubViewport/Trees/Palsm" instance=ExtResource("6_r5w7w")]
+transform = Transform3D(1.20895, 0, 1.59325, 0, 2, 0, -1.59325, 0, 1.20895, 61.2111, 0.65791, -11.5108)
+
+[node name="PalmTree4" parent="SubViewportContainer/SubViewport/Trees/Palsm" instance=ExtResource("6_r5w7w")]
+transform = Transform3D(1.20895, 0, 1.59325, 0, 2, 0, -1.59325, 0, 1.20895, -44.6367, 0.657914, -3.79582)
+
+[node name="PalmTree5" parent="SubViewportContainer/SubViewport/Trees/Palsm" instance=ExtResource("6_r5w7w")]
+transform = Transform3D(1.20895, 0, 1.59325, 0, 2, 0, -1.59325, 0, 1.20895, -50.3288, 0.657914, -64.1545)
+
+[node name="Trees" type="Node3D" parent="SubViewportContainer/SubViewport/Trees"]
+
+[node name="tree" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 45.6696, 3.79039, 6.06186)
+
+[node name="tree8" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.74843, 0, -0.971084, 0, 2, 0, 0.971084, 0, 1.74843, 33.1494, 4.27258, -17.2318)
+
+[node name="tree17" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(0.0551108, 0, -1.99924, 0, 2, 0, 1.99924, 0, 0.0551108, 47.4483, -3.37702, -11.6166)
+
+[node name="tree18" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(-1.28244, 0, -1.53471, 0, 2, 0, 1.53471, 0, -1.28244, 37.3927, -3.37702, -21.2341)
+
+[node name="tree19" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(-1.28244, 0, -1.53471, 0, 2, 0, 1.53471, 0, -1.28244, 38.5855, -3.37702, 20.5618)
+
+[node name="tree9" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.87956, 0, -1.04392, 0, 2.15, 0, 1.04392, 0, 1.87956, 31.8235, 3.79039, -2.48643)
+
+[node name="tree10" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.87956, 0, -1.04392, 0, 2.15, 0, 1.04392, 0, 1.87956, 21.2518, 3.79039, -11.0439)
+
+[node name="tree11" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.86571, 0, 0.720515, 0, 2, 0, -0.720515, 0, 1.86571, 21.2518, 3.79039, 8.08838)
+
+[node name="tree12" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.86571, 0, 0.720515, 0, 2, 0, -0.720515, 0, 1.86571, 34.6388, 4.75594, 8.08838)
+
+[node name="tree13" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(2.00563, 0, 0.774553, 0, 2.15, 0, -0.774553, 0, 2.00563, 34.6388, 3.79039, 16.4467)
+
+[node name="tree14" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.86571, 0, 0.720515, 0, 2, 0, -0.720515, 0, 1.86571, 24.9448, 3.79039, 25.1971)
+
+[node name="tree15" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.8348, 0, -1.14923, 0, 2.165, 0, 1.14923, 0, 1.8348, 40.0773, 3.79039, -26.0633)
+
+[node name="tree16" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.82209, 0, -1.14127, 0, 2.15, 0, 1.14127, 0, 1.82209, 55.8882, 3.79039, 2.95723)
+
+[node name="tree2" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 41.4003, 4.62847, -9.05334)
+
+[node name="tree3" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(2.15, 0, 0, 0, 2.15, 0, 0, 0, 2.15, -10.5997, 3.79039, 2.94666)
+
+[node name="tree4" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.12766, 0, -1.65178, 0, 2, 0, 1.65178, 0, 1.12766, -30.1188, 3.79039, -10.5026)
+
+[node name="tree6" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.12766, 0, -1.65178, 0, 2, 0, 1.65178, 0, 1.12766, -35.1156, 3.7904, -60.4961)
+
+[node name="tree7" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.12766, 0, -1.65178, 0, 2, 0, 1.65178, 0, 1.12766, -24.1156, 3.7904, -78.4961)
+
+[node name="tree5" parent="SubViewportContainer/SubViewport/Trees/Trees" instance=ExtResource("7_m4l7j")]
+transform = Transform3D(1.15141, 0, 1.63532, 0, 2, 0, -1.63532, 0, 1.15141, -3.43605, 4.79039, -16.4263)
+
+[node name="Decorations" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="Rock" parent="SubViewportContainer/SubViewport/Decorations" instance=ExtResource("8_hw2um")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5733, 7.897, 16.0242)
+
+[node name="Rock2" parent="SubViewportContainer/SubViewport/Decorations" instance=ExtResource("8_hw2um")]
+transform = Transform3D(1.74098, 0, 1.3037, 0, 2.175, 0, -1.3037, 0, 1.74098, -16.1581, 7.897, 16.1282)
+
+[node name="Rock4" parent="SubViewportContainer/SubViewport/Decorations" instance=ExtResource("8_hw2um")]
+transform = Transform3D(-1.64859, 0.00603617, 1.41871, 0.0223937, 2.17482, 0.0167691, -1.41855, 0.0273175, -1.64852, 59.0017, 0.715649, -51.3708)
+
+[node name="Rock5" parent="SubViewportContainer/SubViewport/Decorations/Rock4" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.467921, 0.00535333, -0.451133, -0.00160388, 0.64997, 0.00604923, 0.451162, -0.00324153, 0.467913, 1.86005, -0.311607, 0.406681)
+metadata/_edit_lock_ = true
+
+[node name="Rock6" parent="SubViewportContainer/SubViewport/Decorations/Rock4" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.458447, 0.00196654, -0.199555, -0.00111087, 0.499993, 0.00237519, 0.199562, -0.00173444, 0.458445, 0.306918, 1.3253, -0.308567)
+metadata/_edit_lock_ = true
+
+[node name="Rock5" parent="SubViewportContainer/SubViewport/Decorations" instance=ExtResource("8_hw2um")]
+transform = Transform3D(2.09305, -0.0261074, 0.59083, 0.0223937, 2.17482, 0.0167691, -0.590982, -0.0100541, 2.09315, -1.49977, 0.715647, -99.6357)
+
+[node name="Rock5" parent="SubViewportContainer/SubViewport/Decorations/Rock5" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.467921, 0.00535333, -0.451133, -0.00160388, 0.64997, 0.00604923, 0.451162, -0.00324153, 0.467913, 1.86005, -0.311607, 0.406681)
+metadata/_edit_lock_ = true
+
+[node name="Rock6" parent="SubViewportContainer/SubViewport/Decorations/Rock5" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.458447, 0.00196654, -0.199555, -0.00111087, 0.499993, 0.00237519, 0.199562, -0.00173444, 0.458445, 0.306918, 1.3253, -0.308567)
+metadata/_edit_lock_ = true
+
+[node name="Rock6" parent="SubViewportContainer/SubViewport/Decorations" instance=ExtResource("8_hw2um")]
+transform = Transform3D(-2.17462, 0.0221303, 0.0339082, 0.0223937, 2.17482, 0.0167691, -0.0337337, 0.0171153, -2.17467, 38.0147, 6.1867, 24.9889)
+
+[node name="Rock5" parent="SubViewportContainer/SubViewport/Decorations/Rock6" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.467921, 0.00535333, -0.451133, -0.00160388, 0.64997, 0.00604923, 0.451162, -0.00324153, 0.467913, 1.86005, -0.311607, 0.406681)
+metadata/_edit_lock_ = true
+
+[node name="Rock6" parent="SubViewportContainer/SubViewport/Decorations/Rock6" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.458447, 0.00196654, -0.199555, -0.00111087, 0.499993, 0.00237519, 0.199562, -0.00173444, 0.458445, 0.306918, 1.3253, -0.308567)
+metadata/_edit_lock_ = true
+
+[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport/Decorations"]
+transform = Transform3D(-0.744708, 0, 2.19195, 0, 2.315, 0, -2.19195, 0, -0.744708, -61.0092, -0.315306, 5.59107)
+
+[node name="Rock4" parent="SubViewportContainer/SubViewport/Decorations/Node3D" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.86, 0, -5.96046e-08, 0, 0.86, 0, 5.96046e-08, 0, 0.86, 0, 0.533627, 0)
+metadata/_edit_lock_ = true
+
+[node name="Rock5" parent="SubViewportContainer/SubViewport/Decorations/Node3D" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.457905, 0, 0.889001, 0, 1.92, 0, -0.889001, 0, 0.457905, -1.24887, 0.580546, 0.4417)
+metadata/_edit_lock_ = true
+
+[node name="Node3D2" type="Node3D" parent="SubViewportContainer/SubViewport/Decorations"]
+transform = Transform3D(-1.76037, 0, -1.50344, 0, 2.315, 0, 1.50344, 0, -1.76037, -37.2015, 3.18677, -70.0458)
+
+[node name="Rock4" parent="SubViewportContainer/SubViewport/Decorations/Node3D2" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.86, 0, -5.96046e-08, 0, 0.86, 0, 5.96046e-08, 0, 0.86, 0, 0.533627, 0)
+metadata/_edit_lock_ = true
+
+[node name="Rock5" parent="SubViewportContainer/SubViewport/Decorations/Node3D2" instance=ExtResource("8_hw2um")]
+transform = Transform3D(0.457905, 0, 0.889001, 0, 1.92, 0, -0.889001, 0, 0.457905, -1.24887, 0.580546, 0.4417)
+metadata/_edit_lock_ = true
+
+[node name="Water" type="Node3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Water" parent="SubViewportContainer/SubViewport/Water" instance=ExtResource("9_ik5it")]
+metadata/_edit_lock_ = true
+
+[node name="Ocean" parent="SubViewportContainer/SubViewport/Water" instance=ExtResource("10_m63mo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+radius = 3
+metadata/_edit_lock_ = true
+
+[node name="Buoy" parent="SubViewportContainer/SubViewport/Water" instance=ExtResource("11_eoqoy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2859, 1.49419, -49.1295)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Net" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Spacer3" type="Control" parent="MarginContainer/Net"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/Net"]
+layout_mode = 2
+text = "Coral Island"
+label_settings = SubResource("LabelSettings_g35j4")
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MarginContainer/Net"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Net"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.42
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Net/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_g35j4")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Net/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="Name" type="HBoxContainer" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Name"]
+layout_mode = 2
+text = "Name"
+
+[node name="Name" type="LineEdit" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Name"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Name"
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Spacer3" type="Control" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Host" type="Button" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host Game"
+
+[node name="Spacer5" type="Control" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.31
+
+[node name="JoinServer" type="Button" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join Game
+"
+
+[node name="Spacer4" type="Control" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Options" type="VBoxContainer" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Connect" type="Button" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Options"]
+layout_mode = 2
+text = "Join Direct"
+
+[node name="Remote" type="LineEdit" parent="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "127.0.0.1"
+placeholder_text = "Remote Host"
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Spacer4" type="Control" parent="MarginContainer/Net/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Spacer2" type="Control" parent="MarginContainer/Net"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="pressed" from="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/JoinServer" to="." method="_on_join_server_pressed"]
+[connection signal="pressed" from="MarginContainer/Net/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Options/Connect" to="." method="_on_connect_pressed"]
+
+[editable path="SubViewportContainer/SubViewport/Water/Water"]

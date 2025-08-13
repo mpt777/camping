@@ -14,7 +14,6 @@ const CATCH_RANGE : Array[int] = [2, 10]
 
 @onready var n_rope : Rope = $RotationFixer/Draw3D
 @onready var n_pole_rope : Rope = $RotationFixer/Draw3D2
-@export var bobber_position : Vector3
 
 @export var cast_curve : Curve
 var cast_curve_driver : Utils.CurveMap3DMove
@@ -24,6 +23,10 @@ var bobber_distance : float = 0
 
 var is_held = false
 var is_held_old = false
+
+@export var state = states.IDLE
+var player : Player
+
 
 enum states {
 	IDLE,
@@ -36,8 +39,8 @@ enum states {
 
 func draw_reel_straight(fp : FishingPole):
 	fp.n_rope.add_point(fp.bobber_anchor.global_position)
-	fp.n_rope.add_point(fp.bobber_position)
-	fp.n_rope.add_point(fp.bobber_position)
+	fp.n_rope.add_point(fp.bobber.global_position)
+	fp.n_rope.add_point(fp.bobber.global_position)
 	fp.n_rope.draw_line()
 
 func draw_reel_curved(fp : FishingPole):
@@ -45,20 +48,13 @@ func draw_reel_curved(fp : FishingPole):
 	var curve_map = Utils.CurveMap3D.new().constructor(
 		fp.line_curve, 
 		fp.bobber_anchor.global_position,
-		fp.bobber_position,
+		fp.bobber.global_position,
 		1, points
 	)
 	for i in range(points + 1):
 		fp.n_rope.add_point(curve_map.get_point_at(i))
 	fp.n_rope.draw_line()
 
-#class FishingPoleState:
-	#
-	#func process():
-		#pass
-	#
-@export var state = states.IDLE
-var player : Player
 
 func constructor(m_player : Player) -> FishingPole:
 	self.player = m_player
@@ -66,12 +62,22 @@ func constructor(m_player : Player) -> FishingPole:
 	return self
 
 func _ready() -> void:
-	self.bobber.EnteredWater.connect(bobber_entered_water)
-	self.bobber.HitWorld.connect(bobber_hit_world)
+	self.n_pole_rope.draw_line()
 	self.player = Utils.parents(self).filter(func(x): return x is Player)[0]
 	self.active = true
-	self.n_pole_rope.draw_line()
+	self.ready.connect(on_ready)
 	
+func on_ready() -> void:
+	var auth = self.get_parent().get_multiplayer_authority()
+	print("Parent Tree", auth)
+	self.set_multiplayer_authority(auth)
+	
+	if self.is_multiplayer_authority():
+		self.bobber.EnteredWater.connect(bobber_entered_water)
+		self.bobber.HitWorld.connect(bobber_hit_world)
+		
+	#self.bobber.set_multiplayer_authority(auth)
+
 func is_valid() -> bool:
 	if !is_multiplayer_authority():
 		return false
@@ -87,20 +93,22 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_mouse"):
 		self.is_held = true
 		
-func draw_line(flat=false) -> void:
+func draw_line() -> void:
 	self.n_rope.reset()
-	if self.bobber_position == Vector3.ZERO:
-		return
 	if self.state in [states.MINIGAME, states.REEL]:
 		draw_reel_straight(self)
 	if (self.state in [states.CAST, states.CATCH]):
 		draw_reel_curved(self)
 
+func update_from_state():
+	if self.state in [states.IDLE, states.TARGET]:
+		self.bobber.top_level = false
+	else:
+		self.bobber.top_level = true
 
-func _process(delta: float) -> void:
-
-	if is_multiplayer_authority():
-		self.bobber_position = self.bobber.global_position
+func _physics_process(delta: float) -> void:
+	if (!is_multiplayer_authority()):
+		self.update_from_state()
 		
 	self.animate()
 	self.draw_line()
@@ -138,7 +146,7 @@ func advance_state(delta : float) -> void:
 			self.state = states.CAST
 			
 	self.target(delta)
-	self.reel(delta)	
+	self.reel(delta)
 			
 	if self.is_held == self.is_held_old:
 		return

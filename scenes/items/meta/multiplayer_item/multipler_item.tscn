@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxd3fjtkdknaa"]
+
+[ext_resource type="Script" uid="uid://dso0ptis175h6" path="res://scenes/items/meta/multiplayer_item/multipler_item.gd" id="1_hkmsf"]
+
+[node name="MultiplayerItem" type="Node"]
+script = ExtResource("1_hkmsf")

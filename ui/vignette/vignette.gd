@@ -66,6 +66,7 @@ func circle_in() -> void:
 	).set_trans(Tween.TRANS_LINEAR)
 	t.set_pause_mode(self.pause_mode)
 	await t.finished
+	print("Finished")
 	Finished.emit()
 	CirleIn.emit()
 	

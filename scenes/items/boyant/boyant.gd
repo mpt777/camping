@@ -44,5 +44,5 @@ func _on_area_3d_area_exited(area: Area3D) -> void:
 		self.water = null
 
 
-func _on_body_entered(body: Node) -> void:
+func _on_body_entered(_body: Node) -> void:
 	pass # Replace with function body.

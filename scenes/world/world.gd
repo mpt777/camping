@@ -17,8 +17,10 @@ func _ready():
 	if not multiplayer.is_server():
 		return
 	
-	multiplayer.peer_connected.connect(add_player)
-	multiplayer.peer_disconnected.connect(del_player)
+	Signals.connect("AddPlayer", add_player)
+	Signals.connect("RemovePlayer", del_player)
+	#multiplayer.peer_connected.connect(add_player)
+	#multiplayer.peer_disconnected.connect(del_player)
 
 	# Spawn already connected players
 	for id in multiplayer.get_peers():
@@ -26,14 +28,16 @@ func _ready():
 
 	# Spawn the local player unless this is a dedicated server export.
 	#if not OS.has_feature("dedicated_server"):
-	if !Game.is_headless:
+	if !Multiplayer.is_headless:
 		add_player(1)
 
 func _exit_tree():
 	if not multiplayer.is_server():
 		return
-	multiplayer.peer_connected.disconnect(add_player)
-	multiplayer.peer_disconnected.disconnect(del_player)
+	Signals.disconnect("AddPlayer", add_player)
+	Signals.disconnect("RemovePlayer", del_player)
+	#multiplayer.peer_connected.disconnect(add_player)
+	#multiplayer.peer_disconnected.disconnect(del_player)
 
 
 func add_player(id: int):
@@ -48,19 +52,9 @@ func add_player(id: int):
 	n_players.add_child(player_grouper, true)
 
 func del_player(id: int):
-	if id in Game.players:
-		Game.players.erase(id)
+	#if id in Game.players:
+		#Game.players.erase(id)
 		
 	if n_players.has_node(str(id)):
 		n_players.get_node(str(id)).queue_free()
 		
-	#if n_player_globals.has_node(str(id)):
-		#n_player_globals.get_node(str(id)).queue_free()
-		
-		
-#func _add_player_via_rpc(id : int, player_data : PlayerData) -> void:
-	#var character_global = PLAYER_GLOBAL.instantiate()
-	#
-	#character_global.name = str(id)
-	#character_global.set_multiplayer_authority(id)
-	#n_player_globals.add_child(character_global, true)

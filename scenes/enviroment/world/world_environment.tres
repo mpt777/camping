@@ -35,12 +35,12 @@ noise = SubResource("FastNoiseLite_vfdcj")
 
 [resource]
 shader = ExtResource("1_fe3y3")
-shader_parameter/time_of_day = 0.0333305
+shader_parameter/time_of_day = 0.244997
 shader_parameter/sunrise_start = 0.1
 shader_parameter/day_start = 0.3
 shader_parameter/sunset_start = 0.6
 shader_parameter/night_start = 0.8
-shader_parameter/SUN_DIRECTION = Vector3(0, -0.978151, 0.207895)
+shader_parameter/SUN_DIRECTION = Vector3(0, -0.0314291, 0.999506)
 shader_parameter/cloud_shape_sampler = SubResource("NoiseTexture2D_2756g")
 shader_parameter/cloud_noise_sampler = SubResource("NoiseTexture2D_vfdcj")
 shader_parameter/cloud_curves = SubResource("NoiseTexture2D_eqgtx")

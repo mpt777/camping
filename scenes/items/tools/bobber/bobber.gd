@@ -6,14 +6,19 @@ signal HitWorld
 
 @onready var fish_spawner : Node3D = $Spawner
 
+func _ready() -> void:
+	super()
+	self.ready.connect(on_ready)
+
+func on_ready() -> void:
+	var auth = self.get_parent().get_multiplayer_authority()
+	self.set_multiplayer_authority(auth)
+
 func add_fish(fish_data : FishData):
 	var node : FishWorld = fish_data.to_world_instance()
+	node.set_multiplayer_authority(self.get_multiplayer_authority())
 	fish_spawner.add_child(node, true)
-	node.set_multiplayer_authority(self.get_multiplayer_authority())
 	
-func _on_multiplayer_spawner_spawned(node: Node) -> void:
-	await get_tree().process_frame
-	node.set_multiplayer_authority(self.get_multiplayer_authority())
 	
 func remove_fish():
 	for child in fish_spawner.get_children():

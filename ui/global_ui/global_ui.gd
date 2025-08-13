@@ -12,7 +12,9 @@ func toggle_background(shown := true) -> void:
 func transition_in():
 	self.n_vignette.visible = true
 	self.n_vignette.circle_in()
+	await self.n_vignette.Finished
 	
 func transition_out():
 	await self.n_vignette.circle_out()
 	self.n_vignette.visible = false
+	await self.n_vignette.Finished

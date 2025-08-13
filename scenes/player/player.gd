@@ -21,7 +21,7 @@ var BALLOON = preload("res://ui/dialog/balloon.tscn")
 @onready var inputs := $Inputs
 
 @onready var n_hotbar : Hotbar3D = $PlayerMesh/Hotbar
-@onready var n_hotbar_ui : HotbarUI = $UI/Control/Hotbar
+@onready var n_hotbar_ui : HotbarUI = %Hotbar
 
 @onready var player_mesh : PlayerMesh = $PlayerMesh
 
@@ -60,6 +60,7 @@ func constructor_node() -> Player:
 	if player == multiplayer.get_unique_id():
 		$CameraAnchor.n_camera.current = true
 		self.ui.visible = true
+		Signals.connect("SetInputMode", set_input)
 		GlobalUI.transition_out()
 		self.deserialize()
 	
@@ -93,7 +94,7 @@ func add_money(money: int) -> void:
 func remove_item_from_inventory(item_data : ItemData) -> void:
 	self.n_menu.n_inventory.remove_item(item_data)
 	self.n_hotbar_ui.remove_item(item_data)
-	await get_tree().process_frame
+	#await get_tree().process_frame # todo, find this bug
 	self.save()
 	
 func add_item_to_inventory(item_data : ItemData) -> void:
@@ -108,10 +109,11 @@ func add_item_to_hotbar(idx : int, item_data : ItemData) -> void:
 # Inputs	
 ###################################################
 
-func set_input(codes: Array[String], active) -> void:
+func set_input(codes: Array, active: bool) -> void:
 	for child in self.inputs.get_children():
 		if child.code() in codes:
-			child.active = active
+			child.set_active(active)
+			
 
 func _process(delta: float):
 	for child in self.inputs.get_children():

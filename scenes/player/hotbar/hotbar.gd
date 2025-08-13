@@ -18,13 +18,11 @@ func clear():
 		child.queue_free()
 		
 func add_item(node : Node) -> void:
+	if !self.is_multiplayer_authority():
+		return
 	self.clear()
+	print("Add Item ",self.player.player)
+	node.set_multiplayer_authority(self.player.player)
 	n_container.add_child(node, true)
-	node.set_multiplayer_authority(self.player.player)
-	#node.constructor(self.player)
-
-
-func _on_multiplayer_spawner_spawned(node: Node) -> void:
-	await get_tree().process_frame
-	node.set_multiplayer_authority(self.player.player)
+	
 	#node.constructor(self.player)

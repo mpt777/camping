@@ -8,7 +8,7 @@ const OCEAN_TILE = preload("res://scenes/ocean/ocean_tile.tscn")
 
 func _ready():
 	# The grid size is 3x3, so we define the range for x and z
-	var grid_size = radius * 2 + 1
+	var grid_size : int = radius * 2 + 1
 	var half_grid = int(grid_size / 2)  # To skip the middle tile
 
 	# Loop through the grid to place tiles, skipping the center

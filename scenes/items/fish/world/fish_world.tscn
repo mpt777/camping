@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://k21mwowyf534"]
+[gd_scene load_steps=4 format=3 uid="uid://k21mwowyf534"]
 
 [ext_resource type="Script" uid="uid://d0wu276idlvmm" path="res://scenes/items/fish/world/fish_world.gd" id="1_yen4i"]
+[ext_resource type="PackedScene" uid="uid://bxd3fjtkdknaa" path="res://scenes/items/meta/multiplayer_item/multipler_item.tscn" id="2_184tb"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yen4i"]
 properties/0/path = NodePath(".:s_fish_data")
@@ -9,6 +10,8 @@ properties/0/replication_mode = 1
 
 [node name="FishWorld" type="Node3D"]
 script = ExtResource("1_yen4i")
+
+[node name="MultiplayerItem" parent="." instance=ExtResource("2_184tb")]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 billboard = 1

@@ -13,8 +13,8 @@ var active_slot_is_root := true
 
 #class AnimationDirection
 
-func constructor(avatar_data: AvatarData) -> PlayerMesh:
-	self.avatar_data = avatar_data
+func constructor(p_avatar_data: AvatarData) -> PlayerMesh:
+	self.avatar_data = p_avatar_data
 	self.avatar = self.avatar_data.mesh.instantiate()
 	self.avatar.rotate_y(deg_to_rad(180))
 	add_child(self.avatar)
@@ -37,10 +37,10 @@ func initialize_hotbar():
 	remote.remote_path = self.hotbar.n_container.get_path()
 	
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	return
-	if self.tree.get("parameters/BlendAmount/blend_amount"):
-		print(self.tree.get("parameters/BlendAmount/blend_amount"))
+	#if self.tree.get("parameters/BlendAmount/blend_amount"):
+		#print(self.tree.get("parameters/BlendAmount/blend_amount"))
 	
 
 func _blend_animation(animation: Enums.ANIMATION, strength: float = 1.0):

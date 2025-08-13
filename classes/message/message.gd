@@ -31,10 +31,10 @@ func serialize_update(data: Dictionary) -> Message:
 	return self
 	
 static func deserialize(data: Dictionary) -> Message:
-	var message : Message = Message.new().constructor(
+	var _message : Message = Message.new().constructor(
 		data["message"],
 		data["to"],
 		data["from"],
 		data["color"],
 	)
-	return message
+	return _message

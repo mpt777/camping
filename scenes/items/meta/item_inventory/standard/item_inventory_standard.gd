@@ -31,6 +31,8 @@ func render():
 	self.n_texture.texture = self.item_data.get_image()
 	
 func set_item_data(m_item_data : ItemData = null):
+	if (!m_item_data || !m_item_data.item_type):
+		return
 	self.item_data = m_item_data
 	self.render()
 	
