@@ -60,7 +60,7 @@ func draw_line() -> MeshInstance3D:
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.albedo_color = color
 	
-	add_child(mesh_instance)
+	add_child(mesh_instance, true)
 	
 	return mesh_instance
 	

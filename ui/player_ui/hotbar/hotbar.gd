@@ -96,6 +96,8 @@ func serialize() -> Dictionary:
 	}
 	
 func deserialize(data : Dictionary) -> void:
+	if !self.is_multiplayer_authority():
+		return
 	var item_data =data.get("item_data", []) 
 	if !item_data:
 		return

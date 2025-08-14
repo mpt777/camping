@@ -11,8 +11,7 @@ func _ready() -> void:
 	self.ready.connect(on_ready)
 
 func on_ready() -> void:
-	var auth = self.get_parent().get_multiplayer_authority()
-	self.set_multiplayer_authority(auth)
+	self.set_multiplayer_authority(Utils.parents(self).filter(func (x): return x is Player)[0].player)
 
 func add_fish(fish_data : FishData):
 	var node : FishWorld = fish_data.to_world_instance()

@@ -114,4 +114,4 @@ func create_mashers():
 			ceil(randf_range(0.5, 1.2) * (difficulty_depth / count)),
 		 	pos
 		)
-		self.n_mashers.add_child(masher)
+		self.n_mashers.add_child(masher, true)

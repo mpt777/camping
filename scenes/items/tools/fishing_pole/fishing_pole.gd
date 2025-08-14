@@ -68,7 +68,7 @@ func _ready() -> void:
 	self.ready.connect(on_ready)
 	
 func on_ready() -> void:
-	var auth = self.get_parent().get_multiplayer_authority()
+	var auth = Utils.parents(self).filter(func (x): return x is Player)[0].player
 	print("Parent Tree", auth)
 	self.set_multiplayer_authority(auth)
 	
@@ -261,6 +261,8 @@ func catch(fish : FishData) -> void:
 	)
 	
 func _on_timer_timeout() -> void:
+	if !is_multiplayer_authority():
+		return
 	if self.state != states.CAST: 
 		return
 	if !self.bobber.water:

@@ -17,7 +17,7 @@ func constructor(p_avatar_data: AvatarData) -> PlayerMesh:
 	self.avatar_data = p_avatar_data
 	self.avatar = self.avatar_data.mesh.instantiate()
 	self.avatar.rotate_y(deg_to_rad(180))
-	add_child(self.avatar)
+	add_child(self.avatar, true)
 	self.initialize_tree()
 	self.initialize_hotbar()
 	return self

@@ -26,7 +26,7 @@ func constructor(p_center : Vector2, m_screen_to_uv:=true, n_pause_mode:=Tween.T
 	return self
 
 func full_constructor(p_center : Vector2, m_screen_to_uv:=true, out:=false, n_pause_mode:=Tween.TWEEN_PAUSE_PROCESS) -> Vignette:
-	GlobalUI.add_child(self)
+	GlobalUI.add_child(self, true)
 	self.constructor(p_center, m_screen_to_uv, n_pause_mode)
 	if out:
 		self.circle_out()
