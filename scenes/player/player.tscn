@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cw8w6clmxedi6"]
+[gd_scene load_steps=14 format=3 uid="uid://cw8w6clmxedi6"]
 
 [ext_resource type="Script" uid="uid://cvd85lfyh0tl4" path="res://scenes/player/player.gd" id="1_hwwnj"]
 [ext_resource type="PackedScene" uid="uid://ddniml3qphela" path="res://scenes/camera/camera_anchor.tscn" id="3_gmlin"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://57kmlfvwo3ed" path="res://scenes/player/input/input_types/standard_movement.tscn" id="4_fm80t"]
 [ext_resource type="PackedScene" uid="uid://cr1lvp6lf4lyc" path="res://scenes/player/input/input_types/ui_controls.tscn" id="5_gx1jg"]
 [ext_resource type="PackedScene" uid="uid://b803yn8lksfti" path="res://ui/player_ui/hotbar/hotbar.tscn" id="8_5gtgg"]
+[ext_resource type="FontFile" uid="uid://bog62gllm6mh" path="res://assets/fonts/Balsamiq_Sans/BalsamiqSans-Regular.ttf" id="8_je7p5"]
 [ext_resource type="PackedScene" uid="uid://b5obyt7oj4or6" path="res://ui/player_ui/ui/ui.tscn" id="8_qek5x"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fb1vy"]
@@ -59,10 +60,12 @@ body = NodePath("..")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36582, 0)
+pixel_size = 0.008
 billboard = 1
 render_priority = 1
 outline_render_priority = 0
 text = "Test"
+font = ExtResource("8_je7p5")
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 10
@@ -82,15 +85,12 @@ mouse_default_cursor_shape = 16
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
-anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
 offset_bottom = 0.0
-grow_horizontal = 2
 grow_vertical = 0
 mouse_default_cursor_shape = 8
 hotbar = NodePath("../../../PlayerMesh/Hotbar")

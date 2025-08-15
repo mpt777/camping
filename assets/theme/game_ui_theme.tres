@@ -1,0 +1,74 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cyp1x4u7hh14a"]
+
+[ext_resource type="FontFile" uid="uid://mh64t2v16ak" path="res://assets/fonts/Balsamiq_Sans/BalsamiqSans-Bold.ttf" id="1_niahs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ok6ea"]
+content_margin_left = 30.0
+content_margin_top = 5.0
+content_margin_right = 30.0
+content_margin_bottom = 5.0
+bg_color = Color(0.783066, 0.448658, 0.833144, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_086j0"]
+content_margin_left = 30.0
+content_margin_top = 5.0
+content_margin_right = 30.0
+content_margin_bottom = 5.0
+bg_color = Color(0.627028, 0.273746, 0.680285, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wcmhq"]
+content_margin_left = 30.0
+content_margin_top = 5.0
+content_margin_right = 30.0
+content_margin_bottom = 5.0
+bg_color = Color(0.783066, 0.448658, 0.833144, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6d65k"]
+content_margin_left = 30.0
+content_margin_top = 5.0
+content_margin_right = 30.0
+content_margin_bottom = 5.0
+bg_color = Color(0.796078, 0.643137, 0.423529, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.329991, 0.241647, 0.182204, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[resource]
+default_font = ExtResource("1_niahs")
+default_font_size = 32
+Button/styles/disabled = SubResource("StyleBoxFlat_ok6ea")
+Button/styles/hover = SubResource("StyleBoxFlat_086j0")
+Button/styles/normal = SubResource("StyleBoxFlat_wcmhq")
+LineEdit/colors/font_color = Color(1, 1, 1, 1)
+LineEdit/colors/font_placeholder_color = Color(1, 1, 1, 0.6)
+LineEdit/styles/normal = SubResource("StyleBoxFlat_6d65k")
