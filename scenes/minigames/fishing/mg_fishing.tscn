@@ -1,7 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://c34y6v78dlhp"]
+[gd_scene load_steps=8 format=3 uid="uid://c34y6v78dlhp"]
 
 [ext_resource type="PackedScene" uid="uid://bemhi76tlc7b1" path="res://scenes/minigames/meta/minigame.tscn" id="1_6d22s"]
 [ext_resource type="Script" uid="uid://cie4pfolf0b6g" path="res://scenes/minigames/fishing/mg_fishing.gd" id="2_jrnlk"]
+[ext_resource type="StyleBox" uid="uid://cik5baftg8oue" path="res://scenes/minigames/fishing/transparent_sb.tres" id="3_gidnq"]
+[ext_resource type="StyleBox" uid="uid://cw887i8gjwh2w" path="res://scenes/minigames/fishing/pole_sb.tres" id="3_xpp8y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3b4m"]
+bg_color = Color(0.253627, 0.466636, 0.326584, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xpp8y"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7rnen"]
+bg_color = Color(0.841079, 0.288648, 0.306706, 1)
 
 [node name="Minigame" instance=ExtResource("1_6d22s")]
 script = ExtResource("2_jrnlk")
@@ -45,27 +56,36 @@ rotation = 0.331613
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_bottom = 40
 
-[node name="BarGood" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer" index="0"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 1
-fill_mode = 3
-show_percentage = false
-
-[node name="BarBad" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer" index="1"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 1
-fill_mode = 3
-show_percentage = false
-
-[node name="Mashers" type="Control" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer" index="2"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Control" type="PanelContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer" index="3"]
+[node name="Pole" type="PanelContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer" index="0"]
+clip_children = 2
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+theme_override_styles/panel = ExtResource("3_xpp8y")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer/Pole" index="0"]
+layout_mode = 2
+
+[node name="Mashers" type="Control" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer/Pole/MarginContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BarGood" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer/Pole/MarginContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = ExtResource("3_gidnq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_e3b4m")
+fill_mode = 3
+show_percentage = false
+
+[node name="BarBad" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/Control/MarginContainer/Pole/MarginContainer" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_xpp8y")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7rnen")
+fill_mode = 3
+show_percentage = false
 
 [node name="Control2" type="Control" parent="CanvasLayer/MarginContainer/HBoxContainer" index="1"]
 layout_mode = 2

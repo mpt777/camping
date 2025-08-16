@@ -51,7 +51,7 @@ func draw_reel_curved(fp : FishingPole):
 		fp.bobber.global_position,
 		1, points
 	)
-	for i in range(points + 1):
+	for i in range(points + 2):
 		fp.n_rope.add_point(curve_map.get_point_at(i))
 	fp.n_rope.draw_line()
 

@@ -43,6 +43,7 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("2_3p87f")
 placeholder_text = "Message"
+keep_editing_on_text_submit = true
 
 [connection signal="focus_entered" from="MarginContainer/VBoxContainer/TextEdit" to="." method="_on_text_edit_focus_entered"]
 [connection signal="focus_exited" from="MarginContainer/VBoxContainer/TextEdit" to="." method="_on_text_edit_focus_exited"]

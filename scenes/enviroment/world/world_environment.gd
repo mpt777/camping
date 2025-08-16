@@ -5,7 +5,12 @@ extends WorldEnvironment
 var time: float = 12.0:
 	set(value):
 		time = value
-		render()
+		if Engine.is_editor_hint():
+			render()
+		
+@export var target_time: float = 12.0
+@export var sync_speed: float = 0.5 # how fast to blend toward synced time
+@export var snap_threshold: float = 0.5 # in hours, e.g. 0.5 = 30 minutes
 		
 @export
 var is_paused: bool = false:
@@ -42,12 +47,35 @@ func _ready() -> void:
 		shader.set_shader_parameter("night_start", night_start)
 	render()
 	
-
+	
+#@rpc("authority", "call_local", "unreliable")
+#func update_target_time(p_target_time : float):
+	#target_time = p_target_time
+	#
 func _physics_process(delta: float) -> void:
 	if is_paused:
 		return
-	time += (24.0 / day_length) * delta
-	time = fmod(time, 24.0) # Wrap around after 24 hours
+	
+	var local_increment = (24.0 / day_length) * delta
+	
+	#Server Time
+	if multiplayer.is_server() and target_time:
+		target_time = fmod(target_time + local_increment, 24.0)
+		#self.update_target_time.rpc(target_time)
+		
+	time = fmod(time + local_increment, 24.0)
+
+	#var diff = abs(time - target_time)
+#
+	#print(diff, snap_threshold)
+	#if diff > snap_threshold:
+		#time = lerp_angle(time, target_time, 1 * delta)
+	#else:
+		# otherwise smooth drift
+	time = lerp_angle(time, target_time, sync_speed * delta)
+		
+	#time += (24.0 / day_length) * delta
+	#time = fmod(time, 24.0) # Wrap around after 24 hours
 	render()
 	
 	

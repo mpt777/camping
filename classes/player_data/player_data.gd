@@ -4,6 +4,7 @@ class_name PlayerData
 var name : String
 var money : int = 0
 var experience : int = 0
+var color : Color
 
 var inventory : Dictionary = {}
 var hotbar : Dictionary = {}
@@ -21,6 +22,13 @@ func constructor(m_name: String = "") -> PlayerData:
 	self.name = m_name
 	if not self.name:
 		self.name = generate_word(characters, 10)
+	self.initialize()
+	return self
+	
+# Function To call after deserialization and constructor
+func initialize() -> PlayerData:
+	if not self.color:
+		self.color = Color(randf(), randf(), randf())
 	return self
 	
 	
@@ -35,7 +43,8 @@ func serialize() -> Dictionary:
 		'name': self.name,
 		'inventory': self.inventory,
 		'hotbar': self.hotbar,
-		"money": self.money
+		"money": self.money,
+		"color": self.color,
 	}
 	
 func serialize_update(data: Dictionary) -> PlayerData:
@@ -47,4 +56,6 @@ static func deserialize(data: Dictionary) -> PlayerData:
 	obj.inventory = data["inventory"]
 	obj.hotbar = data["hotbar"]
 	obj.money = data.get("money", 0.0)
+	obj.color = data.get("color", Color(randf(), randf(), randf()))
+	obj.initialize()
 	return obj

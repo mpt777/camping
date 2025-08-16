@@ -23,7 +23,7 @@ func set_mouse_mode(p_mouse_mode_index):
 	
 func _input(event: InputEvent) -> void:
 	if self.is_valid():
-		if event.is_action_pressed("ui_cancel"):
+		if event.is_action_pressed("exit"):
 			mouse_mode_index += 1
 			mouse_mode_index = (mouse_mode_index % len(self.mouse_modes))
 			self.set_mouse_mode(mouse_mode_index)

@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvl62dsoiniwi"]
+[gd_scene load_steps=5 format=3 uid="uid://cvl62dsoiniwi"]
 
 [ext_resource type="Script" uid="uid://6y51wvp7su0a" path="res://scenes/minigames/fishing/masher/masher.gd" id="1_lrr3p"]
+[ext_resource type="FontFile" uid="uid://bog62gllm6mh" path="res://assets/fonts/Balsamiq_Sans/BalsamiqSans-Regular.ttf" id="2_xbjyv"]
+[ext_resource type="StyleBox" uid="uid://bek6dyhoftgd0" path="res://scenes/minigames/fishing/masher/masher_sb.tres" id="3_415cu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lrr3p"]
-font_size = 27
-outline_size = 10
+font = ExtResource("2_xbjyv")
+font_size = 40
+outline_size = 13
 outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
 
 [node name="Masher" type="Control"]
 layout_mode = 3
@@ -13,30 +17,33 @@ anchors_preset = 0
 script = ExtResource("1_lrr3p")
 
 [node name="Control" type="Control" parent="."]
-anchors_preset = 0
-offset_top = 1.0
-offset_bottom = 1.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -41.0
-offset_top = -23.0
-offset_right = 41.0
-grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="Control/HBoxContainer"]
+[node name="Panel" type="Panel" parent="Control"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 0
+offset_top = -30.0
+offset_right = 32.0
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("3_415cu")
+
+[node name="Label" type="Label" parent="Control/Panel"]
 unique_name_in_owner = true
-layout_mode = 2
+z_index = 3
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -22.0
+offset_right = 63.0
+offset_bottom = 26.0
+grow_horizontal = 0
+grow_vertical = 2
 text = "100"
 label_settings = SubResource("LabelSettings_lrr3p")
-
-[node name="Panel" type="Panel" parent="Control/HBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-size_flags_horizontal = 3

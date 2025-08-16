@@ -22,4 +22,5 @@ func render() -> void:
 	if self.message.from in Game.players:
 		var player : PlayerData = Game.players[self.message.from]
 		self.n_sender.text = player.name
+		self.n_sender.add_theme_color_override("font_color", player.color)
 	
