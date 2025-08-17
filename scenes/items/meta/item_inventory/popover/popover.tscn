@@ -1,9 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1bl3mb3lukrv"]
+[gd_scene load_steps=3 format=3 uid="uid://d1bl3mb3lukrv"]
 
 [ext_resource type="Script" uid="uid://d3mv2e3bgtaj0" path="res://scenes/items/meta/item_inventory/popover/popover.gd" id="1_1g1xm"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1g1xm"]
+bg_color = Color(0.797994, 0.641772, 0.42295, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.530386, 0.382215, 0.227522, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="PopupPanel" type="PanelContainer"]
 auto_translate_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.5
+offset_top = -107.0
+offset_right = 15.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1g1xm")
 script = ExtResource("1_1g1xm")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

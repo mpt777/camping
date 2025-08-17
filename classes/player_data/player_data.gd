@@ -44,7 +44,7 @@ func serialize() -> Dictionary:
 		'inventory': self.inventory,
 		'hotbar': self.hotbar,
 		"money": self.money,
-		"color": self.color,
+		"color": self.color.to_html(),
 	}
 	
 func serialize_update(data: Dictionary) -> PlayerData:

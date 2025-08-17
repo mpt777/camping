@@ -5,6 +5,7 @@ const FISH_DATA = preload("res://scenes/items/fish/fish_data.gd")
 const FISH_TYPE = preload("res://scenes/items/fish/fish/golden_trout.tres")
 const MASHER = preload("res://scenes/minigames/fishing/masher/masher.tscn")
 
+@onready var n_pole : PanelContainer = %Pole
 @onready var n_good : ProgressBar = %BarGood
 @onready var n_bad : ProgressBar = %BarBad
 @onready var n_mashers : Control = %Mashers
@@ -17,11 +18,15 @@ var success = false
 
 var is_bad_running := false
 var is_held := false
+var is_held_old := false
 var current_masher : Masher
 
 var current_fish : FishData
+var rot_tween : Tween
 
 const MAX_VALUE := 100.0
+
+# BAD DESIGN. TWEEN BETWEEN -15, since that is what is set
 
 func _ready() -> void:
 	$BadTimerStart.start(self.bad_delay)
@@ -29,21 +34,42 @@ func _ready() -> void:
 	self.create_mashers()
 
 func _input(event : InputEvent):
-		
+	
 	if event.is_action_pressed("left_mouse"):
 		self.mash()
 	#if event.is_action_just_pressed("left_mouse"):
 		
 		
-func mash():
+func mash() -> void:
 	if self.current_masher:
 		self.current_masher.click(1000)
 		
-func _process(delta: float) -> void:
+func animate() -> void:
+	if self.is_held == self.is_held_old:
+		return
+	var tween_to : float = 15.0
+	if self.is_held:
+		tween_to = 10.0
+		
+	if rot_tween and rot_tween.is_valid():
+		rot_tween.kill()
 	
-	self.is_held = Input.is_action_pressed("left_mouse")
+	rot_tween = create_tween()
+	rot_tween.tween_property(
+		self.n_pole,
+		"rotation",
+		deg_to_rad(tween_to),
+		0.8
+	).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	
 		
+func _process(delta: float) -> void:
+	self.is_held_old = self.is_held
+	self.is_held = Input.is_action_pressed("left_mouse")
+	
+	self.animate()
+	
+	
 	self.current_masher = self.get_current_masher()
 	if self.is_held and not self.current_masher:
 		self.n_good.value += (delta * (MAX_VALUE / GOOD_TIME))

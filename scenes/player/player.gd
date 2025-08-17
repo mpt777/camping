@@ -94,7 +94,7 @@ func add_money(money: int) -> void:
 func remove_item_from_inventory(item_data : ItemData) -> void:
 	self.n_menu.n_inventory.remove_item(item_data)
 	self.n_hotbar_ui.remove_item(item_data)
-	#await get_tree().process_frame # todo, find this bug
+	await get_tree().process_frame # todo, find this bug
 	self.save()
 	
 func add_item_to_inventory(item_data : ItemData) -> void:

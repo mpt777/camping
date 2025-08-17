@@ -271,7 +271,7 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="MarginContainer/Net"]
 layout_mode = 2
-text = "Coral Island"
+text = "Coralbar Island"
 label_settings = SubResource("LabelSettings_g35j4")
 horizontal_alignment = 1
 
