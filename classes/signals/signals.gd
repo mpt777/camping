@@ -22,3 +22,4 @@ signal SetInputMode(inputs : Array, active: bool)
 
 # UI?
 signal StartGame(peer : ENetMultiplayerPeer)
+signal ChangeScene(scene : PackedScene)

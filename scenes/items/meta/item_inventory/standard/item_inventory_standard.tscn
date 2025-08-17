@@ -17,8 +17,6 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="ItemInventory" instance=ExtResource("1_5aqfa")]
-offset_right = -608.0
-offset_bottom = -238.0
 script = ExtResource("2_2iqbt")
 
 [node name="Panel" type="Panel" parent="." index="0"]

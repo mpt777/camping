@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://n58k4b50jtav"]
+[gd_scene load_steps=3 format=3 uid="uid://n58k4b50jtav"]
 
 [ext_resource type="Script" uid="uid://coqaxb7ai62fj" path="res://ui/player_ui/inventory/inventory.gd" id="1_t68fq"]
+[ext_resource type="StyleBox" uid="uid://bbkv8gentngrp" path="res://ui/player_ui/inventory/inventory_panel.tres" id="2_cggk4"]
 
 [node name="Inventory" type="Control"]
 layout_mode = 3
@@ -11,11 +12,50 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t68fq")
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("2_cggk4")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/HBoxContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 columns = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="Item" type="Panel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_cggk4")
+
+[node name="Info" type="Panel" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_cggk4")

@@ -3,7 +3,7 @@ class_name Inventory
 
 const INVENTORY = preload("res://ui/player_ui/inventory/inventory.tscn")
 
-@onready var n_container : GridContainer = $GridContainer
+@onready var n_container : GridContainer = %GridContainer
 
 signal AddToHotbar
 

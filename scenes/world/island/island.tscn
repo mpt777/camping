@@ -41,19 +41,19 @@ shape = SubResource("ConcavePolygonShape3D_wb2e1")
 
 [node name="WorldEnvironment" parent="Env" node_paths=PackedStringArray("astro", "moon") instance=ExtResource("2_00wko")]
 environment = ExtResource("3_ymros")
-time = 10.3467
-target_time = 10.3467
+time = 10.7867
+target_time = 10.7867
 day_length = 30.0
 astro = NodePath("../Sun")
 moon = NodePath("../Moon")
 
 [node name="Sun" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(1, 0, 0, 0, 0.419451, 0.907778, 0, -0.907778, 0.419451, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.312334, 0.949972, 0, -0.949972, 0.312334, 0, 0, 0)
 light_energy = 0.25
 shadow_enabled = true
 
 [node name="Moon" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(1, 0, 0, 0, -0.419451, -0.907778, 0, 0.907778, -0.419451, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -0.312334, -0.949972, 0, 0.949972, -0.312334, 0, 0, 0)
 visible = false
 light_color = Color(0.306508, 0.43705, 0.740116, 1)
 light_energy = 0.0

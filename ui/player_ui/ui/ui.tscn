@@ -1,7 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5obyt7oj4or6"]
+[gd_scene load_steps=9 format=3 uid="uid://b5obyt7oj4or6"]
 
 [ext_resource type="Script" uid="uid://bh4k5nipk75lb" path="res://ui/player_ui/ui/ui.gd" id="1_p20at"]
 [ext_resource type="PackedScene" uid="uid://n58k4b50jtav" path="res://ui/player_ui/inventory/inventory.tscn" id="1_q6g4y"]
+[ext_resource type="FontFile" uid="uid://bog62gllm6mh" path="res://assets/fonts/Balsamiq_Sans/BalsamiqSans-Regular.ttf" id="2_5vgbt"]
+[ext_resource type="StyleBox" uid="uid://cgirqshxkc0c6" path="res://ui/player_ui/ui/menu_tab_panel_selected.tres" id="3_dju6s"]
+[ext_resource type="StyleBox" uid="uid://cntvukplvy5pg" path="res://ui/player_ui/ui/menu_tab_panel.tres" id="4_kwwf6"]
+[ext_resource type="PackedScene" uid="uid://8m4w1qm67kix" path="res://ui/player_ui/settings/settings.tscn" id="6_kwwf6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dju6s"]
+bg_color = Color(0.920327, 0.672107, 0.495344, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kwwf6"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.885147, 0.574585, 0.365944, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -12,18 +28,38 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_p20at")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
 
-[node name="PanelContainer" type="PanelContainer" parent="TabContainer"]
+[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_unselected_color = Color(0.912289, 0.912289, 0.912289, 1)
+theme_override_fonts/font = ExtResource("2_5vgbt")
+theme_override_font_sizes/font_size = 45
+theme_override_styles/tab_focus = ExtResource("3_dju6s")
+theme_override_styles/panel = SubResource("StyleBoxFlat_dju6s")
+theme_override_styles/tab_selected = ExtResource("3_dju6s")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_kwwf6")
+theme_override_styles/tab_unselected = ExtResource("4_kwwf6")
+current_tab = 1
+
+[node name="Inventory" parent="MarginContainer/TabContainer" instance=ExtResource("1_q6g4y")]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Inventory" parent="TabContainer/PanelContainer" instance=ExtResource("1_q6g4y")]
+[node name="Settings" parent="MarginContainer/TabContainer" instance=ExtResource("6_kwwf6")]
 layout_mode = 2
+metadata/_tab_index = 1
+
+[editable path="MarginContainer/TabContainer/Inventory"]

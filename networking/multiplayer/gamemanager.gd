@@ -4,6 +4,11 @@ class_name GameManager
 # It handles most high level non game specific things, like player and scene management 
 # Entry Point into the Game
 
+const scene_lookup = {
+	"island": "res://scenes/world/world.tscn",
+	"main_menu": "res://ui/menu/main_menu/main_menu.tscn"
+}
+
 
 @onready var main_menu : MainMenu = $MainMenu
 
@@ -11,6 +16,7 @@ func _ready():
 	# Start paused
 	#get_tree().paused = true
 	Signals.connect("StartGame", start_game)
+	Signals.connect("ChangeScene", change_scene)
 	# You can save bandwith by disabling server relay and peer notifications.
 	#multiplayer.server_relay = false ## fuck this
 	
@@ -24,8 +30,6 @@ func start_game(peer: ENetMultiplayerPeer) -> void:
 	multiplayer.multiplayer_peer = peer
 	self.main_menu.queue_free()
 	
-	#get_tree().paused = false
-	
 	if !Multiplayer.is_headless:
 		
 		var player_data : PlayerData = Game.player_data
@@ -38,18 +42,18 @@ func start_game(peer: ENetMultiplayerPeer) -> void:
 	# Only change level on the server.
 	# Clients will instantiate the level via the spawner.
 	if multiplayer.is_server():
-		change_level.call_deferred(load("res://scenes/world/world.tscn"))
+		change_scene.call_deferred("island")
 		print("Server Starting World")
 
 # Call this function deferred and only on the main authority (server).
-func change_level(scene: PackedScene):
+func change_scene(scene_alias : String): # scene: PackedScene
 	# Remove old level if any.
 	var level = $Level
 	for c in level.get_children():
 		level.remove_child(c)
 		c.queue_free()
 	# Add new level.
-	level.add_child(scene.instantiate())
+	level.add_child(load(scene_lookup[scene_alias]).instantiate())
 
 # The server can restart the level by pressing HOME.
 #func _input(event):
