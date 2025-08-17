@@ -50,15 +50,15 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_dju6s")
 theme_override_styles/tab_selected = ExtResource("3_dju6s")
 theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_kwwf6")
 theme_override_styles/tab_unselected = ExtResource("4_kwwf6")
-current_tab = 1
+current_tab = 0
 
 [node name="Inventory" parent="MarginContainer/TabContainer" instance=ExtResource("1_q6g4y")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
 [node name="Settings" parent="MarginContainer/TabContainer" instance=ExtResource("6_kwwf6")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 

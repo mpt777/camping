@@ -45,7 +45,7 @@ func connect_multiplayer(origin : String):
 	
 # ======================================
 # Player Management
-func _on_player_connected(id):
+func _on_player_connected(id: int):
 	var uid = multiplayer.get_unique_id() 
 	Signals.emit_signal("AddPlayer", id)
 	if uid in Game.players:

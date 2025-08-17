@@ -8,7 +8,17 @@ var time: float = 12.0:
 		if Engine.is_editor_hint():
 			render()
 		
+var old_target_time: float = 12.0
 @export var target_time: float = 12.0
+	#set(value):
+		#target_time = value
+		#if not multiplayer.is_server():
+			#var diff = abs(time - target_time)
+			#if diff < snap_threshold:
+				#time = lerp_angle(time, target_time, 1 * delta)
+			#else:
+				#time = target_time
+			
 @export var sync_speed: float = 0.5 # how fast to blend toward synced time
 @export var snap_threshold: float = 0.5 # in hours, e.g. 0.5 = 30 minutes
 		
@@ -39,6 +49,9 @@ const NIGHT2_ANGLE  = -270.0 # loops back to -90
 @onready var shader: ShaderMaterial = null
 
 func _ready() -> void:
+	if self.multiplayer.has_multiplayer_peer() and self.multiplayer.is_server():
+		multiplayer.peer_connected.connect(_on_player_connected)
+	
 	shader = environment.sky.sky_material
 	if shader:
 		shader.set_shader_parameter("sunrise_start", sunrise_start)
@@ -48,10 +61,14 @@ func _ready() -> void:
 	render()
 	
 	
-#@rpc("authority", "call_local", "unreliable")
-#func update_target_time(p_target_time : float):
-	#target_time = p_target_time
-	#
+func _on_player_connected(id : int):
+	update_target_time.rpc_id(id, self.target_time)
+	
+	
+@rpc("authority", "call_local", "unreliable")
+func update_target_time(p_target_time : float):
+	target_time = p_target_time
+	
 func _physics_process(delta: float) -> void:
 	if is_paused:
 		return
@@ -59,20 +76,21 @@ func _physics_process(delta: float) -> void:
 	var local_increment = (24.0 / day_length) * delta
 	
 	#Server Time
-	if multiplayer.is_server() and target_time:
+	var is_server = multiplayer.is_server()
+	if is_server and target_time:
 		target_time = fmod(target_time + local_increment, 24.0)
+	
+	if not is_server and old_target_time != target_time:
+		time = target_time
+		old_target_time = target_time
+	else:
+		time = fmod(time + local_increment, 24.0)
 		#self.update_target_time.rpc(target_time)
 		
-	time = fmod(time + local_increment, 24.0)
-
-	#var diff = abs(time - target_time)
-#
-	#print(diff, snap_threshold)
-	#if diff > snap_threshold:
-		#time = lerp_angle(time, target_time, 1 * delta)
-	#else:
+	
 		# otherwise smooth drift
-	time = lerp_angle(time, target_time, sync_speed * delta)
+	#time = lerp(time, target_time, 1 * delta)
+	#time = target_time
 		
 	#time += (24.0 / day_length) * delta
 	#time = fmod(time, 24.0) # Wrap around after 24 hours

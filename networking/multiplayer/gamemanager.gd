@@ -4,13 +4,15 @@ class_name GameManager
 # It handles most high level non game specific things, like player and scene management 
 # Entry Point into the Game
 
+@onready var level = $Level
+
 const scene_lookup = {
 	"island": "res://scenes/world/world.tscn",
 	"main_menu": "res://ui/menu/main_menu/main_menu.tscn"
 }
 
 
-@onready var main_menu : MainMenu = $MainMenu
+#@onready var main_menu : MainMenu = $Level/MainMenu
 
 func _ready():
 	# Start paused
@@ -28,7 +30,10 @@ func start_game(peer: ENetMultiplayerPeer) -> void:
 	
 	GlobalUI.n_vignette.visible = true
 	multiplayer.multiplayer_peer = peer
-	self.main_menu.queue_free()
+	#if self.main_menu:
+	#self.main_menu.queue_free()
+	
+	self.clear_scene()
 	
 	if !Multiplayer.is_headless:
 		
@@ -42,13 +47,20 @@ func start_game(peer: ENetMultiplayerPeer) -> void:
 	# Only change level on the server.
 	# Clients will instantiate the level via the spawner.
 	if multiplayer.is_server():
-		change_scene.call_deferred("island")
+		#change_scene.call_deferred("island")
+		await get_tree().process_frame
+		change_scene("island")
 		print("Server Starting World")
+		
+func clear_scene():
+	for c in level.get_children():
+		level.remove_child(c)
+		c.queue_free()
 
 # Call this function deferred and only on the main authority (server).
 func change_scene(scene_alias : String): # scene: PackedScene
 	# Remove old level if any.
-	var level = $Level
+	#await get_tree().process_frame
 	for c in level.get_children():
 		level.remove_child(c)
 		c.queue_free()
