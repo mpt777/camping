@@ -19,6 +19,9 @@ var success = false
 var is_bad_running := false
 var is_held := false
 var is_held_old := false
+
+var is_not_held_time : float = 100.0 # Used to start the pole down
+var _last_tween_target: float = -1.0
 var current_masher : Masher
 
 var current_fish : FishData
@@ -44,32 +47,44 @@ func mash() -> void:
 	if self.current_masher:
 		self.current_masher.click(1000)
 		
-func animate() -> void:
-	if self.is_held == self.is_held_old:
+func animate(force_rotation : float = 0.0) -> void:
+	var tween_to : float = 10.0
+	if force_rotation:
+		tween_to = force_rotation
+
+	print(tween_to)
+	# Prevent unnecessary restarts
+	if self._last_tween_target == tween_to:
 		return
-	var tween_to : float = 15.0
-	if self.is_held:
-		tween_to = 10.0
-		
+	self._last_tween_target = tween_to
+
 	if rot_tween and rot_tween.is_valid():
 		rot_tween.kill()
-	
+
 	rot_tween = create_tween()
 	rot_tween.tween_property(
 		self.n_pole,
 		"rotation",
 		deg_to_rad(tween_to),
-		2
+		1
 	).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+
 	
 		
 func _process(delta: float) -> void:
 	self.is_held_old = self.is_held
 	self.is_held = Input.is_action_pressed("left_mouse")
 	
-	self.animate()
-	
-	
+	if self.is_held:
+		self.is_not_held_time = 0.0
+	else:
+		self.is_not_held_time += delta
+		
+	if not self.is_held and self.is_not_held_time >= 0.25:
+		self.animate(15.0)
+	else:
+		self.animate()
+			
 	self.current_masher = self.get_current_masher()
 	if self.is_held and not self.current_masher:
 		self.n_good.value += (delta * (MAX_VALUE / GOOD_TIME))
