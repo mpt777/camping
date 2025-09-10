@@ -2,7 +2,8 @@ extends Control
 class_name Sell
 
 var player : Player
-@onready var n_container : GridContainer = $GridContainer
+@onready var n_container : GridContainer = %GridContainer
+@onready var n_label : Label = %Label
 
 
 func constructor(p_player : Player) -> Sell:
@@ -11,6 +12,9 @@ func constructor(p_player : Player) -> Sell:
 	
 func _ready() -> void:
 	pass
+	
+func set_label(text: String) -> void:
+	self.n_label.text = text
 	
 func constructor_node() -> void:
 	for item in self.player.n_menu.n_inventory.n_container.get_children():

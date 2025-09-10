@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://b8n48n38pjppc"]
+[gd_scene load_steps=10 format=3 uid="uid://b8n48n38pjppc"]
 
 [ext_resource type="Script" uid="uid://c4dlrexmrayjn" path="res://scenes/items/tools/fishing_pole/fishing_pole.gd" id="1_xhvsk"]
 [ext_resource type="PackedScene" uid="uid://ca4ddr77u1a03" path="res://scenes/items/tools/bobber/bobber.tscn" id="2_5dmys"]
 [ext_resource type="PackedScene" uid="uid://dhtes2mppnxem" path="res://assets/blender/items/fishing_pole/fishing_pole.tscn" id="2_cmdqa"]
+[ext_resource type="Texture2D" uid="uid://gtmh7d5ho0wm" path="res://assets/sprite/fish_pointer_open1.png" id="2_eyqrh"]
 [ext_resource type="PackedScene" uid="uid://bkjur5rlck3uc" path="res://scenes/items/tools/fishing_pole/rope.tscn" id="2_gn0oc"]
-[ext_resource type="Texture2D" uid="uid://bt80r07c3tl8w" path="res://icon.svg" id="4_4fmbj"]
+[ext_resource type="Texture2D" uid="uid://bjg0pqur3a72a" path="res://assets/sprite/fish_pointer_open2.png" id="3_ii543"]
 
 [sub_resource type="Curve" id="Curve_cmdqa"]
 _data = [Vector2(0, 0.023152), 0.0, 4.24045, 0, 0, Vector2(0.413793, 0.878554), 0.156385, 0.156385, 0, 0, Vector2(0.997845, 0), -2.35581, 0.0, 0, 0]
@@ -21,11 +22,16 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath("RotationFixer/BobberAnchor/Bobber:position")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath("RotationFixer/BobberAnchor/CastAnchor:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="FishingPole" type="Node3D"]
 script = ExtResource("1_xhvsk")
 cast_curve = SubResource("Curve_cmdqa")
 line_curve = SubResource("Curve_eyqrh")
+cast_pointer_open = ExtResource("2_eyqrh")
+cast_pointer_closed = ExtResource("3_ii543")
 metadata/_custom_type_script = "uid://chktvyv33f3bf"
 
 [node name="RotationFixer" type="Node3D" parent="."]
@@ -45,26 +51,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.02665, -0.0410145)
 
 [node name="Bobber" parent="RotationFixer/BobberAnchor" instance=ExtResource("2_5dmys")]
 sleeping = true
-lock_rotation = true
 
 [node name="CastAnchor" type="Node3D" parent="RotationFixer/BobberAnchor"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 top_level = true
-visible = false
 
 [node name="Decal" type="Decal" parent="RotationFixer/BobberAnchor/CastAnchor"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.40018, 0)
 size = Vector3(1, 9.28113, 1)
-texture_albedo = ExtResource("4_4fmbj")
 emission_energy = 16.0
 upper_fade = 0.000264038
 lower_fade = 0.00047593
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
+[node name="DecalTimer" type="Timer" parent="RotationFixer/BobberAnchor/CastAnchor/Decal"]
+unique_name_in_owner = true
+wait_time = 0.5
+autostart = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_3gnoo")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="RotationFixer/BobberAnchor/CastAnchor/Decal/DecalTimer" to="." method="_on_decal_timer_timeout"]

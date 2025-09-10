@@ -1,15 +1,93 @@
-[gd_scene load_steps=3 format=3 uid="uid://crmph801jkwj6"]
+[gd_scene load_steps=7 format=3 uid="uid://crmph801jkwj6"]
 
 [ext_resource type="PackedScene" uid="uid://d0ebqqdex8kw1" path="res://ui/store/store.tscn" id="1_f3bqp"]
 [ext_resource type="Script" uid="uid://r5hslrcyxapt" path="res://ui/store/sell/sell.gd" id="2_mudd6"]
+[ext_resource type="StyleBox" uid="uid://pk0is133udo3" path="res://ui/player_ui/ui/ui_panel.tres" id="3_mudd6"]
+[ext_resource type="Theme" uid="uid://cyp1x4u7hh14a" path="res://assets/theme/game_ui_theme.tres" id="3_xjnd8"]
+[ext_resource type="StyleBox" uid="uid://bbkv8gentngrp" path="res://ui/player_ui/inventory/inventory_panel.tres" id="4_oxxjs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjnd8"]
+bg_color = Color(0.920327, 0.672107, 0.495344, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+expand_margin_left = 100.0
+expand_margin_top = 10.0
+expand_margin_right = 100.0
+expand_margin_bottom = 10.0
 
 [node name="Sell" instance=ExtResource("1_f3bqp")]
 script = ExtResource("2_mudd6")
 
-[node name="GridContainer" type="GridContainer" parent="." index="0"]
+[node name="CenterContainer" type="CenterContainer" parent="." index="0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" index="0"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" index="0"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_xjnd8")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_xjnd8")
+text = "Test Store"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="CenterContainer/VBoxContainer" index="1"]
+custom_minimum_size = Vector2(1000, 500)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_mudd6")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/Panel" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="CenterContainer/VBoxContainer/Panel/MarginContainer" index="0"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_oxxjs")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer/Panel/MarginContainer/Panel" index="0"]
+layout_mode = 2
+offset_right = 960.0
+offset_bottom = 460.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/VBoxContainer/Panel/MarginContainer/Panel/MarginContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 5
+
+[node name="SPACER" type="HBoxContainer" parent="CenterContainer/VBoxContainer" index="2"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/SPACER" index="0"]
+layout_mode = 2
+theme = ExtResource("3_xjnd8")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_xjnd8")
+text = "Test Store"
+horizontal_alignment = 1

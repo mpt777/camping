@@ -19,6 +19,8 @@ func clear():
 		return
 	for child in n_container.get_children():
 		child.queue_free()
+		if child is Item:
+			child.exit_hand()
 		
 func add_item(node : Node) -> void:
 	if !self.is_multiplayer_authority():
@@ -27,6 +29,8 @@ func add_item(node : Node) -> void:
 	print("Add Item ",self.player.player)
 	node.set_multiplayer_authority(self.player.player)
 	n_container.add_child(node, true)
+	if node is Item:
+		node.enter_hand()
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
 	node.set_multiplayer_authority(self.player.player)

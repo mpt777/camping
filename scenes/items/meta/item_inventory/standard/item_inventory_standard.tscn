@@ -1,28 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://digrrya1mwghv"]
+[gd_scene load_steps=6 format=3 uid="uid://digrrya1mwghv"]
 
 [ext_resource type="PackedScene" uid="uid://cf423hh28vocy" path="res://scenes/items/meta/item_inventory/item_inventory.tscn" id="1_5aqfa"]
 [ext_resource type="Script" uid="uid://dqvnx6odtr0mh" path="res://scenes/items/meta/item_inventory/standard/item_inventory_standard.gd" id="2_2iqbt"]
 [ext_resource type="PackedScene" uid="uid://d1bl3mb3lukrv" path="res://scenes/items/meta/item_inventory/popover/popover.tscn" id="3_2iqbt"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2iqbt"]
-bg_color = Color(0.797994, 0.641772, 0.42295, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.530386, 0.382215, 0.227522, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[ext_resource type="StyleBox" uid="uid://iwyginetwd7h" path="res://scenes/items/meta/item_inventory/standard/item_inventory_standard_panel.tres" id="3_7hym6"]
+[ext_resource type="StyleBox" uid="uid://d34x73n2fso7e" path="res://scenes/items/meta/item_inventory/standard/item_inventory_standard_selected.tres" id="4_a4c1a"]
 
 [node name="ItemInventory" instance=ExtResource("1_5aqfa")]
 script = ExtResource("2_2iqbt")
+panel_standard = ExtResource("3_7hym6")
+panel_selected = ExtResource("4_a4c1a")
 
 [node name="Panel" type="Panel" parent="." index="0"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_2iqbt")
+theme_override_styles/panel = ExtResource("3_7hym6")
 
 [node name="PopupPanel" parent="Panel" index="0" instance=ExtResource("3_2iqbt")]
 unique_name_in_owner = true

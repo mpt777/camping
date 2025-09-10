@@ -59,7 +59,7 @@ func animate() -> void:
 		self.n_pole,
 		"rotation",
 		deg_to_rad(tween_to),
-		0.8
+		2
 	).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	
 		

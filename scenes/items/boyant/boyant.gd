@@ -15,6 +15,8 @@ var probes
 var water = null
 var submerged : bool = false
 
+signal HitWater
+
 func _ready():
 	probes = self.probes_container.get_children()
 
@@ -38,11 +40,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
 func _on_area_3d_area_entered(area: Area3D) -> void:
 	if area is Water:
 		self.water = area
+		self.HitWater.emit()
 		
 func _on_area_3d_area_exited(area: Area3D) -> void:
 	if area is Water:
 		self.water = null
-
 
 func _on_body_entered(_body: Node) -> void:
 	pass # Replace with function body.

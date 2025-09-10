@@ -3,7 +3,13 @@ class_name ItemInventoryStandard
 
 @onready var n_popup : Popover = %PopupPanel
 @onready var n_texture : TextureRect = %TextureRect
-var active := false
+@onready var n_panel : Panel = %Panel
+
+@export var panel_standard : StyleBoxFlat
+@export var panel_selected : StyleBoxFlat
+
+var active : bool = false
+var is_selected : bool = false
 
 signal Clicked
 
@@ -22,6 +28,12 @@ func render():
 	self.n_popup.set_description("")
 	self.n_popup.set_price("")
 	self.n_texture.texture = null
+	
+	if self.is_selected:
+		self.n_panel.add_theme_stylebox_override("panel", self.panel_selected)
+	else:
+		self.n_panel.add_theme_stylebox_override("panel", self.panel_standard)
+		
 	if not self.item_data:
 		return 
 	self.n_popup.set_heading(self.item_data.get_title())

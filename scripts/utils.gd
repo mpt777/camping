@@ -109,6 +109,53 @@ func min_key(dict):
 
 	return _max_key
 
+#########################################################################
+# Arcs
+func calculate_arc_velocity(start: Vector3, end: Vector3, time: float) -> Vector3:
+	var displacement = end - start
+
+	var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")  # Default 9.8
+	var horizontal_displacement = Vector3(displacement.x, 0, displacement.z)
+	var horizontal_distance = horizontal_displacement.length()
+
+	# Horizontal velocity
+	var vxz = horizontal_displacement.normalized() * (horizontal_distance / time)
+
+	# Vertical velocity
+	var vy = (displacement.y + 0.5 * gravity * time * time) / time
+
+	return Vector3(vxz.x, vy, vxz.z)
+	
+func calculate_arc_velocity_with_peak(start: Vector3, end: Vector3, peak_height: float) -> Vector3:
+	var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")  # e.g. 9.8
+	#var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")  # e.g. 9.8
+
+	if peak_height <= start.y or peak_height <= end.y:
+		push_error("peak_height must be higher than both start.y and end.y")
+		return Vector3.ZERO
+
+	var displacement = end - start
+	var horizontal_displacement = Vector3(displacement.x, 0, displacement.z)
+	var horizontal_distance = horizontal_displacement.length()
+
+	# --- Vertical motion ---
+	var ascent_height = peak_height - start.y
+	var descent_height = peak_height - end.y
+
+	var t_up = sqrt(2 * ascent_height / gravity)
+	var t_down = sqrt(2 * descent_height / gravity)
+	var total_time = t_up + t_down
+
+	# Initial vertical velocity to reach peak
+	var vy = gravity * t_up
+
+	# Horizontal velocity
+	var vxz = horizontal_displacement.normalized() * (horizontal_distance / total_time)
+
+	return Vector3(vxz.x, vy, vxz.z)
+
+#########################################################################
+# Curve Map
 
 class CurveMap3D:
 	var curve : Curve

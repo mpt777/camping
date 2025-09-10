@@ -24,7 +24,7 @@ func get_number_key(scancode: int) -> int:
 		_:
 			return -1
 		
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if !self.is_multiplayer_authority():
 		return
 	if event is InputEventKey and event.pressed:
@@ -34,12 +34,14 @@ func _input(event: InputEvent) -> void:
 			self.set_index(number)
 
 #@rpc("any_peer", "call_local", "reliable", 2)
-func set_index(amount : int):
-	self.active_index =amount
+func set_index(amount : int) -> void:
+	if self.active_index == amount:
+		return
+	self.active_index = amount
 	#self.update.rpc()
 	self.update()
 	
-func add_index(amount : int):
+func add_index(amount : int) -> void:
 	self.set_index(self.active_index + amount)
 	
 func active_slot():
@@ -62,11 +64,23 @@ func remove_item(item_data : ItemData, p_update : bool = true) -> void:
 			return
 	if p_update:
 		self.update()
+		
+func render() -> void:
+	for child in self.n_slots.get_children():
+		child = child as ItemInventoryStandard
+		child.is_selected = false
+		child.render()
+	
+	var n_slot : ItemInventoryStandard = self.active_slot()
+	n_slot.is_selected = true
+	n_slot.render()
 	
 #@rpc("any_peer", "call_local", "reliable", 2)
 func update():
 	print("Update")
 	self.hotbar.clear()
+	self.render()
+	
 	var n_slot : ItemInventoryStandard = self.active_slot()
 	if not n_slot.item_data:
 		return

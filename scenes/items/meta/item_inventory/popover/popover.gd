@@ -6,6 +6,8 @@ class_name Popover
 @onready var n_price : Label = %Price
 
 func popover_position(rect: Rect2) -> Vector2:
+	if !is_inside_tree():
+		return Vector2.ZERO
 	var screen_size := get_viewport_rect().size
 	
 	# Use minimum size if actual size is zero

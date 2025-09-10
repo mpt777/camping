@@ -4,11 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://n58k4b50jtav" path="res://ui/player_ui/inventory/inventory.tscn" id="1_q6g4y"]
 [ext_resource type="FontFile" uid="uid://bog62gllm6mh" path="res://assets/fonts/Balsamiq_Sans/BalsamiqSans-Regular.ttf" id="2_5vgbt"]
 [ext_resource type="StyleBox" uid="uid://cgirqshxkc0c6" path="res://ui/player_ui/ui/menu_tab_panel_selected.tres" id="3_dju6s"]
+[ext_resource type="StyleBox" uid="uid://pk0is133udo3" path="res://ui/player_ui/ui/ui_panel.tres" id="4_exuc4"]
 [ext_resource type="StyleBox" uid="uid://cntvukplvy5pg" path="res://ui/player_ui/ui/menu_tab_panel.tres" id="4_kwwf6"]
 [ext_resource type="PackedScene" uid="uid://8m4w1qm67kix" path="res://ui/player_ui/settings/settings.tscn" id="6_kwwf6"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dju6s"]
-bg_color = Color(0.920327, 0.672107, 0.495344, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kwwf6"]
 content_margin_left = 10.0
@@ -46,10 +44,11 @@ theme_override_colors/font_unselected_color = Color(0.912289, 0.912289, 0.912289
 theme_override_fonts/font = ExtResource("2_5vgbt")
 theme_override_font_sizes/font_size = 45
 theme_override_styles/tab_focus = ExtResource("3_dju6s")
-theme_override_styles/panel = SubResource("StyleBoxFlat_dju6s")
+theme_override_styles/panel = ExtResource("4_exuc4")
 theme_override_styles/tab_selected = ExtResource("3_dju6s")
 theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_kwwf6")
 theme_override_styles/tab_unselected = ExtResource("4_kwwf6")
+tab_alignment = 1
 current_tab = 0
 
 [node name="Inventory" parent="MarginContainer/TabContainer" instance=ExtResource("1_q6g4y")]
